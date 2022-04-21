@@ -25,7 +25,7 @@
 <script>
 export default {
     props:[
-        "modelVisible","selectdItem"
+        "modelVisible","selectdItem",
     ],
     data() {
         return {
