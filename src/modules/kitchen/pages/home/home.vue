@@ -1,35 +1,28 @@
 <template>
 <div class="main-bg">
     <el-main>
-        <el-button class="btn--burble confirmed-btn" @click="startAudio">
-            Work
-        </el-button>
-     <el-row :gutter="12">
-            <el-col :xs="24">
-                <h3 class="gray-title">Attendance requests </h3>
+        <!-- <el-button class="btn--burble reload-btn" @click="this.loadData">
+            {{ $t('common.reload') }} <el-icon><RefreshRight /></el-icon>
+        </el-button> -->
+     <el-row :gutter="12" v-if="isRequestAttend">
+        <h3 class="gray-title">{{$t('common.attendanceRequests')}}</h3>
+            <el-col :xs="24" v-for="request in allRequstAttend" :key="request.id">
                 <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card">
                     <el-icon class="phone-icon"><phone /></el-icon>
                     <div class="title-time-wrapper">
-                        <p class="title"> Your request to attend immediately </p>
-                        <p class="time"> 2 minutes ago </p>
+                        <p class="title"> {{$t('common.requestToAttend')}} </p>
+                        <p class="time"> {{request.creationDate}} </p>
                     </div>
                     <div class="requester-name">
                         <el-icon><avatar /></el-icon>
-                        <p class="name"> moha fawzy </p>
+                        <p class="name"> {{userData.name}} </p>
                     </div>
                     <div class="request-place">
                         <el-icon><school /></el-icon>
-                        <p class="hall"> hall 2 </p>
+                        <p class="hall">{{userData.floor}}</p>
                     </div>
-                    <!-- <el-switch
-                        v-model="value4"
-                        class="ml-2"
-                        inline-prompt
-                        :active-icon="Check"
-                        :inactive-icon="Close"
-                    /> -->
-                    <!-- <input type="checkbox" class="switch" data-checked="ON" data-before="OFF"> -->
-                    <el-button class="btn--burble confirmed-btn" @click="stopAudio">
+                
+                    <el-button class="btn--burble confirmed-btn" @click="onConfirmed(request.id)">
                         <span v-if="!audioStopped">{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
                         <span v-else>{{ $t('common.confirmed') }} <el-icon><circle-check-filled /></el-icon> </span>
                     </el-button>
@@ -38,40 +31,34 @@
         </el-row>
 
         <el-row :gutter="12">
-            <h3 class="gray-title">Customer requests </h3>
+            <h3 class="gray-title">{{$t('common.customerRequests')}} </h3>
             <el-col :xs="24" v-for="order in orders" :key="order.id">
                 <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" @click="openDetailsModel(order)">
                     <img class="order-img" :src="order.menuItem.itemImageBytes" />
                     <div class="title-time-wrapper">
                         <p class="title"> {{$store.state.main.currentLocale == "en" ? order.menuItem.name : order.menuItem.name_Ar}} </p>
-                        <p class="time"> {{order.menuItem.creationDate}} </p>
+                        <p class="time"> {{order.creationDate}} </p>
                     </div>
                     <div class="requester-name">
                         <el-icon><avatar /></el-icon>
-                        <p class="name"> moha fawzy </p>
+                        <p class="name"> {{userData.name}} </p>
                     </div>
                     <div class="request-place">
                         <el-icon><school /></el-icon>
-                        <p class="hall"> floor {{i}}  </p>
+                        <p class="hall"> {{userData.floor}}  {{i}}  </p>
                     </div>
-                    <!-- <el-switch
-                        v-model="value4"
-                        class="ml-2"
-                        inline-prompt
-                       
-                        active-text="Yj"
-                        inactive-text="N"
-                    >
-                    </el-switch> -->
-                    <input type="checkbox" class="switch" @click.stop data-checked="Served" data-before="Serve">
+                
+                    <input type="checkbox" v-model="order.status" class="switch" @click.stop @change="onConfirmed(order.id)" :data-checked="$t('common.serve')" :data-before="$t('common.served')">
                 </el-card>
             </el-col>
+            <h4 class="no-request gray-title" v-if="!orders.length"> {{$t('common.noRequest')}} </h4>
         </el-row>
-        <audio autoplay controls loop hidden ref="player" id="player" class="audio-wrapper">
+        <!-- <audio controls loop ref="player" id="player" class="audio-wrapper">
             <source src="@/assets/alert-bells-echo.wav" type="audio/wav">
             <source src="@/assets/alert-bells-echo.wav" type="audio/wav">
             Your browser does not support the audio element.
-        </audio>
+        </audio> -->
+
         <OrderDetails :modelVisible="openModel" :selectdItem="selectdItem" @modelClose="openModel = false"/>
      </el-main>
 </div>
@@ -81,6 +68,7 @@
 import { Phone, Avatar, School, CircleCheckFilled} from '@element-plus/icons';
 import OrderDetails from './components/orderDetails.vue';
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 
 export default {
    components:{Phone, Avatar, School, CircleCheckFilled, OrderDetails },
@@ -91,31 +79,43 @@ export default {
            openModel:false,
            orders:[],
            selectdItem:{},
+           userData:{},
            audioStopped:false,
+           allRequstAttend:{},
+           isRequestAttend:false,
        }
    },
    mounted() {
-       this.loadData();
-    //    window.setInterval(() => {
-    //         this.loadData()
-    //    },1000);
+    this.loadData(); 
+    
+    setInterval( () => {this.loadData()}, 7000);
    },
    methods: {
-       fireee() {
-           document.getElementById("player").click();
-       },
         loadData(){
             axios.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
-                this.orders = res.orders;
-                this.startAudio()
+                this.orders = res.orders.filter(order => order.statusId == 1);
+                this.userData = res.userData
+                this.orders.filter(order =>  order.status = true); // add status in every order
+                this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
+                this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
+                this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
+                // this.isRequestAttend && this.startAudio();
+                // this.startAudio()
             })
         },
-        onConfirmed(){
+        onConfirmed(id){
             axios
-            .post('Order/{id}/ConfirmOrder',)
+            .put(`Order/${id}/ConfirmOrder`)
             .then(() => {
-                this.successMessage();
-                this.handleClose();
+                // this.successMessage();
+                // this.stopAudio();
+                this.loadData();
+            })
+        },
+        successMessage(){
+            ElMessage({
+                message: this.$t('common.successfullyOrdered'),
+                type: 'success',
             })
         },
         startAudio(){
@@ -147,14 +147,31 @@ export default {
     }
     .order-img{
         width: 103px;
-        height: auto;
+        height: 78px;
         border-radius: 15%;
     }
     .audio-wrapper{
         // display: none;
     }
+    .no-request{
+        margin: 120px auto;
+        font-size: 20px;
+    }
+    .reload-btn{
+        display: block !important;
+        margin: auto !important;
+        line-height: 0.5;
+        i{
+            margin-left:10px;
+            font-size: 15px;
+        }
+    }
 
     @include rtl() {
-  
+         .reload-btn{
+             i{
+                margin-right:10px;
+             }
+         }
     }
 </style>

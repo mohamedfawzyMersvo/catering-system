@@ -43,6 +43,7 @@ export default {
     },
   beforeMount(){
     this.addRtlClass();
+    console.log('i18n.global.locale.value', i18n.global.locale.value)
   },
   methods: {
     changeLang(lang){
@@ -54,6 +55,7 @@ export default {
       let rootEl = document.querySelector('html');
       this.currentLocale == 'ar' ?  rootEl.classList.add('rtl'):  rootEl.classList.remove('rtl');
       i18n.global.locale.value = this.currentLocale;
+      // i18n.changeLanguage(this.currentLocale)
     }
   },
   computed: {

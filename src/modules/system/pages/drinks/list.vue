@@ -19,7 +19,7 @@
         </el-row>
         <el-main>
             <el-row :gutter="12">
-                <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" v-for="drink in drinkList" :key="drink.id">
+                <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" v-for="drink in drinkList.filter(item => item.id != 1009)" :key="drink.id">
                    <div class="list-item" style="{ boxShadow: `var(--el-box-shadow-base)` }"> 
                       
                         <el-icon><edit-pen /></el-icon>
@@ -130,6 +130,10 @@
                     type: "warning",
                 });
             },
+            handleCurrentChange (newPage){
+                this.currentPage = newPage;
+                this.loadData()
+            },
         },
     }
 </script>
@@ -164,6 +168,7 @@
         position: relative;
         border-radius: 7px;
         h4{
+            text-transform: capitalize;
             margin-top: 0;
             margin-bottom: 0;
             font-size: 22px;
@@ -230,6 +235,7 @@
         img {
             width: 100%;
             border-radius: 7px;
+            height: 211px;
         }
     }
 </style>

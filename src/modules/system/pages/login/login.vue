@@ -23,7 +23,7 @@
                 />
                 </el-form-item>
                 <div>
-                    <el-checkbox v-model="keepSignedIn" class="keep-signed" :label="$t('common.keepSignedIN')" size="large"></el-checkbox>
+                    <!-- <el-checkbox v-model="keepSignedIn" class="keep-signed" :label="$t('common.keepSignedIN')" size="large"></el-checkbox> -->
                 </div>
                 <el-button type="primary" @click="onSubmit" class="submit" style="{ boxShadow: `var(--el-box-shadow-base)` }">{{$t('common.signIn')}}</el-button>
 
@@ -80,7 +80,7 @@
             .then(res => {
                 store.commit('main/setToken', res);
                 if (keepSignedIn.value) {
-                    cookies.set("token", `bearer ${res}`)
+                    // cookies.set("token", `bearer ${res}`)
                 }
             }).then(() => {
                 axios.get('Account/Profile')

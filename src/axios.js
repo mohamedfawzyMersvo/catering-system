@@ -1,21 +1,22 @@
 import axios from 'axios';
 import store from './main';
 import { ElLoading } from 'element-plus'
-import { useCookies } from "vue3-cookies";
+// import { useCookies } from "vue3-cookies";
 
 function getHeaders() {
-    const authUser = store.store.state.main.loggedUser
+    // const authUser = store.store.state.main.loggedUser
     const token = store.store.state.main.token
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         // 'Content-Language': store.getters['main/currentLocale']
     }
-    const { cookies } = useCookies();
+    // const { cookies } = useCookies();
     
-    if (authUser || cookies.get("token")) {
-        headers['Authorization'] = `${cookies.get("token") || token}`;
-    }
+    // if (authUser || cookies.get("token")) {
+        // headers['Authorization'] = `${cookies.get("token") || token}`;
+    // }
+    headers['Authorization'] = token;
 
     return headers;
 }

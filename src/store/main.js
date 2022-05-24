@@ -9,7 +9,9 @@ const state = {
 };
 
 const getters = {
-
+    getCurrentLocale (state) {
+        return state.currentLocale
+    }
 };
 
 const actions = {

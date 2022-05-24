@@ -38,12 +38,30 @@ export default {
     "successfullyOrdered":"تم الطلب بنجاح",
     "successfullyAdded": "تمت الإضافة بنجاح",
     "confirm": "تأكيد",
-    "confirmed" : "confirmed",
+    "confirmed" : "تم التأكيد",
     "signIn": "تسجيل الدخول",
     "tryAgain": "حاول مرة أخرى",
-    keepSignedIN: "الإبقاء على تسجيل الدخول"
+    keepSignedIN: "الإبقاء على تسجيل الدخول",
+    noRequest:"لا توجد طلبات",
+    customerRequests:"طلبات العميل",
+    attendanceRequests: "طلبات الحضور",
+    requestToAttend:"انت مطلوب للحضور حالا",
+    serve:"مطلوب",
+    served:"تم التقديم",
+    requestAttend:"طلب حضور",
+    attendsuccess:"تم الطلب",
+    reload:"تنزيل الطلبات الجديده",
+    listOfDrinks: "قائمة المشاريب"
+
+
+
 
 
 
 
 }
+// 1280
+// 720
+
+// edit in drink
+ 

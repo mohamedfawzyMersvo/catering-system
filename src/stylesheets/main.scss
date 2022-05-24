@@ -1,4 +1,4 @@
-body, button {
+body, button, input {
     font-family: 'Cairo', sans-serif;
 }
 
@@ -55,9 +55,13 @@ body, button {
     .requester-name, .request-place{
         display: flex;
         align-items: center;
-        p{
-            margin: 0;
+        p.name, p.hall{
+            margin: 0 10px !important;
             margin-left: 10px;
+        }
+        i{
+            // position: relative;
+            // top: 2px;
         }
     }
 }
@@ -142,14 +146,14 @@ input.switch::before {
     content: attr(data-before);
     font: bold 12px/32px Verdana;
     color: white;
-    text-shadow: 0 1px black;
+    // text-shadow: 0 1px black;
 }
 
 input.switch:checked {
     position: relative;
     // left: 34px;
     padding-right: 8px;
-    background-color: #0000ff;
+    background-color: #5e1ad5;
     background-position: 29px;
 }
 

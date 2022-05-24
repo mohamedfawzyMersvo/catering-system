@@ -4,7 +4,7 @@
             $router.push({
                 name: `kitchen-list`,
             })
-            "> Home </span >/ <span> Kitchen El Amir</span> </p>
+            "> {{$t('common.home')}} </span >/ <span> {{kitchenData.name}}</span> </p>
         </div>
         <div>
             <el-main  class="main-bg">
@@ -39,7 +39,9 @@
                                     </div>
                                     <div class="kitchen-single-state">
                                         <el-icon><edit-pen /></el-icon>
-                                        <div style="{ boxShadow: `var(--el-box-shadow-base)` }"> <span class="num"> 32 </span> <span> requests </span> <div class="state green"> Total: 483 </div> </div>
+                                        <div style="{ boxShadow: `var(--el-box-shadow-base)` }"> <span class="num"> {{kitchenData.ordersCount}} </span> <span> requests </span>
+                                         <!-- <div class="state green"> Total: 483 </div>  -->
+                                        </div>
                                         <!-- <div> <span class="num"> 2 </span> <span> Rejected </span> <div class="state blue"> Total: 499 </div> </div>
                                         <div> <span class="num"> 32 </span> <span> Pendinig </span> <div class="state red"> Total: 3 </div> </div> -->
                                     </div>
@@ -55,12 +57,13 @@
                     </el-container>
                     <el-aside>
                         <div class="sidebar-bg" style="{ boxShadow: `var(--el-box-shadow-base)` }">
-                        <h3>List Of Drinks</h3>
+                        <h3>{{$t('common.listOfDrinks')}}</h3>
                         <div class="sidebar-head">
-                        <el-select placeholder="Select drink" v-model="drinkSelected" @change="addToSelectedDrink">
+                        <el-select :placeholder="$t('common.select')" v-model="drinkSelected" @change="addToSelectedDrink">
                             <el-option
-                               v-for="drink in drinkList" :key="drink.id" 
-                                :label="drink.name"
+                               v-for="drink in drinkList.filter(item => item.id != 1009)" 
+                                :key="drink.id" 
+                                :label="$store.state.main.currentLocale == 'en' ? drink.name : drink.name_Ar"
                                 :value="drink"
                             >
                             </el-option>
@@ -102,9 +105,9 @@
                                     ></el-image>
                                 </div>
                                 <div>
-                                    <p class="title">{{drink.name}}</p>
+                                    <p class="title">{{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}}</p>
                                     <p class="item-data">addedd: {{drink.creationDate}}</p>
-                                    <!-- <el-button type="primary" class="edit-btn">preview </el-button> -->
+                                    <el-button type="primary" class="edit-btn" @click="editDrink(drink)">{{$t('common.edit')}} </el-button>
                                 </div>
                             </div>
                         </div>
@@ -112,6 +115,7 @@
                 </el-container>
             </el-main>
             <AddKitchen :modelVisible="kitchenModel" @modelClose="kitchenModel = false"/>
+            <EditDrink :modelDrinkVisible="drinkModel" @drinkModelClose="atCloseDrinkModel" :editItemId="editItemId"/>
             <!-- <AddDrink :modelDrinkVisible="drinkModel" @drinkModelClose="drinkModel = false"/>
             <AddHall :modelHallVisible="hallModel" @hallModelClose="hallModel = false"/> -->
             </div>
@@ -123,10 +127,10 @@
     import axios from 'axios'
 
 import AddKitchen from './components/addKitchen.vue';
-// import AddDrink from './components/addDrink.vue';
+import EditDrink from '../drinks/components/addDrink'
 // import AddHall from './components/addHall';
 export default {
-    components:{ AddKitchen},
+    components:{ AddKitchen, EditDrink},
     data() {
         return {
             // tableData: [
@@ -168,6 +172,7 @@ export default {
             // ],
             kitchenModel: false,
             drinkModel: false,
+            editItemId:"",
             hallModel: false,
             kitchenData:{},
             id:this.$route.params.id || 0,
@@ -201,6 +206,14 @@ export default {
         },
         openDrinkModel(){
            this.drinkModel = true;
+        },
+        editDrink({id}){
+            this.editItemId = id;
+            this.openDrinkModel()
+        },
+        atCloseDrinkModel(){
+            this.drinkModel = false;
+            this.editItemId = "";
         },
         openHallModel(){
            this.hallModel = true;
@@ -384,10 +397,9 @@ export default {
             }
             img{
                 min-height: 100%;
-                border-radius: 2px;
                 padding: 5px;
-                border-radius: 7px;
                 height: 134px;
+                border-radius: 9px;
             }
         }
         .title{

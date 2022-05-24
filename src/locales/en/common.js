@@ -41,7 +41,22 @@ export default {
     "confirmed" : "confirmed",
     "signIn": "Sign In",
     "tryAgain": "Try again",
-    keepSignedIN: "Keep me signed in"
+    keepSignedIN: "Keep me signed in",
+    noRequest:"No Request",
+    customerRequests:"Customer Requests",
+    attendanceRequests: "Attendance Requests",
+    requestToAttend:"Your request to attend immediately",
+    serve:"Serve",
+    served:"Served",
+    requestAttend:"Attend request",
+    attendsuccess:"Request successfully",
+    reload:"Reload",
+    listOfDrinks: "List Of Drinks"
+
+
+
+
+
 
 
 

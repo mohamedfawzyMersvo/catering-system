@@ -228,6 +228,7 @@
         img {
             width: 100%;
             border-radius: 7px;
+            height: 211px;
         }
     }
     @include rtl() {

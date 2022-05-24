@@ -1,4 +1,6 @@
 <template>
+    <div>
+    <el-button type="success" class="request-attend-btn" @click="handleRequestAttend">{{$t('common.requestAttend')}}<el-icon><View /></el-icon></el-button>
      <el-tabs v-model="activeName" class="order-tabs" @tab-click="handleClick">
         <el-tab-pane :label="$t('common.coldDrinks')" name="first">
              <div class="main-bg">
@@ -67,7 +69,7 @@
                                             <el-tag class="ml-2" type="info">Tag 4</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 5</el-tag>
                                         </div>
-                                        <el-button type="text" :disabled="drink.sugarDisabled" class="request-btn btn--burble" @click="openDetailsModel(drink)">Request <el-icon><caret-right /></el-icon></el-button>
+                                        <el-button type="text" :disabled="drink.sugarDisabled" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t('common.request')}} <el-icon><caret-right /></el-icon></el-button>
                                     </div>
                                 </div>
                             </el-col>
@@ -77,15 +79,17 @@
         </el-tab-pane>
     <OrderDetails :modelVisible="openModel" @modelClose="openModel = false" :drink="drink"/>
     </el-tabs>
+    </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 import OrderDetails from './components/orderDetails.vue';
-import {CaretRight} from '@element-plus/icons';
+import {CaretRight, View} from '@element-plus/icons';
 
 export default {
-    components:{CaretRight, OrderDetails},
+    components:{CaretRight, View, OrderDetails},
     data() {
         return {
             coldDrinkList:[],
@@ -116,10 +120,30 @@ export default {
                 this.hotDrinkList.filter(drink => drink.num = 1);
             })
         },
+        handleRequestAttend(){
+            let order = {
+                "menuItemId": 1009,
+                "quantity": 0,
+                "sugarSpoon": [
+                    ""
+                ]
+            }
+            axios
+            .post('Order/CreateOrder', order)
+            .then(() => {
+                this.successMessage();
+            })
+        },
         openDetailsModel(drink){
             this.drink = drink;
            this.openModel = true;
-        }
+        },
+        successMessage(){
+            ElMessage({
+                message: this.$t('common.attendsuccess'),
+                type: 'success',
+            })
+        },
     },
 }
 </script>
@@ -191,11 +215,25 @@ export default {
         }
     }
  }
+ .request-attend-btn{
+    margin: 20px auto !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+    border-radius: 8px !important;
+    font-weight: bolder;
+    i{
+        margin-left: 7px;
+    }
+ }
  @include rtl() {
       .request-btn{
           i{
               transform: rotate(180deg);
           }
       }
+       .request-attend-btn i{
+           margin-left: 0;
+           margin-right: 7px;
+       }
  }
 </style>
