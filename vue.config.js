@@ -1,5 +1,7 @@
-const path = require('path');
+// const path = require('path');
 module.exports = {
+  publicPath:'/catering/',
+  outputDir: 'dist',
   pluginOptions: {
     i18n: {
       locale: 'en',
@@ -11,13 +13,13 @@ module.exports = {
       fullInstall: true
     }
   },
-  configureWebpack: {
-    resolve: {
-        alias: {
-            "@": path.resolve(__dirname, 'src/')
-        }
-    }
-  },
+  // configureWebpack: {
+  //   resolve: {
+  //       alias: {
+  //           // "@": path.resolve(__dirname, 'src/')
+  //       }
+  //   }
+  // },
   css: {
     loaderOptions: {
         sass: {
