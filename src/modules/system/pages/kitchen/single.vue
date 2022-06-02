@@ -12,7 +12,7 @@
                     <el-container>
                         <el-main>
                             <div class="main-content" style="{ boxShadow: `var(--el-box-shadow-base)` }">
-                                <div class="single-head"> <p> Kitchen </p>  
+                                <div class="single-head"> <p> {{$t('common.kitchen')}} </p>  
                                     <div class="add-hall">
                                         <!-- <div class="add-in-single"> <el-link type="primary" @click="openHallModel"> Add HALL <el-icon><circle-plus /></el-icon> </el-link> </div> -->
                                          <!-- <el-dropdown>
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="kitchen-single-state">
                                         <el-icon><edit-pen /></el-icon>
-                                        <div style="{ boxShadow: `var(--el-box-shadow-base)` }"> <span class="num"> {{kitchenData.ordersCount}} </span> <span> requests </span>
+                                        <div style="{ boxShadow: `var(--el-box-shadow-base)` }"> <span class="num"> {{kitchenData.ordersCount}} </span> <span> {{$t('common.requests')}} </span>
                                          <!-- <div class="state green"> Total: 483 </div>  -->
                                         </div>
                                         <!-- <div> <span class="num"> 2 </span> <span> Rejected </span> <div class="state blue"> Total: 499 </div> </div>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div>
                                     <p class="title">{{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}}</p>
-                                    <p class="item-data">addedd: {{drink.creationDate}}</p>
+                                    <p class="item-data">{{$t('common.addedd')}}: {{drink.creationDate}}</p>
                                     <el-button type="primary" class="edit-btn" @click="editDrink(drink)">{{$t('common.edit')}} </el-button>
                                 </div>
                             </div>

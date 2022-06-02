@@ -51,7 +51,15 @@ export default {
     requestAttend:"Attend request",
     attendsuccess:"Request successfully",
     reload:"Reload",
-    listOfDrinks: "List Of Drinks"
+    listOfDrinks: "List Of Drinks",
+    editTheme:"Edit Theme",
+    "primaryColor": "Primary color",
+    "secondaryColor": "Secondary color",
+    "thirdColor": "Third color",
+    "changeSystemTheme" : "Change system Theme",
+    "requests": "Requests",
+    "addedd": "Added",
+
 
 
 

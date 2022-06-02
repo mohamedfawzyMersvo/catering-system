@@ -51,7 +51,15 @@ export default {
     requestAttend:"طلب حضور",
     attendsuccess:"تم الطلب",
     reload:"تنزيل الطلبات الجديده",
-    listOfDrinks: "قائمة المشاريب"
+    listOfDrinks: "قائمة المشاريب",
+    editTheme:"تعديل الثيم",
+    "primaryColor": "اللون الأساسي",
+    "secondaryColor": "اللون الثانوي",
+    "thirdColor": "اللون الثالث",
+    "changeSystemTheme" : "تغيير ثيم النظام",
+    "requests": "الطلبات",
+    "addedd": "تمت الإضافة",
+
 
 
 

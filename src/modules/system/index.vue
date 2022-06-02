@@ -2,7 +2,7 @@
    <div>
       <Header>
          <el-menu-item index="4" class="edit-theme"> 
-            <p  @click.stop="openModel = true"> Edit theme </p>
+            <p  @click.stop="openModel = true">{{$t('common.editTheme')}} </p>
             
            </el-menu-item>
 

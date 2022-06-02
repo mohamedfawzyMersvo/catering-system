@@ -18,18 +18,18 @@
                                     </div>
                                     <div class="order-data"> 
                                         <div class="title-rate">
-                                            <el-rate v-model="rate" text-color="#ff9900"></el-rate>
+                                            <!-- <el-rate v-model="rate" text-color="#ff9900"></el-rate> -->
                                             {{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}}
                                         </div>
                                         
                                         <el-input-number class="input-number" v-model.number="drink.num" min="1" @change="handleChange" />
                                     
                                         <div class="tags">
-                                            <el-tag class="ml-2" type="info">Tag 1</el-tag>
+                                            <!-- <el-tag class="ml-2" type="info">Tag 1</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 2</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 3</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 4</el-tag>
-                                            <el-tag class="ml-2" type="info">Tag 5</el-tag>
+                                            <el-tag class="ml-2" type="info">Tag 5</el-tag> -->
                                         </div>
                                         <el-button type="text" :disabled="drink.sugarDisabled" v-if="!drink.sugarDisabled" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t("common.request")}} <el-icon><caret-right /></el-icon></el-button>
                                         <span v-else> {{$t("common.noSugar")}} </span>
@@ -56,18 +56,18 @@
                                     </div>
                                     <div class="order-data"> 
                                         <div class="title-rate">
-                                            <el-rate v-model="rate" text-color="#ff9900"></el-rate>
+                                            <!-- <el-rate v-model="rate" text-color="#ff9900"></el-rate> -->
                                             {{drink.name}}
                                         </div>
                                         
                                         <el-input-number class="input-number" v-model.number="drink.num" min="1" @change="handleChange" />
                                     
                                         <div class="tags">
-                                            <el-tag class="ml-2" type="info">Tag 1</el-tag>
+                                            <!-- <el-tag class="ml-2" type="info">Tag 1</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 2</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 3</el-tag>
                                             <el-tag class="ml-2" type="info">Tag 4</el-tag>
-                                            <el-tag class="ml-2" type="info">Tag 5</el-tag>
+                                            <el-tag class="ml-2" type="info">Tag 5</el-tag> -->
                                         </div>
                                         <el-button type="text" :disabled="drink.sugarDisabled" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t('common.request')}} <el-icon><caret-right /></el-icon></el-button>
                                     </div>
@@ -195,6 +195,7 @@ export default {
         }
      }
      .input-number{
+         margin: 0 50px;
          margin-bottom: 10px;
      }
     .ml-2{

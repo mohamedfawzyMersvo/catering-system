@@ -38,15 +38,15 @@
             </div>
         <div class="colors-wrapper">
             <div class="demo-color-block">
-                <span class="demonstration">Primary color</span>
+                <span class="demonstration">{{$t('common.primaryColor')}}</span>
                 <el-color-picker v-model="color1" @active-change="changeColor1" />
             </div>
             <div class="demo-color-block">
-                <span class="demonstration">Secondary color</span>
+                <span class="demonstration">{{$t('common.secondaryColor')}}</span>
                 <el-color-picker v-model="color2" @active-change="changeColor2"/>
             </div>
             <div class="demo-color-block">
-                <span class="demonstration">Third color</span>
+                <span class="demonstration">{{$t('common.thirdColor')}}</span>
                 <el-color-picker v-model="color3" />
             </div>
         </div>
