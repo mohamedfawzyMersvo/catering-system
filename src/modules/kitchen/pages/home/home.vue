@@ -22,7 +22,7 @@
                         <p class="hall">{{userData.floor}}</p>
                     </div>
                 
-                    <el-button class="btn--burble confirmed-btn" @click="onConfirmed(request.id)">
+                    <el-button class="confirmed-btn" @click="onConfirmed(request.id)">
                         <span v-if="!audioStopped">{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
                         <span v-else>{{ $t('common.confirmed') }} <el-icon><circle-check-filled /></el-icon> </span>
                     </el-button>
@@ -141,6 +141,10 @@ export default {
         margin-bottom: 10px;
     }
     .confirmed-btn{
+        background-color: var(--default-second-color) !important;
+        color: #f8f8f8 !important;
+        border-radius: 8px !important;
+        font-weight: bolder;
         i{
             margin-left: 10px;
         }

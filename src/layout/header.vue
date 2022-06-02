@@ -85,12 +85,12 @@ export default {
       height: 34px;
     }
     .el-menu--horizontal>.el-menu-item.is-active {
-      border-bottom: 2px solid #5e1ad5;
-      color: #5e1ad5 !important;
+      border-bottom: 2px solid var(--default-primary-color);
+      color: var(--default-primary-color) !important;
     }
     .el-menu-item.is-active{
       .icon {
-        color: #5e1ad5;
+        color: var(--default-primary-color);
       }
     }
     .header-icon>ul{

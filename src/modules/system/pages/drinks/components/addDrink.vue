@@ -226,7 +226,7 @@ export default {
             display: flex;
             justify-content: space-between;
             .el-button.add{
-                background-color: #5e1ad5;
+                background-color: var(--default-second-color);
                 color: #f8f8f8;
                 box-shadow: 0 12px 25px 0 #401d0448;
             }
@@ -267,14 +267,14 @@ export default {
                 padding: 0 25px;
                 border-radius: 10px;
                 &.is-checked{
-                    border: 2px solid #5e1ad5;
+                    border: 2px solid var(--default-primary-color);
                 }
                 .el-radio__input.is-checked .el-radio__inner{
-                    border-color: #5e1ad5;
-                    background: #5e1ad5;
+                    border-color: var(--default-primary-color);
+                    background: var(--default-primary-color);;
                 }
                 .el-radio__label{
-                    color: #5e1ad5;
+                    color: var(--default-primary-color);
                     font-weight: bolder;
                     font-size: 16px;
                 }

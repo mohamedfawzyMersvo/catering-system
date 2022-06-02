@@ -98,7 +98,7 @@ export default {
              width: 25%;
              padding-right: 20px;
              font-size: 30px;
-             color: #5e1ad5;
+             color: var(--default-primary-color);
          }  
         }
         .time-card{

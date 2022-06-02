@@ -162,14 +162,14 @@ export default {
             padding: 0 10px !important;
             &.is-active{
                 background-color: #fff;
-                color: #5e1ad5;
+                color: var(--default-primary-color);
             }
             &:hover{
                 color: initial;
             }
         }
         .el-tabs__active-bar{
-            background-color: #5e1ad5;
+            background-color: var(--default-primary-color);
         }
  }
  .order-item{
@@ -207,7 +207,7 @@ export default {
         // background-color: #0000ff;
         width: 127px;
         &:hover{
-            background-color: #5e1ad5;
+            background-color: var(--default-primary-color);
         }
         i{
             margin-left: 5px;

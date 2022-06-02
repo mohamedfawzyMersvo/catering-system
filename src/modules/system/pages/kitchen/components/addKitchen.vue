@@ -206,7 +206,7 @@ export default {
                 color: #1b1b1b;
             }
             .el-button.add{
-                background-color: #5e1ad5;
+                background-color: var(--default-second-color);
                 color: #f8f8f8;
             }
             .el-button{

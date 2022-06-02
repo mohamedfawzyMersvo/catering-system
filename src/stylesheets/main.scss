@@ -1,3 +1,9 @@
+:root {
+    --default-primary-color: #5e1ad5;
+    --default-second-color: #5d19d4;
+    // --default-third-color: #5e1ad5;
+}
+
 body, button, input {
     font-family: 'Cairo', sans-serif;
 }
@@ -110,7 +116,7 @@ body, button, input {
 }
 
 .btn--burble{
-    background-color: #5e1ad5;
+    background-color: var(--default-second-color);
     color: #f8f8f8;
     border-radius: 8px;
     font-weight: bolder;
@@ -153,7 +159,7 @@ input.switch:checked {
     position: relative;
     // left: 34px;
     padding-right: 8px;
-    background-color: #5e1ad5;
+    background-color: var(--default-primary-color);
     background-position: 29px;
 }
 

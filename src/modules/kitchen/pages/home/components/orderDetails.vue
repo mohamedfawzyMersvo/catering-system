@@ -89,7 +89,7 @@ export default {
         }
         .dialog-footer{
             .el-button{
-                background-color: #5e1ad5;
+                background-color: var(--default-second-color);
                 color: #fff;
             }
         }
