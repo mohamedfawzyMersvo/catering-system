@@ -109,6 +109,10 @@
                     console.log('error', error)
                     wrongLogin.value = true;
                 })
+            }).then(()=> {
+                axios.get(`ThemeConfiguration/GetThemeConfiguration`).then(res => {
+                    console.log(res)
+                })
             })
     }
 

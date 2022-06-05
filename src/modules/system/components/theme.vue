@@ -86,6 +86,12 @@ export default {
         this.color2 = cookies.get("color2") || "#5d19d4";
     },
     methods: {
+        loadItem(){
+            axios.get(`MenuItem/${this.editItemId}/GetMenuItemById`).then(res => {
+                this.drinkData = res.menuItem;
+                this.file.url = this.drinkData.itemImageBytes;
+            })
+        },
         successMessage(){
             ElMessage({
                 message: this.$t('common.successfullyOrdered'),
@@ -131,7 +137,13 @@ export default {
             this.itemImageBytes = "";
         },
         handleSubmit(){
-            this.handleClose();
+        axios
+            .put(`ThemeConfiguration/{id}/UpdateThemeConfiguration`, this.drinkData)
+            .then(() => {
+               this.successMessage();
+               this.handleClose();
+               this.reLoadData();
+            })
         },
         handleClose(){
             this.$emit('modelClose');
