@@ -24,7 +24,7 @@ const mutations = {
         state.currentLocale = payload;
     },
     setToken(state, payload){
-        state.token = `bearer ${payload}`;
+        state.token = `Bearer ${payload}`;
     },
     setLoggedUser(state, payload) {
         state.loggedUser = payload

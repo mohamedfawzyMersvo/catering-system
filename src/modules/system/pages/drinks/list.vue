@@ -18,8 +18,8 @@
             </el-col>
         </el-row>
         <el-main>
-            <el-row :gutter="12">
-                <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" v-for="drink in drinkList.filter(item => item.id != 1009)" :key="drink.id">
+            <el-row :gutter="12" class="list-row">
+                <el-col :xs="16" :sm="12" :md="6" :lg="6" :xl="6" v-for="drink in drinkList.filter(item => item.id != 1009)" :key="drink.id">
                    <div class="list-item" style="{ boxShadow: `var(--el-box-shadow-base)` }"> 
                       
                         <el-icon><edit-pen /></el-icon>
@@ -167,6 +167,7 @@
         padding-top: 0;
         position: relative;
         border-radius: 7px;
+        margin-bottom: 3px;
         h4{
             text-transform: capitalize;
             margin-top: 0;
@@ -174,6 +175,9 @@
             font-size: 22px;
             font-weight: bolder;
             line-height: 1;
+            @media (max-width: 600px) { 
+                font-size: 15px !important;
+            }
         }
         .el-icon{
             position: absolute;
@@ -236,6 +240,14 @@
             width: 100%;
             border-radius: 7px;
             height: 211px;
+            @media screen and (max-width: 768px) {
+                height: 150px !important;
+            }
+        }
+    }
+    .list-row{
+        @media screen and (max-width: 768px) {
+            justify-content: center;
         }
     }
 </style>

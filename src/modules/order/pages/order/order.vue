@@ -11,7 +11,7 @@
                                 <div class="order-image">
                                         <div  class="block">
                                             <el-image
-                                                src='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+                                                :src='drink.itemImageBytes'
                                                 fit="cover"
                                             ></el-image>
                                         </div>
@@ -49,7 +49,7 @@
                                 <div class="order-image">
                                         <div  class="block">
                                             <el-image
-                                                src='https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+                                                :src='drink.itemImageBytes'
                                                 fit="cover"
                                             ></el-image>
                                         </div>
@@ -181,6 +181,9 @@ export default {
             width: 200px;
             height: auto;
      }
+     .el-image{
+        height: 150px;
+     }
      .title-rate{
         display: flex;
         justify-content: center;
@@ -215,6 +218,11 @@ export default {
             font-size: 20px;
         }
     }
+    @media (max-width: 535px) { 
+        flex-flow: column;
+        align-items: center;
+    }
+
  }
  .request-attend-btn{
     margin: 20px auto !important;
@@ -225,6 +233,11 @@ export default {
     i{
         margin-left: 7px;
     }
+ }
+ .num-item{
+     .el-input-number{
+         width: 102px;
+     }
  }
  @include rtl() {
       .request-btn{

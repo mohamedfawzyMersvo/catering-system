@@ -167,5 +167,8 @@
         @media (max-width: 767px) { 
             width: 60%;
         }
+        @media (max-width: 600px) { 
+            background-color:transparent;
+        }
     }
 </style>

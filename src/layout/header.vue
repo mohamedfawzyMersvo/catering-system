@@ -6,7 +6,7 @@
         mode="horizontal"
         router
     >
-    <el-menu-item index="1" :route="{name:homeLink}"><img src="@/assets/logo.png" /></el-menu-item>
+    <el-menu-item index="1" :route="{name:homeLink}"><img src="@/assets/logo.png" class="logo-img" /></el-menu-item>
     <el-menu-item-group class="header-icon">
       <slot></slot>
         <!-- <el-menu-item index="2" :route="{name:'home'}"> <HomeFilled class="icon" /></el-menu-item>
@@ -98,6 +98,9 @@ export default {
     }
   }
   @media (max-width: 576px) {
+    .logo-img{
+      width: 320px;
+    }
     .el-menu--popup{
       svg {
         height: 50px;

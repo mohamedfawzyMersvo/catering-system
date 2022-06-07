@@ -1,7 +1,7 @@
 <template>
      <el-dialog
             v-model="dialogVisible"
-            width="40%"
+            width="30%"
             custom-class="order-model theme-model"
             :before-close="handleClose"
         >
@@ -62,7 +62,7 @@
 <script>
     // import axios from 'axios'
     import { useCookies } from "vue3-cookies";
-
+    import axios from 'axios'
     import { ElMessage } from 'element-plus'
 
 

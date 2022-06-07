@@ -219,6 +219,9 @@ export default {
             .tag{
                 margin-right: 5px;
             }
+             @media screen and (max-width: 768px) {
+                padding: 10px !important;
+            }
         }
 
        

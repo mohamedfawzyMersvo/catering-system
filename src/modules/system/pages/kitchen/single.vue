@@ -264,6 +264,9 @@ export default {
             display: flex;
             justify-content: space-between;
             padding: 50px 40px;
+            @media (max-width: 600px) { 
+                flex-flow: column;
+            }
         }
         h3{
             color: #1b1b1b;
@@ -271,6 +274,9 @@ export default {
             font-weight: bolder;
             margin-bottom: 0;
             text-transform: capitalize;
+            @media screen and (max-width: 768px) {
+                font-size: 20px;
+            }
         }
         .main-content {
             border: 1px solid #f3f1f3;
@@ -312,7 +318,7 @@ export default {
                 width: 70%;
             }
         }
-        @media (max-width: 768px) { 
+        @media (max-width: 992px) { 
              .el-container{
                  flex-flow:column ;
              }

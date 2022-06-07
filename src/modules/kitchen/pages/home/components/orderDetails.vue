@@ -1,12 +1,12 @@
 <template>
      <el-dialog
             v-model="dialogVisible"
-            width="30%"
+            width="40%"
             custom-class="order-model"
             :before-close="handleClose"
         >
         <template #title>
-            <p> Khaled ElAhmed <span v-if="selectdItem && selectdItem.menuItem"> {{$store.state.main.currentLocale == "en" ? selectdItem.menuItem.name : selectdItem.menuItem.name_Ar}} </span></p>
+            <p class="head"> Khaled ElAhmed <span v-if="selectdItem && selectdItem.menuItem"> {{$store.state.main.currentLocale == "en" ? selectdItem.menuItem.name : selectdItem.menuItem.name_Ar}} </span></p>
         </template>
         <div class="order-list-num" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
             <div class="num-item" v-for="sugarSpoon in selectdItem.sugarSpoon.split(',')" :key="sugarSpoon">
@@ -62,7 +62,11 @@ export default {
                 }
             }
         }
-
+        .head{
+            @media (max-width: 600px) {
+                font-size: 20px;
+            }
+        }
         .order-list-num{
             background-color: #fff;
             padding: 0 10px;
@@ -92,6 +96,9 @@ export default {
                 background-color: var(--default-second-color);
                 color: #fff;
             }
+        }
+        @media (max-width: 600px) { 
+            width:70% !important;
         }
     }
     @include rtl() {

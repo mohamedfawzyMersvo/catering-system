@@ -18,8 +18,8 @@
             </el-col>
         </el-row>
         <el-main>
-            <el-row :gutter="12">
-                <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" v-for="kitchen in kitchenList" :key="kitchen.id">
+            <el-row :gutter="12" class="list-row">
+                <el-col :xs="16" :sm="12" :md="6" :lg="6" :xl="6" v-for="kitchen in kitchenList" :key="kitchen.id">
                    <div class="list-item" style="{ boxShadow: `var(--el-box-shadow-base)` }"> 
                       
                            <el-icon><edit-pen /></el-icon>

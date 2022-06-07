@@ -4,8 +4,9 @@
             <img src="@/assets/kitchen-head.png" alt="">
         </div>
         <div class="kitchen-items">
+             <el-main>
               <el-row :gutter="20" justify="center" class="row">
-                <el-col :xs="24" :sm="8" :md="5" :lg="5" :xl="5"><div class="grid-content bg-purple" />
+                <el-col :xs="24" :sm="8" :md="8" :lg="5" :xl="5"><div class="grid-content bg-purple" />
                     <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
                         <div class="kitchen-item">
                             <img src="@/assets/drinks.png" alt="">
@@ -14,7 +15,7 @@
                         </div>
                     </el-card>
                 </el-col>
-                <el-col  :xs="24" :sm="8" :md="5" :lg="5" :xl="5"><div class="grid-content bg-purple" />
+                <el-col  :xs="24" :sm="8" :md="8" :lg="5" :xl="5"><div class="grid-content bg-purple" />
                     <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
                         <div class="kitchen-item">
                             <img src="@/assets/halls.png" alt="">
@@ -23,7 +24,7 @@
                         </div>
                      </el-card>
                 </el-col>
-                <el-col  :xs="24" :sm="8" :md="5" :lg="5" :xl="5"><div class="grid-content bg-purple" />
+                <el-col  :xs="24" :sm="8" :md="8" :lg="5" :xl="5"><div class="grid-content bg-purple" />
                     <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
                         <div class="kitchen-item">
                             <img src="@/assets/kitchen.png" alt="">
@@ -33,6 +34,7 @@
                     </el-card>
                 </el-col>
             </el-row>
+            </el-main>
         </div>
     </div>
 </template>
@@ -79,9 +81,15 @@
             }
         }
     }
+        .el-card{
+            @media screen   and (max-width: 768px) {
+                margin-bottom: 15px;
+            }
+        }
     .head{
         img {
             border-radius: 15px;
+            max-width:100%;
         }
     }
 
