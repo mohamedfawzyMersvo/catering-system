@@ -104,14 +104,21 @@
                             path: 'order',
                         });
                     }
-                    console.log('fffffffffffff')
                 }).catch((error)=> {
                     console.log('error', error)
                     wrongLogin.value = true;
                 })
             }).then(()=> {
                 axios.get(`ThemeConfiguration/GetThemeConfiguration`).then(res => {
-                    console.log(res)
+                    res.primaryColor ?
+                    document.documentElement.style.setProperty('--default-primary-color', res.primaryColor ):
+                    document.documentElement.style.setProperty('--default-primary-color', '#5e1ad5');
+                    res.secondaryColor ?
+                    document.documentElement.style.setProperty('--default-second-color', res.secondaryColor ):
+                    document.documentElement.style.setProperty('--default-second-color', '#5d19d4');  // for immediat color change
+                        store.commit('main/setThemeConfig', res);
+
+                    
                 })
             })
     }

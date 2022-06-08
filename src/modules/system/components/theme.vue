@@ -39,15 +39,15 @@
         <div class="colors-wrapper">
             <div class="demo-color-block">
                 <span class="demonstration">{{$t('common.primaryColor')}}</span>
-                <el-color-picker v-model="color1" @active-change="changeColor1" />
+                <el-color-picker v-model="formObj.PrimaryColor" @active-change="changeColor1" />
             </div>
             <div class="demo-color-block">
                 <span class="demonstration">{{$t('common.secondaryColor')}}</span>
-                <el-color-picker v-model="color2" @active-change="changeColor2"/>
+                <el-color-picker v-model="formObj.secondaryColor" @active-change="changeColor2"/>
             </div>
             <div class="demo-color-block">
                 <span class="demonstration">{{$t('common.thirdColor')}}</span>
-                <el-color-picker v-model="color3" />
+                <el-color-picker v-model="formObj.optionalColor" />
             </div>
         </div>
         
@@ -73,23 +73,41 @@ export default {
     ],
     data() {
         return {
-            color1:"",
-            color2:"",
-            color3:"",
+            formObj:{
+                PrimaryColor :"",
+                secondaryColor :"",
+                optionalColor:"",
+                thumbnial:""
+            },
             fileList:[],
-            itemImageBytes:""
         }
     },
     mounted () {
-        const { cookies } = useCookies();
-        this.color1 = cookies.get("color1") || "#5e1ad5";
-        this.color2 = cookies.get("color2") || "#5d19d4";
+        // const { cookies } = useCookies();
+        // this.primaryColor = cookies.get("color1") || "#5e1ad5";
+        // this.secondaryColor = cookies.get("color2") || "#5d19d4";
+
+        this.loadItem();
     },
     methods: {
+        handleSubmit(){
+            var formdata = new FormData();
+            Object.entries(this.formObj).forEach(([key, value]) => {
+                formdata.append(key, value);
+            });
+            formdata.set('thumbnial', this.file);
+            axios
+            .put(`ThemeConfiguration/${this.$store.state.main.themeConfig.id}/UpdateThemeConfiguration`, formdata , {headers: {'content-type': 'multipart/form-data'} })
+            .then(() => {
+                this.successMessage();
+                this.handleClose();
+            })
+        },
         loadItem(){
-            axios.get(`MenuItem/${this.editItemId}/GetMenuItemById`).then(res => {
-                this.drinkData = res.menuItem;
-                this.file.url = this.drinkData.itemImageBytes;
+            axios.get(`ThemeConfiguration/GetThemeConfiguration`).then(res => {
+                this.formObj.PrimaryColor = res.primaryColor;
+                this.formObj.secondaryColor = res.secondaryColor;
+                this.formObj.optionalColor = res.optionalColor;
             })
         },
         successMessage(){
@@ -109,10 +127,12 @@ export default {
             document.documentElement.style.setProperty('--default-second-color', color);  // for immediat color change
         },
         handleImgChange () {
-        this.fileList = this.$refs.upload.uploadFiles
+        this.fileList = this.$refs.upload.uploadFiles;
+        this.file = event.target.files[0];
+
         if(this.fileList.length === 2) this.fileList.splice(0, 1)
         let self = this;
-        // this.itemImageBytes = event.target.files[0];
+        // self.formObj.Thumbnial = event.target.files[0];
                 // Ensure that you have a file before attempting to read it
                 if (event.target.files && event.target.files[0]) {
                         
@@ -123,7 +143,7 @@ export default {
                             console.log('e', e)
                         // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
                         // Read image as base64 and set to imageData
-                        self.itemImageBytes = e.target.result;
+                        self.formObj.thumbnial  = e.target.result;
                         }
                         // Start the reader job - read file as a data url (base64 format)
                         reader.readAsDataURL(event.target.files[0]);
@@ -134,16 +154,7 @@ export default {
         handleRemove(){
             console.log('delete');
             this.file = "";
-            this.itemImageBytes = "";
-        },
-        handleSubmit(){
-        axios
-            .put(`ThemeConfiguration/{id}/UpdateThemeConfiguration`, this.drinkData)
-            .then(() => {
-               this.successMessage();
-               this.handleClose();
-               this.reLoadData();
-            })
+            this.formObj.itemImageBytes = "";
         },
         handleClose(){
             this.$emit('modelClose');

@@ -5,7 +5,8 @@ const state = {
     loggedUser:{},
     token:'',
     isAuthenticated:false,
-    homeLink:""
+    homeLink:"",
+    themeConfig:{},
 };
 
 const getters = {
@@ -32,6 +33,9 @@ const mutations = {
     },
     setHomeLink(state, payload){
         state.homeLink = payload;
+    },
+    setThemeConfig(state, payload){
+        state.themeConfig = payload;
     },
     logout(state) {
         state.loggedUser = null

@@ -59,6 +59,11 @@ export default {
     "changeSystemTheme" : "تغيير ثيم النظام",
     "requests": "الطلبات",
     "addedd": "تمت الإضافة",
+    tablet: "تابلت",
+    tablets: "الأجهزة اللوحية",
+    addtablet: "إضافة تابلت",
+    room:"غرفة",
+    seat:"مقعد",
 
 
 

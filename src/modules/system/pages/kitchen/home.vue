@@ -33,6 +33,15 @@
                         </div>
                     </el-card>
                 </el-col>
+                <el-col  :xs="24" :sm="8" :md="8" :lg="5" :xl="5"><div class="grid-content bg-purple" />
+                    <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
+                        <div class="kitchen-item">
+                            <img src="@/assets/kitchen.png" alt="">
+                            <h3>tablet-list</h3>
+                            <span class="arrow"  @click="goTo('tablet-list')"><el-icon><right /></el-icon></span>
+                        </div>
+                    </el-card>
+                </el-col>
             </el-row>
             </el-main>
         </div>

@@ -59,6 +59,11 @@ export default {
     "changeSystemTheme" : "Change system Theme",
     "requests": "Requests",
     "addedd": "Added",
+    tablet: "Tablet",
+    tablets: "Tablets",
+    addtablet: "Add Tablet",
+    room:"Room",
+    seat:"Seat",
 
 
 

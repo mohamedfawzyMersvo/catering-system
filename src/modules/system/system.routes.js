@@ -8,6 +8,7 @@ import KitchenHome from './pages/kitchen/home'
 import DrinksList from './pages/drinks/list'
 import HallsList from './pages/halls/list'
 
+import TabletList from './pages/tablet/list'
 
 export default [
     {
@@ -39,6 +40,11 @@ export default [
         path: 'halls-list',
         name: 'halls-list',
         component: HallsList
+    },
+    {
+        path: 'tablet-list',
+        name: 'tablet-list',
+        component: TabletList
     },
     
     

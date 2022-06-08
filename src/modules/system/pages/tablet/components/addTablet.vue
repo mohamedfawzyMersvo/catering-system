@@ -6,10 +6,10 @@
             :before-close="handleClose"
         >
         <template #title>
-            <p> {{$t('common.addRoom')}}</p>
+            <p> {{$t('common.addtablet')}}</p>
         </template>
         <el-form :model="tabletData" class="addKitchenForm" label-position="top">
-            <el-form-item :label="$t('common.roomName')">
+            <el-form-item :label="$t('common.name')">
                 <el-input
                     size="large"
                     v-model="tabletData.name"
@@ -24,36 +24,10 @@
                     :prefix-icon="Lock"
                 />
             </el-form-item>
-            <el-form-item :label="$t('common.location')" class="add-location">
-                <el-input
-                    size="large"
-                    v-model="tabletData.floor"
-                    :prefix-icon="Lock"
-                />
-                <!-- <el-button type="text">Add</el-button> -->
-            </el-form-item>
-            <!-- <div class="tags">
-                <el-tag
-                    class="tag"
-                    type="info"
-                    effect="plain"
-                    closable
-                >
-                street 1
-                </el-tag>
-                <el-tag
-                    class="tag"
-                    type="info"
-                    effect="plain"
-                    closable
-                >
-                appartment
-                </el-tag> -->
-            <!-- </div> -->
-            <el-form-item :label="$t('common.kitchen')" class="select-kitchen">
-            <el-select v-model="tabletData.kitchenId" :placeholder="$t('common.select')" size="large">
+            <el-form-item :label="$t('common.rooms')" class="select-kitchen">
+            <el-select v-model="tabletData.roomId" :placeholder="$t('common.select')" size="large">
                 <el-option
-                    v-for="item in kitchenList"
+                    v-for="item in roomsList"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
@@ -91,19 +65,19 @@ export default {
         return {
             dialogVisible: false,
             tabletData:{
+                roomId: 0,
                 name:"",
-                RoomId:"",
                 emailAddress:"",
                 password:"",
                 roles:[
                     10
                 ]
             },
-            kitchenList:[],
+            roomsList:[],
         }
     },
     created() {
-         this.loadKitchens();
+         this.loadRooms();
     },
     methods: {
         handleSubmit(){
@@ -114,10 +88,12 @@ export default {
                     this.successMessage();
                     this.handleClose();
                     this.reLoadData();
+                }).catch(() => {
+                    this.errorMessage("EmailExist");
                 })
             }
             else{
-                this.editKitchen();
+                this.editTablet();
             }
         },
         loadItem(){
@@ -125,13 +101,13 @@ export default {
                 this.tabletData = res.user;
             })
         },
-         loadKitchens(){
-            axios.get('UserManagement/ListAllkitchensWithoutPagination').then(res => {
-                this.kitchenList = res;
+         loadRooms(){
+            axios.get('UserManagement/10/1/ListAllRooms').then(res => {
+                this.roomsList = res.kitchensResponseList;
             })
         },
-        editKitchen(){
-            this.tabletData.roles = [9];
+        editTablet(){
+            this.tabletData.roles = [10];
             axios
             .put('Account/UpdateUser', this.tabletData)
             .then(() => {
@@ -146,9 +122,12 @@ export default {
                 type: 'success',
             })
         },
+        errorMessage(theMessage){
+            ElMessage.error(theMessage)
+        },
         handleClose(){
             this.resetData();
-            this.$emit('hallModelClose');
+            this.$emit('tabletModelClose');
         },
         reLoadData(){
             this.$emit('reloadData');

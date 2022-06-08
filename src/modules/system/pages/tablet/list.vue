@@ -8,10 +8,10 @@
                                 name: `kitchen-home`,
                             })
                         "> {{$t('common.home')}} </span >/
-                        {{$t('common.rooms')}}</p>
+                        {{$t('common.tablets')}}</p>
                   <div> 
                       <el-link type="primary" class="add-kitchen" @click="openHallModel">
-                          {{$t('common.addRoom')}}
+                          {{$t('common.addtablet')}}
                           <el-icon><circle-plus /></el-icon>
                       </el-link>
                   </div>
@@ -19,8 +19,8 @@
             </el-col>
         </el-row>
         <el-main>
-            <el-row :gutter="12">
-                <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" v-for="hall in hallsList" :key="hall.id">
+            <el-row :gutter="12" class="list-row">
+                <el-col :xs="16" :sm="12" :md="6" :lg="6" :xl="6" v-for="tablet in tabletList" :key="tablet.id">
                    <div class="list-item" style="{ boxShadow: `var(--el-box-shadow-base)` }"> 
                       
                            <el-icon><edit-pen /></el-icon>
@@ -33,19 +33,19 @@
                             </span>
                             <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item class="more-item" @click="editHalls(hall)"><el-icon><edit /></el-icon> {{$t('common.edit')}}</el-dropdown-item>
-                                <el-dropdown-item class="delete-item"><span @click.stop="deleteHalls(hall)"><el-icon><delete /></el-icon>{{$t('common.delete')}} </span></el-dropdown-item>
+                                <el-dropdown-item class="more-item" @click="editHalls(tablet)"><el-icon><edit /></el-icon> {{$t('common.edit')}}</el-dropdown-item>
+                                <el-dropdown-item class="delete-item"><span @click.stop="deleteHalls(tablet)"><el-icon><delete /></el-icon>{{$t('common.delete')}} </span></el-dropdown-item>
                             </el-dropdown-menu>
                             </template>
                         </el-dropdown>
 
-                       <h4> {{hall.name}}</h4>
+                       <h4> {{tablet.name}}</h4>
                        <div class="kitchen-state">
                            <div class="meta-data">
-                                <span> {{hall.floor}} </span>    
-                                <span> R:{{hall.ordersCount}} </span>    
+                                <span> {{$t('common.room')}}: {{tablet.roomName}} </span>    
+                                <span> {{$t('common.seat')}}: {{tablet.seatNumber}} </span>    
                             </div>
-                            <img src="@/assets/item.png" />
+                            <!-- <img src="@/assets/item.png" /> -->
                            <!-- <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div> -->
@@ -73,7 +73,7 @@
                 </el-pagination>
             </div>
         </el-main>
-        <AddTablet :modelHallVisible="hallModel" @hallModelClose="whenCloseModel" @reloadData="loadData()" :editItemId="editItemId"/> 
+        <AddTablet :modelHallVisible="tabletModel" @tabletModelClose="whenCloseModel" @reloadData="loadData()" :editItemId="editItemId"/> 
 
     </div>
 </template>
@@ -84,14 +84,14 @@
     import {MoreFilled, Edit, Delete, CirclePlus} from '@element-plus/icons';
     import AddTablet from './components/addTablet.vue';
     export default {
-        components:{AddHall, MoreFilled, Edit, Delete, CirclePlus},
+        components:{AddTablet, MoreFilled, Edit, Delete, CirclePlus},
         data() {
             return {
                 currentPage:1,
                 itemsPerPage:10,
                 pagingModel:{},
-                hallModel: false,
-                hallsList:[],
+                tabletModel: false,
+                tabletList:[],
                 editItemId:""
             }
         },
@@ -100,17 +100,15 @@
         },
         methods: {
             loadData(){
-                axios.get(`UserManagement/${this.itemsPerPage}/${this.currentPage}/ListAllRooms`).then(res => {
-                    this.hallsList = res.kitchensResponseList;
-                    this.pagingModel = res.pagingModel;
-                    this.currentPage =res.pagingModel.currentPage;
+                axios.get(`UserManagement/${this.itemsPerPage}/${this.currentPage}/listAllTablets`).then(res => {
+                    this.tabletList = res.kitchensResponseList;
                 })
             },
            openHallModel(){
-                this.hallModel = true;
+                this.tabletModel = true;
             },
             whenCloseModel(){
-                this.hallModel = false;
+                this.tabletModel = false;
                 this.editItemId = "";
             },
             editHalls({id}){
