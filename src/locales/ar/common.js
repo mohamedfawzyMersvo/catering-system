@@ -62,8 +62,9 @@ export default {
     tablet: "تابلت",
     tablets: "الأجهزة اللوحية",
     addtablet: "إضافة تابلت",
-    room:"غرفة",
+    room:"الغرفة",
     seat:"مقعد",
+    seatNumber:" رقم الكرسى "
 
 
 

@@ -39,7 +39,7 @@
                             </template>
                         </el-dropdown>
 
-                       <h4> {{tablet.name}}</h4>
+                       <h4 class="tablet-title"> {{tablet.name}}</h4>
                        <div class="kitchen-state">
                            <div class="meta-data">
                                 <span> {{$t('common.room')}}: {{tablet.roomName}} </span>    
@@ -170,6 +170,9 @@
             font-size: 22px;
             font-weight: bolder;
             line-height: 1;
+        }
+        .tablet-title{
+            margin-bottom: 20px;
         }
         .el-icon{
             position: absolute;

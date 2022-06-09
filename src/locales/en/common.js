@@ -64,6 +64,7 @@ export default {
     addtablet: "Add Tablet",
     room:"Room",
     seat:"Seat",
+    seatNumber:"Seat number"
 
 
 

@@ -24,7 +24,7 @@
                     :prefix-icon="Lock"
                 />
             </el-form-item>
-            <el-form-item :label="$t('common.rooms')" class="select-kitchen">
+            <el-form-item :label="$t('common.room')" class="select-kitchen">
             <el-select v-model="tabletData.roomId" :placeholder="$t('common.select')" size="large">
                 <el-option
                     v-for="item in roomsList"
@@ -34,6 +34,14 @@
                 >
                 </el-option>
             </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('common.seatNumber')">
+                <el-input
+                    size="large"
+                    v-model="tabletData.seatNumber"
+                    class="w-50 m-2"
+                    :prefix-icon="Message"
+                />
             </el-form-item>
             <el-form-item :label="$t('common.password')">
                 <el-input
@@ -65,7 +73,8 @@ export default {
         return {
             dialogVisible: false,
             tabletData:{
-                roomId: 0,
+                roomId: "",
+                seatNumber:"",
                 name:"",
                 emailAddress:"",
                 password:"",
@@ -76,7 +85,7 @@ export default {
             roomsList:[],
         }
     },
-    created() {
+    mounted() {
          this.loadRooms();
     },
     methods: {
@@ -102,8 +111,8 @@ export default {
             })
         },
          loadRooms(){
-            axios.get('UserManagement/10/1/ListAllRooms').then(res => {
-                this.roomsList = res.kitchensResponseList;
+            axios.get('UserManagement/ListAllRoomsWithoutPagination').then(res => {
+                this.roomsList = res;
             })
         },
         editTablet(){
@@ -134,6 +143,7 @@ export default {
         },
         resetData(){
             Object.assign(this.$data, this.$options.data.apply(this))
+            this.loadRooms();
         }
     },
     watch: { 
