@@ -156,6 +156,7 @@ export default {
         },
         resetData(){
             Object.assign(this.$data, this.$options.data.apply(this))
+            this.loadKitchens();
         }
     },
     watch: { 

@@ -22,7 +22,7 @@
                                             {{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}}
                                         </div>
                                         
-                                        <el-input-number class="input-number" v-model.number="drink.num" min="1" @change="handleChange" />
+                                        <el-input-number class="input-number" v-model.number="drink.num" :min="1" @change="handleChange" />
                                     
                                         <div class="tags">
                                             <!-- <el-tag class="ml-2" type="info">Tag 1</el-tag>
@@ -60,7 +60,7 @@
                                             {{drink.name}}
                                         </div>
                                         
-                                        <el-input-number class="input-number" v-model.number="drink.num" min="1" @change="handleChange" />
+                                        <el-input-number class="input-number" v-model.number="drink.num" :min="1" @change="handleChange" />
                                     
                                         <div class="tags">
                                             <!-- <el-tag class="ml-2" type="info">Tag 1</el-tag>

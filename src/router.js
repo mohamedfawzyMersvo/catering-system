@@ -24,7 +24,7 @@ import Login from './modules/system/pages/login/login'
 // })
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(process.env.BASE_URL),
     routes: [
         {
             path: '/',

@@ -98,7 +98,7 @@
                             path: 'kitchen',
                         });
                     }
-                    else if (res.authorities == "Room"){
+                    else if (res.authorities == "Room" ||res.authorities ==  "Tablet"){
                         store.commit('main/setHomeLink', "order");
                         router.push({
                             path: 'order',
