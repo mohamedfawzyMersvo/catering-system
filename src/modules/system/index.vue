@@ -1,14 +1,13 @@
 <template>
    <div>
       <Header>
-         <el-menu-item index="4" class="edit-theme"> 
-            <p  @click.stop="openModel = true">{{$t('common.editTheme')}} </p>
-            
-           </el-menu-item>
+         <!-- <el-menu-item index="4" class="edit-theme"> 
+           
+         </el-menu-item> -->
 
 
          <!-- <el-menu-item index="3" :route="{name:'single'}"> <List class="icon" /></el-menu-item> -->
-            <Theme :modelVisible="openModel" @modelClose="openModel = false"/>
+            <!-- <Theme :modelVisible="openModel" @modelClose="openModel = false"/> -->
       </Header>
       <router-view />
    </div>
@@ -16,15 +15,13 @@
 
 <script>
 import Header from '@/layout/header'
-import Theme from './components/theme.vue';
 
 // import { HomeFilled } from '@element-plus/icons'
 
 export default {
-   components:{Header, Theme},
+   components:{Header},
    data() {
       return {
-         openModel:false,
       }
    },
 }

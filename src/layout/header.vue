@@ -4,12 +4,14 @@
         :default-active="activeIndex"
         class="el-menu-header"
         mode="horizontal"
+        :ellipsis="false"
         router
     >
-    <el-menu-item index="1" :route="{name:homeLink}">
+      <el-menu-item index="1" :route="{name:homeLink}">
       <!-- <img src="@/assets/logo.png" class="logo-img" /> -->
       <img src="@/assets/logo2.png" class="logo-img" />
-      <!-- <img :src="store.state.main.themeConfig.logo" /> -->
+      <img :src="$store.state.main.themeConfig.logo.filePath" />
+      <!-- {{$store.state.main.themeConfig.logo.filePath}} -->
       </el-menu-item>
     <el-menu-item-group class="header-icon">
       <slot></slot>
@@ -22,11 +24,17 @@
           </el-badge>
         </el-menu-item> -->
     </el-menu-item-group>
+    <div class="flex-grow" />
+              
     <el-sub-menu index="6" class="lang-menu">
       <template #title>{{currentLocale == "ar" ? "عربى":"English"}}</template>
       <li class="el-menu-item" @click="changeLang('en')">English</li>
       <li class="el-menu-item" @click="changeLang('ar')">عربى</li>
     </el-sub-menu>
+    <el-menu-item class="logout-item">
+     <span @click="logOut">{{$t('common.logout')}}</span>
+          <img scr="@/assets/logout.png" />
+    </el-menu-item>
   </el-menu>
   <div class="h-6"></div>
   </div>
@@ -36,6 +44,7 @@
 <el-icon><medal /></el-icon>
   // import { HomeFilled, List, Bell, Medal } from '@element-plus/icons'
 import i18n from '../i18n.js';
+import router from './../router.js';
 export default {
   name: 'Header',
   // components:{HomeFilled, List, Bell, Medal },
@@ -54,6 +63,10 @@ export default {
       this.$store.commit('main/setCurrentLocale',lang);
       i18n.global.locale.value = lang
       this.addRtlClass()
+    },
+    logOut() {
+      this.$store.commit("main/logout");
+      router.push({ path: "/" });
     },
     addRtlClass(){
       let rootEl = document.querySelector('html');
@@ -77,6 +90,7 @@ export default {
   .el-menu-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     .header-icon{  
       display: flex;
       justify-content: space-between;
@@ -100,10 +114,35 @@ export default {
     .header-icon>ul{
       display: flex;
     }
+    .lang-menu{
+      .el-sub-menu__title{
+        padding-left: 0;
+      }
+    }
+    .logout-item{
+      padding-right: 0;
+    }
+  }
+@include ltr() {
+  .el-menu-header {
+    .lang-menu{
+      .el-sub-menu__title{
+        padding-right: 0;
+      }
+    }
+    .logout-item{
+      padding-left: 0;
+      padding-right: 20px;
+    }
+  }
+}
+
+  .flex-grow {
+    width:61%;
   }
   @media (max-width: 576px) {
     .logo-img{
-      width: 320px;
+      width: 144px;
     }
     .el-menu--popup{
       svg {

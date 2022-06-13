@@ -2,6 +2,7 @@
     <div class="kitchen-home">
         <div class="head">
             <img src="@/assets/kitchen-head.png" alt="">
+             <p  @click.stop="openModel = true" class="edit-theme">{{$t('common.editTheme')}} </p>
         </div>
         <div class="kitchen-items">
              <el-main>
@@ -36,7 +37,7 @@
                 <el-col  :xs="24" :sm="8" :md="8" :lg="5" :xl="5"><div class="grid-content bg-purple" />
                     <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
                         <div class="kitchen-item">
-                            <img src="@/assets/tablet.jpg" alt="" class="tablet-img">
+                            <img src="@/assets/tablet.png" alt="" class="tablet-img">
                             <h3>{{$t('common.tablets')}}</h3>
                             <span class="arrow"  @click="goTo('tablet-list')"><el-icon><right /></el-icon></span>
                         </div>
@@ -45,12 +46,20 @@
             </el-row>
             </el-main>
         </div>
+        <Theme :modelVisible="openModel" @modelClose="openModel = false"/>
     </div>
 </template>
 <script>
     import { Right} from '@element-plus/icons';
+    import Theme from '../../components/theme.vue';
+
     export default {
-        components:{Right},
+        components:{Right, Theme},
+           data() {
+            return {
+                openModel:false,
+            }
+        },
         methods: {
             goTo(link){
                 this.$router.push({name:link});
@@ -74,6 +83,8 @@
             h3{
                 font-weight: bolder;
                 font-size: 27px;
+                margin: 0;
+                margin-bottom: 10px;
             }
             img{
                 height: 170px;
@@ -104,6 +115,14 @@
             border-radius: 15px;
             max-width:100%;
         }
+    }
+    .edit-theme{
+        background: black;
+        color: #fff;
+        width: 100px;
+        border-radius: 7px;
+        text-align: center;
+        margin: 20px auto;
     }
 
 

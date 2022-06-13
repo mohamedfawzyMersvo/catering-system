@@ -5,8 +5,11 @@ export default {
     "kitchens": "المطابخ",
     "kitchen": "المطبخ",
     "addKitchen": "إضافة مطبخ",
+    "editKitchen": "تعديل مطبخ",
     "addRoom": "إضافة غرفة",
+    "EditRoom": "تعديل غرفة",
     "addDrink": "إضافة مشروب",
+    "editDrink": "تعديل مشروب",
     "Preview": "إستعراض",
     "edit":"تعديل",
     "delete":"حذف",
@@ -62,9 +65,11 @@ export default {
     tablet: "تابلت",
     tablets: "الأجهزة اللوحية",
     addtablet: "إضافة تابلت",
+    edittablet: "تعديل تابلت",
     room:"الغرفة",
     seat:"مقعد",
-    seatNumber:" رقم الكرسى "
+    seatNumber:" رقم الكرسى ",
+    logout:"تسجيل الخروج",
 
 
 

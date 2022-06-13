@@ -21,6 +21,10 @@
                         <el-icon><school /></el-icon>
                         <p class="hall">{{userData.floor}}</p>
                     </div>
+                    <div class="request-place" v-if="userData.seatNumber">
+                        <el-icon><school /></el-icon>
+                        <p class="hall"> {{$t('common.seatNumber')}}: {{userData.seatNumber}}  </p>
+                    </div>
                 
                     <el-button class="confirmed-btn" @click="onConfirmed(request.id)">
                         <span v-if="!audioStopped">{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
@@ -46,6 +50,10 @@
                     <div class="request-place">
                         <el-icon><school /></el-icon>
                         <p class="hall"> {{userData.floor}}  {{i}}  </p>
+                    </div>
+                    <div class="request-place" v-if="userData.seatNumber">
+                        <el-icon><school /></el-icon>
+                        <p class="hall"> {{$t('common.seatNumber')}}: {{userData.seatNumber}}  </p>
                     </div>
                 
                     <input type="checkbox" v-model="order.status" class="switch" @click.stop @change="onConfirmed(order.id)" :data-checked="$t('common.serve')" :data-before="$t('common.served')">
@@ -88,7 +96,7 @@ export default {
    mounted() {
     this.loadData(); 
     
-    setInterval( () => {this.loadData()}, 7000);
+    setInterval( () => {this.loadData()}, 15000);
    },
    methods: {
         loadData(){

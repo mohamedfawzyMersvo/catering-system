@@ -22,7 +22,7 @@ function getHeaders() {
 }
 
 export default function setupAxiosConfig() {
-    axios.defaults.baseURL = 'https://internalevents.mersvo.com/cateringapis/'
+    axios.defaults.baseURL = 'https://internalevents.mersvo.com/cateringapis/api/'
     // axios.defaults.baseURL = 'http://api.catering.hminvent.net/api/'
     // axios.defaults.baseURL = 'https://87.106.243.64/catering/api/api/'
 

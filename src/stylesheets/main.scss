@@ -173,7 +173,9 @@ input.switch:checked::before {
         background-color: #fff !important;
     }
 
-
+.el-menu-item i {
+    font-size: 14px !important;
+}
 @include rtl() {
     td,th {
         text-align: right;

@@ -6,7 +6,7 @@
             :before-close="handleClose"
         >
         <template #title>
-            <p> {{$t('common.addDrink')}}</p>
+            <p> {{editItemId ? $t('common.editDrink') : $t('common.addDrink')}}</p>
         </template>
         <el-form :model="form" class="addKitchenForm" label-position="top">
             <div class="name-wrapper"> 

@@ -4,9 +4,12 @@ export default {
     "rooms": "Rooms",
     "kitchens": "Kitchens",
     "kitchen": "kitchen",
-    "addKitchen": "AddKitchen",
+    "addKitchen": "Add kitchen",
+    "editKitchen": "EditKitchen",
     "addRoom": "Add room",
-    "addDrink": "add Drink",
+    "editRoom": "Edit room",
+    "addDrink": "Add Drink",
+    "editDrink": "Edit Drink",
     "Preview": "Preview",
     "edit":"Edit",
     "delete":"Delete",
@@ -62,9 +65,11 @@ export default {
     tablet: "Tablet",
     tablets: "Tablets",
     addtablet: "Add Tablet",
+    Edittablet: "Edit Tablet",
     room:"Room",
     seat:"Seat",
-    seatNumber:"Seat number"
+    seatNumber:"Seat number",
+    logout:"Logout",
 
 
 
