@@ -6,7 +6,7 @@
             :before-close="handleClose"
         >
         <template #title>
-            <p class="theme-title"> Change system Theme </p>
+            <p class="theme-title"> {{$t('common.changeSystemTheme')}} </p>
         </template>
             <div>
                 <el-upload
@@ -100,6 +100,7 @@ export default {
             .put(`ThemeConfiguration/${this.$store.state.main.themeConfig.id}/UpdateThemeConfiguration`, formdata , {headers: {'content-type': 'multipart/form-data'} })
             .then(() => {
                 this.successMessage();
+                this.loadItem();
                 this.handleClose();
             })
         },
@@ -108,11 +109,14 @@ export default {
                 this.formObj.PrimaryColor = res.primaryColor;
                 this.formObj.secondaryColor = res.secondaryColor;
                 this.formObj.optionalColor = res.optionalColor;
+
+                this.$store.commit('main/setThemeConfig', res);
+
             })
         },
         successMessage(){
             ElMessage({
-                message: this.$t('common.successfullyOrdered'),
+                message: this.$t('common.successfullyAdded'),
                 type: 'success',
             })
         },

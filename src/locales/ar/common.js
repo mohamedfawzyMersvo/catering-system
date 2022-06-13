@@ -7,7 +7,7 @@ export default {
     "addKitchen": "إضافة مطبخ",
     "editKitchen": "تعديل مطبخ",
     "addRoom": "إضافة غرفة",
-    "EditRoom": "تعديل غرفة",
+    "editRoom": "تعديل غرفة",
     "addDrink": "إضافة مشروب",
     "editDrink": "تعديل مشروب",
     "Preview": "إستعراض",
@@ -70,8 +70,6 @@ export default {
     seat:"مقعد",
     seatNumber:" رقم الكرسى ",
     logout:"تسجيل الخروج",
-
-
 
 
 

@@ -7,10 +7,10 @@
         :ellipsis="false"
         router
     >
-      <el-menu-item index="1" :route="{name:homeLink}">
+      <el-menu-item index="1" :route="{name:homeLink}" class="logo-item">
       <!-- <img src="@/assets/logo.png" class="logo-img" /> -->
-      <img src="@/assets/logo2.png" class="logo-img" />
-      <img :src="$store.state.main.themeConfig.logo.filePath" />
+      <!-- <img src="@/assets/logo2.png" class="logo-img" /> -->
+      <img :src="$store.state.main.themeConfig.logo.filePath" class="logo-img"  />
       <!-- {{$store.state.main.themeConfig.logo.filePath}} -->
       </el-menu-item>
     <el-menu-item-group class="header-icon">
@@ -91,6 +91,8 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0;
+
     .header-icon{  
       display: flex;
       justify-content: space-between;
@@ -115,6 +117,7 @@ export default {
       display: flex;
     }
     .lang-menu{
+      // margin:0 4px;
       .el-sub-menu__title{
         padding-left: 0;
       }
@@ -125,7 +128,13 @@ export default {
   }
 @include ltr() {
   .el-menu-header {
+     @media (max-width: 768px) {
+      .logo-item{
+        padding-left: 0;
+      }
+     }
     .lang-menu{
+      margin-right: 5px;
       .el-sub-menu__title{
         padding-right: 0;
       }
@@ -136,9 +145,20 @@ export default {
     }
   }
 }
+@include rtl() {
+  @media (max-width: 768px) {
+    .logo-item{
+        padding-right: 0;
+      }
+    }
+}
 
   .flex-grow {
     width:61%;
+  }
+  .logo-img{
+      width: auto;
+      height: 50px;
   }
   @media (max-width: 576px) {
     .logo-img{
