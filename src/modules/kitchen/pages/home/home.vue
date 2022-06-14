@@ -94,8 +94,8 @@ export default {
        }
    },
    mounted() {    
-    this.loadData()
-    
+    this.loadData();
+    this.startAudio();
    },
    methods: {
         loadData(){
@@ -107,7 +107,7 @@ export default {
                 this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
                 this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
                 this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
-                // this.isRequestAttend && this.startAudio();
+                this.isRequestAttend && this.startAudio();
                 // this.startAudio()
 
                 setInterval( () => {this.loadDataWitoutLoading(); },7000);
@@ -162,8 +162,8 @@ export default {
             })
         },
         startAudio(){
-            let ply = document.getElementById('player');
-            ply.play();
+            var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');               
+            audio.play();
         },
         stopAudio(){
             let ply = document.getElementById('player');
