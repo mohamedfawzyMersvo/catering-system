@@ -93,13 +93,13 @@ export default {
            isRequestAttend:false,
        }
    },
-   mounted() {
-    this.loadData(); 
+   mounted() {    
+    this.loadData()
     
-    setInterval( () => {this.loadData()}, 120000);
    },
    methods: {
         loadData(){
+            // console.log('axios.defaults.baseURL', axios.defaults.baseURL);
             axios.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
                 this.orders = res.orders.filter(order => order.statusId == 1);
                 this.userData = res.userData
@@ -109,11 +109,33 @@ export default {
                 this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
                 // this.isRequestAttend && this.startAudio();
                 // this.startAudio()
+
+                setInterval( () => {this.loadDataWitoutLoading(); },7000);
+
+            })
+        },
+        loadDataWitoutLoading(){
+            const token = this.$store.state.main.token
+            var instance = axios.create({
+                baseURL: axios.defaults.baseURL,
+                headers: {
+                    'Authorization': token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });
+                instance.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
+                    this.orders = res.orders.filter(order => order.statusId == 1);
+                    this.userData = res.userData
+                    this.orders.filter(order =>  order.status = true); // add status in every order
+                    this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
+                    this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
+                    this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
             })
         },
         // loadData(){
         //     const headers = { ['Authorization'] :  this.$store.state.main.token};
-        //     fetch(`http://api.catering.hminvent.net/api/Order/${this.id}/GetOrdersListByCreatedUserId`,{headers} )
+        //     fetch(`${axios.defaults.baseURL}Order/${this.id}/GetOrdersListByCreatedUserId`,{headers} )
         //     .then(response => response.json())
         //     .then(res => {
         //         this.orders = res.orders.filter(order => order.statusId == 1);

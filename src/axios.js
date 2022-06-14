@@ -31,7 +31,7 @@ export default function setupAxiosConfig() {
     axios.interceptors.request.use((config) => {
             // set Headers
             config.headers = getHeaders();
-
+            // console.log('header', axios.getUri(config))
             window.loading = ElLoading.service({
                 lock: true,
                 text: 'Loading',
