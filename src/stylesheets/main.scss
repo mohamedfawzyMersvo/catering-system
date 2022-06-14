@@ -1,6 +1,6 @@
 :root {
-    --default-primary-color: #5e1ad5;
-    --default-second-color: #5d19d4;
+    --default-primary-color: #D1202F;
+    --default-second-color: #F8B333;
     // --default-third-color: #5e1ad5;
 }
 
@@ -194,4 +194,8 @@ input.switch:checked::before {
         left: 10px;
         right: unset;
     }
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color:#D1202F;
 }

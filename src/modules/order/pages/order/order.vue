@@ -1,6 +1,6 @@
 <template>
     <div>
-    <el-button type="success" class="request-attend-btn" @click="handleRequestAttend">{{$t('common.requestAttend')}}<el-icon><View /></el-icon></el-button>
+    <el-button class="request-attend-btn" @click="handleRequestAttend">{{$t('common.requestAttend')}}<el-icon><View /></el-icon></el-button>
      <el-tabs v-model="activeName" class="order-tabs" @tab-click="handleClick">
         <el-tab-pane :label="$t('common.coldDrinks')" name="first">
              <div class="main-bg">
@@ -109,13 +109,13 @@ export default {
     },
     methods: {
         loadColdDrinks(){
-            axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/1/ListAllMenuItemsByCategory`).then(res => {
+            axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/2/ListAllMenuItemsByCategory`).then(res => {
                 this.coldDrinkList = res.menuItemResponseList;
                 this.coldDrinkList.filter(drink => drink.num = 1);
             })
         },
         loadHotDrinks(){
-            axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/2/ListAllMenuItemsByCategory`).then(res => {
+            axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/1/ListAllMenuItemsByCategory`).then(res => {
                 this.hotDrinkList = res.menuItemResponseList;
                 this.hotDrinkList.filter(drink => drink.num = 1);
             })
@@ -225,6 +225,8 @@ export default {
 
  }
  .request-attend-btn{
+    background-color: var(--default-primary-color) !important;
+    color:#fff !important;
     margin: 20px auto !important;
     margin-bottom: 0 !important;
     display: block !important;

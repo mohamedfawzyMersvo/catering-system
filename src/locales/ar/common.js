@@ -55,7 +55,7 @@ export default {
     attendsuccess:"تم الطلب",
     reload:"تنزيل الطلبات الجديده",
     listOfDrinks: "قائمة المشروبات",
-    editTheme:"تعديل الثيم",
+    editTheme:"تعديل سمة النظام",
     "primaryColor": "اللون الأساسي",
     "secondaryColor": "اللون الثانوي",
     "thirdColor": "اللون الثالث",

@@ -1,5 +1,5 @@
 // import Vue from 'vue'
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHashHistory, createRouter } from "vue-router";
 
 import KitchenRoutes from './modules/kitchen/kitchen.routes'
 import OrdersRoutes from './modules/order/order.routes'
@@ -24,7 +24,7 @@ import Login from './modules/system/pages/login/login'
 // })
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHashHistory(process.env.BASE_URL),
     routes: [
         {
             path: '/',

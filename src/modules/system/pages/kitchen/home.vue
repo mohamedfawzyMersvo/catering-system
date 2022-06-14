@@ -91,7 +91,7 @@
                 width: 170px;
             }
             .tablet-img{
-                padding-top: 10px;
+                // padding-top: 10px;
             }
             .arrow{
                 cursor: pointer;
@@ -119,7 +119,7 @@
     .edit-theme{
         background: black;
         color: #fff;
-        width: 100px;
+        width: 140px;
         border-radius: 7px;
         text-align: center;
         margin: 20px auto;

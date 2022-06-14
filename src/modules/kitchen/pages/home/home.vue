@@ -96,7 +96,7 @@ export default {
    mounted() {
     this.loadData(); 
     
-    setInterval( () => {this.loadData()}, 15000);
+    setInterval( () => {this.loadData()}, 120000);
    },
    methods: {
         loadData(){
@@ -111,6 +111,19 @@ export default {
                 // this.startAudio()
             })
         },
+        // loadData(){
+        //     const headers = { ['Authorization'] :  this.$store.state.main.token};
+        //     fetch(`http://api.catering.hminvent.net/api/Order/${this.id}/GetOrdersListByCreatedUserId`,{headers} )
+        //     .then(response => response.json())
+        //     .then(res => {
+        //         this.orders = res.orders.filter(order => order.statusId == 1);
+        //         this.userData = res.userData
+        //         this.orders.filter(order =>  order.status = true); // add status in every order
+        //         this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
+        //         this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
+        //         this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
+        //     })
+        // },
         onConfirmed(id){
             axios
             .put(`Order/${id}/ConfirmOrder`)

@@ -17,8 +17,7 @@
                     v-model="passwordInput"
                     type="password"
                     :placeholder="$t('common.password')"
-                    show-password
-                    :prefix-icon="Lock"
+                    :prefix-icoووn="Lock"
                     v-on:keyup.enter="onSubmit"
                 />
                 </el-form-item>
@@ -112,10 +111,10 @@
                 axios.get(`ThemeConfiguration/GetThemeConfiguration`).then(res => {
                     res.primaryColor ?
                     document.documentElement.style.setProperty('--default-primary-color', res.primaryColor ):
-                    document.documentElement.style.setProperty('--default-primary-color', '#5e1ad5');
+                    document.documentElement.style.setProperty('--default-primary-color', '#D1202F');
                     res.secondaryColor ?
                     document.documentElement.style.setProperty('--default-second-color', res.secondaryColor ):
-                    document.documentElement.style.setProperty('--default-second-color', '#5d19d4');  // for immediat color change
+                    document.documentElement.style.setProperty('--default-second-color', '#F8B333');  // for immediat color change
                         store.commit('main/setThemeConfig', res);
 
                     
