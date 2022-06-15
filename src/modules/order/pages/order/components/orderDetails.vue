@@ -10,7 +10,7 @@
         </template>
         <div class="order-list-num" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
             <div class="num-item"  v-for="(drink, index) in drinks" :key="index">
-                <el-input-number v-model.number="drink.sugarSpoon" :min=1 @change="handleChange" />
+                <el-input-number v-model.number="drink.sugarSpoon" :min=0 @change="handleChange" />
                 <span class="title">{{$t("common.sugar")}}</span>
             </div>
             <!-- <div class="num-item">

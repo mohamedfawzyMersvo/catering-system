@@ -64,7 +64,8 @@ export default {
             return time;
         },
         day(){
-            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let days = [this.$t('common.Sunday'), this.$t('common.Monday'), this.$t('common.Tuesday'), this.$t('common.Wednesday'), this.$t('common.Thursday'),
+             this.$t('common.Friday'), this.$t('common.Saturday')];
             let today = new Date();
             return days[today.getDay()]
         },

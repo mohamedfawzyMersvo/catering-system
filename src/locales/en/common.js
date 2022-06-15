@@ -70,6 +70,13 @@ export default {
     seat:"Seat",
     seatNumber:"Seat number",
     logout:"Logout",
+    'Sunday':"Sunday",
+    'Monday' :"Monday",
+    'Tuesday' :"Tuesday",
+    'Wednesday' :"Wednesday",
+    'Thursday' :"Thursday",
+    'Friday' :"Friday",
+    'Saturday':"Saturday"
 
 
 

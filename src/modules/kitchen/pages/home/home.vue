@@ -95,19 +95,21 @@ export default {
    },
    mounted() {    
     this.loadData();
-    this.startAudio();
+    //this.startAudio();
    },
    methods: {
         loadData(){
-            // console.log('axios.defaults.baseURL', axios.defaults.baseURL);
             axios.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
-                this.orders = res.orders.filter(order => order.statusId == 1);
+                this.orders =  res.orders.filter(order => order.statusId == 1) ;
                 this.userData = res.userData
                 this.orders.filter(order =>  order.status = true); // add status in every order
+                if(this.orders.length > 0){
+                    this.startAudio();
+                }
                 this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
                 this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
                 this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
-                this.isRequestAttend && this.startAudio();
+                //this.isRequestAttend && this.startAudio();
                 // this.startAudio()
 
                 setInterval( () => {this.loadDataWitoutLoading(); },7000);
@@ -125,27 +127,17 @@ export default {
                 },
             });
                 instance.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
-                    this.orders = res.orders.filter(order => order.statusId == 1);
+                    this.orders = res.data.orders.filter(order => order.statusId == 1)
                     this.userData = res.userData
                     this.orders.filter(order =>  order.status = true); // add status in every order
                     this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
                     this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
-                    this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
+                    if(this.orders.length > 0){
+                        this.startAudio();
+                    }
+                    this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend                    
             })
         },
-        // loadData(){
-        //     const headers = { ['Authorization'] :  this.$store.state.main.token};
-        //     fetch(`${axios.defaults.baseURL}Order/${this.id}/GetOrdersListByCreatedUserId`,{headers} )
-        //     .then(response => response.json())
-        //     .then(res => {
-        //         this.orders = res.orders.filter(order => order.statusId == 1);
-        //         this.userData = res.userData
-        //         this.orders.filter(order =>  order.status = true); // add status in every order
-        //         this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
-        //         this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
-        //         this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
-        //     })
-        // },
         onConfirmed(id){
             axios
             .put(`Order/${id}/ConfirmOrder`)
@@ -162,7 +154,7 @@ export default {
             })
         },
         startAudio(){
-            var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3');               
+            var audio = new Audio('https://www.orangefreesounds.com/wp-content/uploads/2021/08/Apartment-door-chime-sound-effect.mp3');               
             audio.play();
         },
         stopAudio(){

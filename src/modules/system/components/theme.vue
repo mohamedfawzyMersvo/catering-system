@@ -158,7 +158,7 @@ export default {
         handleRemove(){
             console.log('delete');
             this.file = "";
-            this.formObj.itemImageBytes = "";
+            this.formObj.thumbnial = "";
         },
         handleClose(){
             this.$emit('modelClose');

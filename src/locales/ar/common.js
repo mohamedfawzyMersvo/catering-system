@@ -59,7 +59,7 @@ export default {
     "primaryColor": "اللون الأساسي",
     "secondaryColor": "اللون الثانوي",
     "thirdColor": "اللون الثالث",
-    "changeSystemTheme" : "تغيير ثيم النظام",
+    "changeSystemTheme" : "تغيير سمة النظام",
     "requests": "الطلبات",
     "addedd": "تمت الإضافة",
     tablet: "تابلت",
@@ -70,6 +70,13 @@ export default {
     seat:"مقعد",
     seatNumber:" رقم الكرسى ",
     logout:"تسجيل الخروج",
+    'Sunday':"الأحد",
+    'Monday' :"الإثنين",
+    'Tuesday' :"الثلثاء",
+    'Wednesday' :"الأربعاء",
+    'Thursday' :"الخميس",
+    'Friday' :"الجمعة",
+    'Saturday':"السبت"
 
 
 

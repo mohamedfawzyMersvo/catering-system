@@ -66,7 +66,7 @@ export default {
     },
     logOut() {
       this.$store.commit("main/logout");
-      router.push({ path: "/" });
+      router.push({ path: '/' });
     },
     addRtlClass(){
       let rootEl = document.querySelector('html');
