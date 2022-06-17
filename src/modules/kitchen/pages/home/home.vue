@@ -7,7 +7,7 @@
      <el-row :gutter="12" v-if="isRequestAttend">
         <h3 class="gray-title">{{$t('common.attendanceRequests')}}</h3>
             <el-col :xs="24" v-for="request in allRequstAttend" :key="request.id">
-                <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card">
+                <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" v-if="userData">
                     <el-icon class="phone-icon"><phone /></el-icon>
                     <div class="title-time-wrapper">
                         <p class="title"> {{$t('common.requestToAttend')}} </p>
@@ -23,12 +23,12 @@
                     </div>
                     <div class="request-place" v-if="userData.seatNumber">
                         <el-icon><school /></el-icon>
-                        <p class="hall"> {{$t('common.seatNumber')}}: {{userData.seatNumber}}  </p>
+                        <p class="hall"> {{$t('common.seatNumber')}}: {{userData?.seatNumber}}  </p>
                     </div>
                 
                     <el-button class="confirmed-btn" @click="onConfirmed(request.id)">
-                        <span v-if="!audioStopped">{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
-                        <span v-else>{{ $t('common.confirmed') }} <el-icon><circle-check-filled /></el-icon> </span>
+                        <span>{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
+                        <!-- <span v-else>{{ $t('common.confirmed') }} <el-icon><circle-check-filled /></el-icon> </span> -->
                     </el-button>
                 </el-card>
             </el-col>
@@ -37,7 +37,7 @@
         <el-row :gutter="12">
             <h3 class="gray-title">{{$t('common.customerRequests')}} </h3>
             <el-col :xs="24" v-for="order in orders" :key="order.id">
-                <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" @click="openDetailsModel(order)">
+                <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" v-if="userData" @click="openDetailsModel(order)">
                     <img class="order-img" :src="order.menuItem.itemImageBytes" />
                     <div class="title-time-wrapper">
                         <p class="title"> {{$store.state.main.currentLocale == "en" ? order.menuItem.name : order.menuItem.name_Ar}} </p>
@@ -45,11 +45,11 @@
                     </div>
                     <div class="requester-name">
                         <el-icon><avatar /></el-icon>
-                        <p class="name"> {{userData.name}} </p>
+                        <p class="name"> {{userData?.name}} </p>
                     </div>
                     <div class="request-place">
                         <el-icon><school /></el-icon>
-                        <p class="hall"> {{userData.floor}}  {{i}}  </p>
+                        <p class="hall"> {{userData?.floor}}  {{i}}  </p>
                     </div>
                     <div class="request-place" v-if="userData.seatNumber">
                         <el-icon><school /></el-icon>
@@ -88,13 +88,17 @@ export default {
            orders:[],
            selectdItem:{},
            userData:{},
-           audioStopped:false,
            allRequstAttend:{},
            isRequestAttend:false,
+           audio: "",
+           getDataintervaL: ""
+
        }
    },
    mounted() {    
     this.loadData();
+    this.audio = new Audio('https://www.orangefreesounds.com/wp-content/uploads/2021/08/Apartment-door-chime-sound-effect.mp3');               
+
     //this.startAudio();
    },
    methods: {
@@ -112,7 +116,7 @@ export default {
                 //this.isRequestAttend && this.startAudio();
                 // this.startAudio()
 
-                setInterval( () => {this.loadDataWitoutLoading(); },7000);
+                this.getDataintervaL = setInterval( () => {this.loadDataWitoutLoading(); },7000);
 
             })
         },
@@ -154,19 +158,22 @@ export default {
             })
         },
         startAudio(){
-            var audio = new Audio('https://www.orangefreesounds.com/wp-content/uploads/2021/08/Apartment-door-chime-sound-effect.mp3');               
-            audio.play();
+            this.audio.play();
         },
         stopAudio(){
-            let ply = document.getElementById('player');
-            ply.src = "";
-            this.audioStopped = true;
+            console.log('dest')
+            this.audio.currentTime = 0;
+            this.audio.src = "";
         },
        openDetailsModel(selectdItem){
            this.selectdItem = selectdItem;
            this.openModel = true;
        }
    },
+   unmounted() {
+    this.stopAudio();
+    clearInterval(this.getDataintervaL); //stop that interval
+   }
     
 }
 </script>

@@ -31,10 +31,14 @@
       <li class="el-menu-item" @click="changeLang('en')">English</li>
       <li class="el-menu-item" @click="changeLang('ar')">عربى</li>
     </el-sub-menu>
-    <el-menu-item class="logout-item">
-     <span @click="logOut">{{$t('common.logout')}}</span>
-          <img scr="@/assets/logout.png" />
-    </el-menu-item>
+    <el-sub-menu index="2-4">
+      <template #title>{{$t('common.profile')}}</template>
+      <el-menu-item>{{ loggedUser?.email }}</el-menu-item>
+      <el-menu-item class="logout-item" :route="{path:'/'}">
+        <span @click="logOut">{{$t('common.logout')}}</span>
+              <img scr="@/assets/logout.png" />
+        </el-menu-item>
+    </el-sub-menu>
   </el-menu>
   <div class="h-6"></div>
   </div>
@@ -44,7 +48,7 @@
 <el-icon><medal /></el-icon>
   // import { HomeFilled, List, Bell, Medal } from '@element-plus/icons'
 import i18n from '../i18n.js';
-import router from './../router.js';
+// import router from './../router.js';
 export default {
   name: 'Header',
   // components:{HomeFilled, List, Bell, Medal },
@@ -66,7 +70,7 @@ export default {
     },
     logOut() {
       this.$store.commit("main/logout");
-      router.push({ path: '/' });
+      // this.$router.push({ path: '/' });
     },
     addRtlClass(){
       let rootEl = document.querySelector('html');
@@ -81,6 +85,9 @@ export default {
     },
     homeLink(){
       return this.$store.state.main.homeLink;
+    },
+    loggedUser(){
+      return this.$store.state.main.loggedUser;
     }
   }
 }
@@ -156,7 +163,7 @@ export default {
 }
 
   .flex-grow {
-    width:61%;
+    width:76%;
   }
   .logo-img{
       width: auto;

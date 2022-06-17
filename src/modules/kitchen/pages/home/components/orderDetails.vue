@@ -6,7 +6,7 @@
             :before-close="handleClose"
         >
         <template #title>
-            <p class="head"> Khaled ElAhmed <span v-if="selectdItem && selectdItem.menuItem"> {{$store.state.main.currentLocale == "en" ? selectdItem.menuItem.name : selectdItem.menuItem.name_Ar}} </span></p>
+            <p class="head"> <span v-if="selectdItem && selectdItem.menuItem"> {{$store.state.main.currentLocale == "en" ? selectdItem.menuItem.name : selectdItem.menuItem.name_Ar}} </span></p>
         </template>
         <div class="order-list-num" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
             <div class="num-item" v-for="sugarSpoon in selectdItem.sugarSpoon.split(',')" :key="sugarSpoon">

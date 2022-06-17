@@ -20,11 +20,11 @@ const store = createStore({
   
   import './stylesheets'
   
-  
+import globalMixin from './mixins/global';
   
   import App from './App.vue'
   import i18n from './i18n'
-  const app = createApp(App).use(router).use(i18n).use(store)
+  const app = createApp(App).use(router).use(i18n).use(store).mixin(globalMixin)
   
   import setupAxiosConfig from "./axios";
   setupAxiosConfig();

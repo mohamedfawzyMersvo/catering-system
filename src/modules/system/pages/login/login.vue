@@ -115,9 +115,9 @@
                     res.secondaryColor ?
                     document.documentElement.style.setProperty('--default-second-color', res.secondaryColor ):
                     document.documentElement.style.setProperty('--default-second-color', '#F8B333');  // for immediat color change
-                        store.commit('main/setThemeConfig', res);
-
                     
+                    store.commit('main/setThemeConfig', res);
+
                 })
             })
     }

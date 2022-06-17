@@ -46,7 +46,7 @@ const router = createRouter({
             component: () => import( /* webpackChunkName: "order" */ './modules/order'),
             children: OrdersRoutes,
             redirect: {
-                name: 'kitchen.home'
+                name: 'order.home'
             }
         },
         {
@@ -55,7 +55,7 @@ const router = createRouter({
             component: () => import( /* webpackChunkName: "system" */ './modules/system'),
             children: SystemRoutes,
             redirect: {
-                name: 'kitchen-home'
+                name: 'home'
             }
         },
 

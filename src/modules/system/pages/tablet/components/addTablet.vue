@@ -9,7 +9,7 @@
             <p> {{ editItemId ? $t('common.edittablet') : $t('common.addtablet')}}</p>
         </template>
         <el-form :model="tabletData" class="addKitchenForm" label-position="top">
-            <el-form-item :label="$t('common.name')">
+            <el-form-item :label="$t('common.tabletNum')">
                 <el-input
                     size="large"
                     v-model="tabletData.name"

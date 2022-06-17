@@ -1,13 +1,13 @@
 
 import Login from './pages/login/login'
 
+import SystemHome from './home'
+
 import KitchenList from './pages/kitchen/list'
 import Single from './pages/kitchen/single'
-import KitchenHome from './pages/kitchen/home'
 
 import DrinksList from './pages/drinks/list'
 import HallsList from './pages/halls/list'
-
 import TabletList from './pages/tablet/list'
 
 export default [
@@ -17,9 +17,9 @@ export default [
         component: Login
     },
     {
-        path: 'kitchen-home',
-        name: 'kitchen-home',
-        component: KitchenHome
+        path: 'home',
+        name: 'home',
+        component: SystemHome
     },
     {
         path: 'kitchen-list',
@@ -46,6 +46,5 @@ export default [
         name: 'tablet-list',
         component: TabletList
     },
-    
     
 ]

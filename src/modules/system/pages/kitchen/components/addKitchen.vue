@@ -59,6 +59,34 @@
                     :prefix-icon="Lock"
                 />
             </el-form-item>
+            <div>
+                <el-upload
+                    ref="upload"
+                    class="upload-demo upload-img"
+                    :file-list="fileList"
+                    :limit="2"
+                    :on-exceed="handleExceed"
+                    :on-remove="handleRemove"
+                    :auto-upload="false"
+                    :on-change="handleImgChange"
+                >   
+                    <template #trigger>
+                        <el-icon><Plus /></el-icon>
+                        <el-button type="primary">{{$t('common.chooseImg')}}</el-button>
+                    </template>
+                    <el-button class="ml-3" type="success" @click="submitUpload" style="display:none">
+                    upload to server
+                    </el-button>
+                    <template #tip>
+                        <div class="el-upload__tip text-red">
+                            
+                        </div>
+                        <div v-if="kitchenData.picture" class="preview-img">
+                            <img :src="kitchenData.picture" />
+                        </div>
+                    </template>
+                </el-upload>
+            </div>
         </el-form>
         <template #footer>
         <span class="dialog-footer">
@@ -72,8 +100,11 @@
 <script>
     import axios from 'axios'
     import { ElMessage } from 'element-plus'
+    import { Plus } from '@element-plus/icons-vue'
+
 
 export default {
+    components:{ Plus},
     props:[
         "modelVisible", "editItemId"
     ],
@@ -86,10 +117,13 @@ export default {
                 emailAddress:"",
                 floor: "",
                 password:"",
+                picture:"",
                 roles:[
                     8
                 ]
-            }
+            },
+            file:{}
+
         }
     },
     mounted() {
@@ -97,12 +131,29 @@ export default {
     methods: {
         handleSubmit(){
             if (!this.editItemId) {
+                var formdata = new FormData();
+                Object.entries(this.kitchenData).forEach(([key, value]) => {
+                    formdata.append(key, value);
+                });
+                formdata.set('picture', this.file);
                 axios
-                    .post('Account/RegisterLocalUsers', this.kitchenData)
-                    .then(() => {
+                    .post('Account/RegisterLocalUsers',formdata, {headers: {'content-type': 'multipart/form-data'}})
+                    .then((response) => {
                        this.successMessage();
                        this.handleClose();
                        this.reLoadData();
+                      return response;
+                    }).catch(({ response })=>{
+                       
+                        let keys = response.data?.errors ? Object.keys(response.data?.errors) : [];
+
+                        let validationMessage = keys.map(key => response.data?.errors[key]);
+                        if (validationMessage.length) {
+                            this.errorMessage(JSON.stringify(validationMessage));
+                        }
+                        else{
+                          this.errorMessage(response.data?.errorCode);
+                        }
                     })
             }
             else{
@@ -112,6 +163,7 @@ export default {
         loadItem(){
             axios.get(`Account/${this.editItemId}/GetUserById`).then(res => {
                 this.kitchenData = res.user;
+                this.file.url = this.drinkData.picture;
             })
         },
         editKitchen(){
@@ -129,6 +181,35 @@ export default {
                 message: this.$t('common.successfullyAdded'),
                 type: 'success',
             })
+        },
+        handleImgChange () {
+            this.fileList = this.$refs.upload.uploadFiles
+            this.file = event.target.files[0];
+            if(this.fileList.length === 2) this.fileList.splice(0, 1)
+            let self = this;
+            // this.itemImageBytes = event.target.files[0];
+        // Ensure that you have a file before attempting to read it
+        if (event.target.files && event.target.files[0]) {
+                
+                // create a new FileReader to read this image and convert to base64 format
+                var reader = new FileReader();
+                // Define a callback function to run, when FileReader finishes its job
+                reader.onload = (e) => {
+                    console.log('e', e)
+                // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+                // Read image as base64 and set to imageData
+                self.kitchenData.picture = e.target.result;
+                }
+                // Start the reader job - read file as a data url (base64 format)
+                reader.readAsDataURL(event.target.files[0]);
+        }
+            
+
+        },
+        handleRemove(){
+            console.log('delete');
+            this.file = "";
+            this.drinkData.itemImageBytes = "";
         },
         errorMessage(theMessage){
             ElMessage.error(theMessage)

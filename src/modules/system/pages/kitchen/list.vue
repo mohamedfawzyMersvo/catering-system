@@ -5,7 +5,7 @@
                 <div class="page-header">
                   <p><span class="pointer"  @click="
                             $router.push({
-                                name: `kitchen-home`,
+                                name: `home`,
                             })
                         "> {{$t('common.home')}} </span >/ {{$t('common.kitchens')}}</p>
                   <div> 

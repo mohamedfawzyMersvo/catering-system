@@ -51,7 +51,7 @@
 </template>
 <script>
     import { Right} from '@element-plus/icons';
-    import Theme from '../../components/theme.vue';
+    import Theme from './components/theme.vue';
 
     export default {
         components:{Right, Theme},

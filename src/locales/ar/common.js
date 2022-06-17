@@ -76,8 +76,9 @@ export default {
     'Wednesday' :"الأربعاء",
     'Thursday' :"الخميس",
     'Friday' :"الجمعة",
-    'Saturday':"السبت"
-
+    'Saturday':"السبت",
+    'tabletNum':"رقم التابلت",
+    'profile': "الملف الشخصى"
 
 
 
