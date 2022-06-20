@@ -116,11 +116,12 @@ export default {
                 //this.isRequestAttend && this.startAudio();
                 // this.startAudio()
 
-                this.getDataintervaL = setInterval( () => {this.loadDataWitoutLoading(); },7000);
+                this.getDataintervaL = setInterval( () => {this.loadDataWitoutLoading(); },20000);
 
             })
         },
         loadDataWitoutLoading(){
+           let orderNum = this.orders.length;
             const token = this.$store.state.main.token
             var instance = axios.create({
                 baseURL: axios.defaults.baseURL,
@@ -132,11 +133,11 @@ export default {
             });
                 instance.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
                     this.orders = res.data.orders.filter(order => order.statusId == 1)
-                    this.userData = res.userData
+                    this.userData = res.data.userData
                     this.orders.filter(order =>  order.status = true); // add status in every order
                     this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
                     this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
-                    if(this.orders.length > 0){
+                    if(this.orders.length > 0 && res.data.orders > orderNum){
                         this.startAudio();
                     }
                     this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend                    
@@ -159,6 +160,8 @@ export default {
         },
         startAudio(){
             this.audio.play();
+            // setTimeout(this.stopAudio(), 5000)
+            
         },
         stopAudio(){
             console.log('dest')

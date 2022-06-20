@@ -122,7 +122,9 @@ export default {
                     8
                 ]
             },
-            file:{}
+            file:{},
+            fileList:[]
+
 
         }
     },
@@ -163,17 +165,36 @@ export default {
         loadItem(){
             axios.get(`Account/${this.editItemId}/GetUserById`).then(res => {
                 this.kitchenData = res.user;
-                this.file.url = this.drinkData.picture;
+                // this.file.url = res.picture.filePath;
+                this.kitchenData.picture = res.user.filePath
+
             })
         },
         editKitchen(){
             this.kitchenData.roles = [8];
+            var formdata = new FormData();
+            Object.entries(this.kitchenData).forEach(([key, value]) => {
+                formdata.append(key, value);
+            });
+            formdata.set('picture', this.file);
             axios
-            .put('Account/UpdateUser', this.kitchenData)
-            .then(() => {
+            .put('Account/UpdateUser', formdata, {headers: {'content-type': 'multipart/form-data'}})
+            .then((response) => {
                this.successMessage();
                this.handleClose();
                this.reLoadData();
+                return response;
+            }).catch(({ response })=>{
+                
+                let keys = response.data?.errors ? Object.keys(response.data?.errors) : [];
+
+                let validationMessage = keys.map(key => response.data?.errors[key]);
+                if (validationMessage.length) {
+                    this.errorMessage(JSON.stringify(validationMessage));
+                }
+                else{
+                    this.errorMessage(response.data?.errorCode);
+                }
             })
         },
         successMessage(){
@@ -188,8 +209,8 @@ export default {
             if(this.fileList.length === 2) this.fileList.splice(0, 1)
             let self = this;
             // this.itemImageBytes = event.target.files[0];
-        // Ensure that you have a file before attempting to read it
-        if (event.target.files && event.target.files[0]) {
+            // Ensure that you have a file before attempting to read it
+            if (event.target.files && event.target.files[0]) {
                 
                 // create a new FileReader to read this image and convert to base64 format
                 var reader = new FileReader();
@@ -202,14 +223,12 @@ export default {
                 }
                 // Start the reader job - read file as a data url (base64 format)
                 reader.readAsDataURL(event.target.files[0]);
-        }
-            
-
+            }
         },
         handleRemove(){
             console.log('delete');
             this.file = "";
-            this.drinkData.itemImageBytes = "";
+            this.kitchenData.picture = "";
         },
         errorMessage(theMessage){
             ElMessage.error(theMessage)

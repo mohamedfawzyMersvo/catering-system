@@ -224,18 +224,7 @@ export default {
     }
 
  }
- .request-attend-btn{
-    background-color: var(--default-primary-color) !important;
-    color:#fff !important;
-    margin: 20px auto !important;
-    margin-bottom: 0 !important;
-    display: block !important;
-    border-radius: 8px !important;
-    font-weight: bolder;
-    i{
-        margin-left: 7px;
-    }
- }
+
  .num-item{
      .el-input-number{
          width: 102px;

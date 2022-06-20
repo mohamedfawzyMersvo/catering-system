@@ -45,7 +45,7 @@
                                 <span> {{$t('common.room')}}: {{tablet.roomName}} </span>    
                                 <span> {{$t('common.seat')}}: {{tablet.seatNumber}} </span>    
                             </div>
-                            <!-- <img src="@/assets/item.png" /> -->
+                            <img :src="tablet.filePath" />
                            <!-- <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div> -->

@@ -45,7 +45,7 @@
                                 <span> {{hall.floor}} </span>    
                                 <span> R:{{hall.ordersCount}} </span>    
                             </div>
-                            <img src="@/assets/item.png" />
+                            <img :src="hall.filePath" />
                            <!-- <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div> -->

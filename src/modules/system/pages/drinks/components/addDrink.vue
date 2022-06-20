@@ -96,7 +96,8 @@ export default {
                 sugarDisabled:false
             },
             imgByte:"",
-            file:{}
+            fileList:[]
+            // file:{}
         }
     },
     methods: {
@@ -104,11 +105,23 @@ export default {
             if (!this.editItemId) {
                 axios
                     .post('MenuItem/CreateMenuItem', this.drinkData)
-                    .then(() => {
+                    .then((response) => {
                        this.successMessage();
                        this.handleClose();
                        this.reLoadData();
-                    })
+                        return response;
+                     }).catch(({ response })=>{
+
+                    let keys = response.data?.errors ? Object.keys(response.data?.errors) : [];
+
+                    let validationMessage = keys.map(key => response.data?.errors[key]);
+                    if (validationMessage.length) {
+                        this.errorMessage(JSON.stringify(validationMessage));
+                    }
+                    else{
+                        this.errorMessage(response.data?.errorCode);
+                    }
+                })
             }
             else{
                 this.editDrink();
@@ -117,17 +130,29 @@ export default {
         loadItem(){
             axios.get(`MenuItem/${this.editItemId}/GetMenuItemById`).then(res => {
                 this.drinkData = res.menuItem;
-                this.file.url = this.drinkData.itemImageBytes;
+                // this.file.url = this.drinkData.itemImageBytes;
             })
         },
         editDrink(){
             axios
             .put(`MenuItem/${this.editItemId}/UpdateMenuItem`, this.drinkData)
-            .then(() => {
+            .then((response) => {
                this.successMessage();
                this.handleClose();
                this.reLoadData();
-            })
+                return response;
+                     }).catch(({ response })=>{
+
+                    let keys = response.data?.errors ? Object.keys(response.data?.errors) : [];
+
+                    let validationMessage = keys.map(key => response.data?.errors[key]);
+                    if (validationMessage.length) {
+                        this.errorMessage(JSON.stringify(validationMessage));
+                    }
+                    else{
+                        this.errorMessage(response.data?.errorCode);
+                    }
+                })
         },
         successMessage(){
             ElMessage({
@@ -160,7 +185,7 @@ export default {
         },
         handleRemove(){
             console.log('delete');
-            this.file = "";
+            // this.file = "";
             this.drinkData.itemImageBytes = "";
         },
         reLoadData(){

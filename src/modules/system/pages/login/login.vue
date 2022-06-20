@@ -109,12 +109,12 @@
                 })
             }).then(()=> {
                 axios.get(`ThemeConfiguration/GetThemeConfiguration`).then(res => {
-                    res.primaryColor ?
-                    document.documentElement.style.setProperty('--default-primary-color', res.primaryColor ):
-                    document.documentElement.style.setProperty('--default-primary-color', '#D1202F');
-                    res.secondaryColor ?
-                    document.documentElement.style.setProperty('--default-second-color', res.secondaryColor ):
-                    document.documentElement.style.setProperty('--default-second-color', '#F8B333');  // for immediat color change
+                    // res.primaryColor ?
+                    document.documentElement.style.setProperty('--default-primary-color', res.primaryColor )
+                    // document.documentElement.style.setProperty('--default-primary-color', '#D1202F');
+                    // res.secondaryColor ?
+                    document.documentElement.style.setProperty('--default-second-color', res.secondaryColor )
+                    // document.documentElement.style.setProperty('--default-second-color', '#F8B333');  // for immediat color change
                     
                     store.commit('main/setThemeConfig', res);
 

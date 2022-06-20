@@ -44,7 +44,7 @@
                                 <span> {{kitchen.floor}} </span>    
                                 <span> R:{{kitchen.ordersCount}} </span>    
                             </div>
-                            <img src="@/assets/item.png" />
+                            <img :src="kitchen.filePath || '@/assets/item.png'" />
                            <!-- <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div>
                            <div> <span class="num"> 32 </span> <span> request </span> </div> -->
