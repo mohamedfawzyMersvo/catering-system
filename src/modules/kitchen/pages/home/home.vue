@@ -2,7 +2,6 @@
 <div class="main-bg">
     <el-main>
 
-        {{orders}}
         <!-- <el-button class="btn--burble reload-btn" @click="this.loadData">
             {{ $t('common.reload') }} <el-icon><RefreshRight /></el-icon>
         </el-button> -->
