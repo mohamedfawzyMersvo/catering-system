@@ -112,7 +112,6 @@ export default {
         margin-bottom: 20px;
         .order-header{
             background-color: #f8f7f8;
-            color: var(--default-primary-color);
             text-align: center;
             height: 40px;
             line-height: 40px;

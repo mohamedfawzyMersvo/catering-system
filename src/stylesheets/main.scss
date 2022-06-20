@@ -147,6 +147,87 @@ body, button, input {
     margin-bottom: 10px;
 }
 
+
+// colors
+.form-wrapper{
+    .submit{
+        background-color: var(--default-primary-color);
+    }
+}
+.el-menu-header {
+    &.el-menu--horizontal>.el-menu-item.is-active {
+        color: var(--default-primary-color) !important;
+    }
+    .el-menu--horizontal>.el-menu-item.is-active
+    .el-menu-item.is-active{
+      .icon {
+        color: var(--default-primary-color);
+      }
+    }
+}
+
+.logout-item{
+    color: var(--default-primary-color);
+  }
+  .order-box{
+    .order-header{
+        color: var(--default-primary-color);
+    }
+  }
+  .date-card{
+    .el-icon{
+        color: var(--default-primary-color);
+    }
+  }
+
+  .order-tabs{
+    .el-tabs__item{
+        &.is-active{
+            color: var(--default-primary-color);
+        }
+        &:hover{
+            color: initial;
+        }
+    }
+    .el-tabs__active-bar{
+        background-color: var(--default-primary-color);
+    }
+  }
+  .order-item{
+    .request-btn{
+        &:hover{
+            background-color: var(--default-primary-color);
+        }
+    }
+  }
+  .page-header{
+    .add-kitchen span{
+        color: var(--default-primary-color);
+    }
+  }
+
+  .list-item{
+    .preview-btn{
+        color: var(--default-primary-color);
+        &:hover{
+            background-color: var(--default-primary-color);
+        }
+    }
+  }
+  .type-wrapper{
+    .el-radio{
+        &.is-checked{
+            border: 2px solid var(--default-primary-color);
+        }
+        .el-radio__input.is-checked .el-radio__inner{
+            border-color: var(--default-primary-color);
+            background: var(--default-primary-color);;
+        }
+        .el-radio__label{
+            color: var(--default-primary-color);
+        }
+    }
+  }
 // switch
 
 input.switch {

@@ -150,7 +150,6 @@
         .add-kitchen span{
             display: flex;
             align-items: center;
-            color: var(--default-primary-color);
             font-size: 17px;
             i{
                 margin-left: 10px;
@@ -196,7 +195,6 @@
         }
         .preview-btn{
             background: transparent;
-            color: var(--default-primary-color);
             font-weight: bolder;
             width: 90%;
             margin: auto;
@@ -205,7 +203,6 @@
             transition: all 0.5s;
             height: 40px;
             &:hover{
-                background-color: var(--default-primary-color);
                 border-radius: 7px;
                 color: #fff;
             }

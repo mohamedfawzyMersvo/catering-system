@@ -1,6 +1,8 @@
 <template>
 <div class="main-bg">
     <el-main>
+
+        {{orders}}
         <!-- <el-button class="btn--burble reload-btn" @click="this.loadData">
             {{ $t('common.reload') }} <el-icon><RefreshRight /></el-icon>
         </el-button> -->
@@ -104,6 +106,7 @@ export default {
    methods: {
         loadData(){
             axios.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
+                    console.log('load 1', res);
                 this.orders =  res.orders.filter(order => order.statusId == 1) ;
                 this.userData = res.userData
                 this.orders.filter(order =>  order.status = true); // add status in every order
@@ -132,6 +135,7 @@ export default {
                 },
             });
                 instance.get(`Order/${this.id}/GetOrdersListByCreatedUserId`).then(res => {
+                    console.log('load 2', res);
                     this.orders = res.data.orders.filter(order => order.statusId == 1)
                     this.userData = res.data.userData
                     this.orders.filter(order =>  order.status = true); // add status in every order

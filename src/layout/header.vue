@@ -10,7 +10,7 @@
       <el-menu-item index="1" :route="{name:homeLink}" class="logo-item">
       <!-- <img src="@/assets/logo.png" class="logo-img" /> -->
       <!-- <img src="@/assets/logo2.png" class="logo-img" /> -->
-      <img :src="$store.state.main.themeConfig.logo.filePath" class="logo-img"  />
+      <img :src="$store.state.main.themeConfig.logo?.filePath || ''" class="logo-img"  />
       <!-- {{$store.state.main.themeConfig.logo.filePath}} -->
       </el-menu-item>
     <el-menu-item-group class="header-icon">
@@ -113,14 +113,8 @@ export default {
     }
     &.el-menu--horizontal>.el-menu-item.is-active {
       border-bottom: 2px solid #fff !important;
-      color: var(--default-primary-color) !important;
     }
-    .el-menu--horizontal>.el-menu-item.is-active
-    .el-menu-item.is-active{
-      .icon {
-        color: var(--default-primary-color);
-      }
-    }
+    
     .header-icon>ul{
       display: flex;
     }
@@ -132,7 +126,6 @@ export default {
     }
     .logout-item{
       padding-right: 0;
-      color: var(--default-primary-color);
     }
   }
 @include ltr() {

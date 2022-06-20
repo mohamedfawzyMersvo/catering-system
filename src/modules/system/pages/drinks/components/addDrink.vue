@@ -295,14 +295,10 @@ export default {
                 padding: 0 25px;
                 border-radius: 10px;
                 &.is-checked{
-                    border: 2px solid var(--default-primary-color);
                 }
                 .el-radio__input.is-checked .el-radio__inner{
-                    border-color: var(--default-primary-color);
-                    background: var(--default-primary-color);;
                 }
                 .el-radio__label{
-                    color: var(--default-primary-color);
                     font-weight: bolder;
                     font-size: 16px;
                 }

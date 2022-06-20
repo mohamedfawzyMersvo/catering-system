@@ -159,7 +159,6 @@
         .submit{
             margin-top: 10px;
             width: 100%;
-            background-color: var(--default-primary-color);
             border-radius: 8px;
             height: 35px;
             font-size:17px ;

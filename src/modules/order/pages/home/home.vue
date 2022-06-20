@@ -99,7 +99,6 @@ export default {
              width: 25%;
              padding-right: 20px;
              font-size: 30px;
-             color: var(--default-primary-color);
          }  
         }
         .time-card{
