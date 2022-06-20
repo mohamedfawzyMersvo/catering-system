@@ -127,6 +127,11 @@ export default {
     .logout-item{
       padding-right: 0;
     }
+    @media (max-width: 376px) {
+      .el-sub-menu__title.el-tooltip__trigger{
+        padding: 0;
+      }
+     }
   }
 @include ltr() {
   .el-menu-header {
