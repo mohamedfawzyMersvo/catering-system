@@ -78,7 +78,8 @@ export default {
     'Friday' :"Friday",
     'Saturday':"Saturday",
     'tabletNum':"tablet Number",
-    'profile': "Profile"
+    'profile': "Profile",
+    loadMore: "Load More"
 
 
 

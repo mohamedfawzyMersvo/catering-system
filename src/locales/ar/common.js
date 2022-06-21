@@ -78,7 +78,9 @@ export default {
     'Friday' :"الجمعة",
     'Saturday':"السبت",
     'tabletNum':"رقم التابلت",
-    'profile': "الملف الشخصى"
+    'profile': "الملف الشخصى",
+    loadMore: "تحميل المزيد"
+
 
 
 
