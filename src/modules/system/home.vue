@@ -1,7 +1,7 @@
 <template>
     <div class="kitchen-home">
         <div class="head">
-            <img src="@/assets/kitchen-head.png" alt="">
+            <img src="@/assets/headCofee.jpeg" alt="">
              <p  @click.stop="openModel = true" class="edit-theme">{{$t('common.editTheme')}} </p>
         </div>
         <div class="kitchen-items">
@@ -73,7 +73,7 @@
 <style lang="scss" scoped>
     .kitchen-home{
         margin: auto;
-        margin-top: 50px;
+        margin-top: 30px;
         text-align: center;
         .row {
             margin-top: 30px;
@@ -113,7 +113,8 @@
     .head{
         img {
             border-radius: 15px;
-            max-width:100%;
+            width: 800px;
+            height: 221px;
         }
     }
     .edit-theme{
