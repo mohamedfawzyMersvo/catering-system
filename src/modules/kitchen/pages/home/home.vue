@@ -48,7 +48,7 @@
                         <el-icon><avatar /></el-icon>
                         <p class="name"> {{userData?.name}} </p>
                     </div>
-                    <div class="request-place">
+                    <div class="request-place" v-if="userData?.floor">
                         <el-icon><school /></el-icon>
                         <p class="hall"> {{userData?.floor}}  {{i}}  </p>
                     </div>

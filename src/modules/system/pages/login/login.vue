@@ -157,6 +157,7 @@
             font-weight: 900;
         }
         .submit{
+             background-color: #D1202F;
             margin-top: 10px;
             width: 100%;
             border-radius: 8px;

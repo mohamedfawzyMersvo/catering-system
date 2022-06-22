@@ -45,10 +45,10 @@
                 <span class="demonstration">{{$t('common.secondaryColor')}}</span>
                 <el-color-picker v-model="formObj.secondaryColor" @active-change="changeColor2"/>
             </div>
-            <div class="demo-color-block">
+            <!-- <div class="demo-color-block">
                 <span class="demonstration">{{$t('common.thirdColor')}}</span>
                 <el-color-picker v-model="formObj.optionalColor" />
-            </div>
+            </div> -->
         </div>
         
         <template #footer>
@@ -180,6 +180,7 @@ export default {
         }
         .colors-wrapper{
             padding: 17px 37px;
+            text-align: left;
             .demo-color-block {
                 display: flex;
                 align-items: center;
@@ -223,6 +224,8 @@ export default {
     }
 }
  @include rtl() {
-
+    .colors-wrapper{
+        text-align: right
+    }
  }
 </style>

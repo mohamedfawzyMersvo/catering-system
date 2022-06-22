@@ -72,7 +72,7 @@ export default {
     logout:"تسجيل الخروج",
     'Sunday':"الأحد",
     'Monday' :"الإثنين",
-    'Tuesday' :"الثلثاء",
+    'Tuesday' :"الثلاثاء",
     'Wednesday' :"الأربعاء",
     'Thursday' :"الخميس",
     'Friday' :"الجمعة",
