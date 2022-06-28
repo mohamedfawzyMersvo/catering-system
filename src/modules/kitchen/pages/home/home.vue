@@ -16,15 +16,15 @@
                     </div>
                     <div class="requester-name">
                         <el-icon><avatar /></el-icon>
-                        <p class="name"> {{userData.name}} </p>
+                        <p class="name"> {{request.createdByUser.name}} </p>
                     </div>
-                    <div class="request-place">
+                    <div class="request-place" v-if="request.createdByUser.floor && request.createdByUser.floor != 'null' ">
                         <el-icon><school /></el-icon>
-                        <p class="hall">{{userData.floor}}</p>
+                        <p class="hall">{{request.createdByUser.floor}}</p>
                     </div>
-                    <div class="request-place" v-if="userData.seatNumber">
+                    <div class="request-place" v-if='request.createdByUser.seatNumber && request.createdByUser.seatNumber != "null" '>
                         <el-icon><school /></el-icon>
-                        <p class="hall"> {{$t('common.seatNumber')}}: {{userData?.seatNumber}}  </p>
+                        <p class="hall"> {{$t('common.seatNumber')}}: {{request.createdByUser?.seatNumber}}  </p>
                     </div>
                 
                     <el-button class="confirmed-btn" @click="onConfirmed(request.id)">
@@ -46,15 +46,15 @@
                     </div>
                     <div class="requester-name">
                         <el-icon><avatar /></el-icon>
-                        <p class="name"> {{userData?.name}} </p>
+                        <p class="name"> {{order.createdByUser?.name}} </p>
                     </div>
-                    <div class="request-place" v-if="userData?.floor">
+                    <div class="request-place" v-if="order.createdByUser?.floor && order.createdByUser?.floor != 'null'">
                         <el-icon><school /></el-icon>
-                        <p class="hall"> {{userData?.floor}}  {{i}}  </p>
+                        <p class="hall"> {{order.createdByUser?.floor}}  {{i}}  </p>
                     </div>
-                    <div class="request-place" v-if="userData.seatNumber">
+                    <div class="request-place" v-if="order.createdByUser.seatNumber && order.createdByUser.seatNumber != 'null'">
                         <el-icon><school /></el-icon>
-                        <p class="hall"> {{$t('common.seatNumber')}}: {{userData.seatNumber}}  </p>
+                        <p class="hall"> {{$t('common.seatNumber')}}: {{order.createdByUser.seatNumber}}  </p>
                     </div>
                 
                     <input type="checkbox" v-model="order.status" class="switch" @click.stop @change="onConfirmed(order.id)" :data-checked="$t('common.serve')" :data-before="$t('common.served')">
@@ -131,7 +131,7 @@ export default {
             })
         },
         loadDataWitoutLoading(){
-           let orderNum = this.orders.length;
+           let orderNum = this.orders.length + this.allRequstAttend.length;
             const token = this.$store.state.main.token
             var instance = axios.create({
                 baseURL: axios.defaults.baseURL,
@@ -143,12 +143,17 @@ export default {
             });
                 instance.get(`Order/${this.id}/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
                     console.log('load 2', res);
+                    this.pagingModel = res.data.pagingModel;
                     this.orders = res.data.orders.filter(order => order.statusId == 1)
                     this.userData = res.data.userData
                     this.orders.filter(order =>  order.status = true); // add status in every order
                     this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
                     this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
-                    if(this.orders.length > 0 && res.data.orders > orderNum){
+                    console.log('this.orders.length', this.orders.length)
+                    console.log('res.data.orders.length', res.data.orders.length)
+                    console.log(' this.allRequstAttend', this.allRequstAttend.length)
+                    console.log('orderNum', orderNum)
+                    if(this.orders.length > 0 && res.data.orders.length > orderNum ){
                         this.startAudio();
                     }
                     this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend                    
@@ -164,7 +169,7 @@ export default {
             .then(() => {
                 // this.successMessage();
                 // this.stopAudio();
-                this.loadData();
+                this.loadDataWitoutLoading();
             })
         },
         successMessage(){
@@ -190,7 +195,7 @@ export default {
    },
    computed: {
        showLoadMore(){
-           return this.orders.length < this.pagingModel.totalCount - this.allRequstAttend.length
+           return (this.orders.length + this.allRequstAttend.length) < this.pagingModel.totalCount
        },
    },
    unmounted() {

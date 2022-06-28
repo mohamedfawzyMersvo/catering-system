@@ -124,6 +124,7 @@
         border-radius: 7px;
         text-align: center;
         margin: 20px auto;
+        cursor: pointer;
     }
 
 

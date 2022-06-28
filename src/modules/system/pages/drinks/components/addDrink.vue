@@ -10,7 +10,7 @@
         </template>
         <el-form :model="form" class="addKitchenForm" label-position="top">
             <div class="name-wrapper"> 
-                <label> {{$t('common.name')}} </label>
+                <!-- <label> {{$t('common.name')}} </label> -->
                 <el-form-item :label="$t('common.drinkEnglish')">
                     <el-input
                         size="large"
@@ -119,7 +119,7 @@ export default {
                         this.errorMessage(JSON.stringify(validationMessage));
                     }
                     else{
-                        this.errorMessage(response.data?.errorCode);
+                        this.errorMessage(response.data?.errorMessage);
                     }
                 })
             }
@@ -150,7 +150,7 @@ export default {
                         this.errorMessage(JSON.stringify(validationMessage));
                     }
                     else{
-                        this.errorMessage(response.data?.errorCode);
+                        this.errorMessage(response.data?.errorMessage);
                     }
                 })
         },
@@ -159,6 +159,9 @@ export default {
                 message: this.$t('common.successfullyAdded'),
                 type: 'success',
             })
+        },
+        errorMessage(theMessage){
+            ElMessage.error(theMessage)
         },
         handleImgChange () {
             this.fileList = this.$refs.upload.uploadFiles
@@ -271,7 +274,7 @@ export default {
             margin-bottom: 20px;
             > label {
                 font-weight: bolder;
-                color: #263948;
+                color: #606266;
                 position: relative;
                 bottom: 28px;
                 padding: 0 10px;
