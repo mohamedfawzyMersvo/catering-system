@@ -40,6 +40,7 @@ export default {
     "sugar":"سكر",
     "successfullyOrdered":"تم الطلب بنجاح",
     "successfullyAdded": "تمت الإضافة بنجاح",
+    "successfullyCanceld": "تم الإلغاء",
     "confirm": "تأكيد",
     "confirmed" : "تم التأكيد",
     "signIn": "تسجيل الدخول",
@@ -79,7 +80,10 @@ export default {
     'Saturday':"السبت",
     'tabletNum':"رقم التابلت",
     'profile': "الملف الشخصى",
-    loadMore: "تحميل المزيد"
+    loadMore: "تحميل المزيد",
+    myOrders: "طلباتى",
+    cancel: "إلفاء",
+    orderNow: "اطلب الان"
 
 
 

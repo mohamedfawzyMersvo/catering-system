@@ -40,6 +40,7 @@ export default {
     "sugar":"Sugar",
     "successfullyOrdered":"successfully ordered",
     "successfullyAdded": "successfully added",
+    "successfullyCanceld": "successfully canceld",
     "confirm": "Confirm",
     "confirmed" : "confirmed",
     "signIn": "Sign In",
@@ -79,7 +80,10 @@ export default {
     'Saturday':"Saturday",
     'tabletNum':"tablet Number",
     'profile': "Profile",
-    loadMore: "Load More"
+    loadMore: "Load More",
+    myOrders: "My Orders",
+    cancel: "Cancel",
+    orderNow: "Order now"
 
 
 

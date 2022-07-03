@@ -1,7 +1,7 @@
 
 import Home from './pages/home/home'
 import Order from './pages/order/order'
-// import Requests from './pages/requests/requests'
+import ListMyOrders from './pages/listMyOrders/listMyOrders'
 
 
 export default [
@@ -15,9 +15,9 @@ export default [
         name: 'order.list',
         component: Order
     },
-    // {
-    //     path: 'requests',
-    //     name: 'requests',
-    //     component: Requests
-    // },
+    {
+        path: 'listMyOrders',
+        name: 'listMyOrders',
+        component: ListMyOrders
+    },
 ]

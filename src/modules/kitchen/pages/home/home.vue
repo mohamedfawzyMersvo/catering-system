@@ -14,14 +14,17 @@
                         <p class="title"> {{$t('common.requestToAttend')}} </p>
                         <p class="time"> {{request.creationDate}} </p>
                     </div>
+
                     <div class="requester-name">
                         <el-icon><avatar /></el-icon>
                         <p class="name"> {{request.createdByUser.name}} </p>
                     </div>
+
                     <div class="request-place" v-if="request.createdByUser.floor && request.createdByUser.floor != 'null' ">
                         <el-icon><school /></el-icon>
                         <p class="hall">{{request.createdByUser.floor}}</p>
                     </div>
+
                     <div class="request-place" v-if='request.createdByUser.seatNumber && request.createdByUser.seatNumber != "null" '>
                         <el-icon><school /></el-icon>
                         <p class="hall"> {{$t('common.seatNumber')}}: {{request.createdByUser?.seatNumber}}  </p>
@@ -40,6 +43,7 @@
             <el-col :xs="24" v-for="order in orders" :key="order.id">
                 <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" v-if="userData" @click="openDetailsModel(order)">
                     <img class="order-img" :src="order.menuItem.itemImageBytes" />
+                    
                     <div class="title-time-wrapper">
                         <p class="title"> {{$store.state.main.currentLocale == "en" ? order.menuItem.name : order.menuItem.name_Ar}} </p>
                         <p class="time"> {{order.creationDate}} </p>
@@ -48,10 +52,12 @@
                         <el-icon><avatar /></el-icon>
                         <p class="name"> {{order.createdByUser?.name}} </p>
                     </div>
+
                     <div class="request-place" v-if="order.createdByUser?.floor && order.createdByUser?.floor != 'null'">
                         <el-icon><school /></el-icon>
                         <p class="hall"> {{order.createdByUser?.floor}}  {{i}}  </p>
                     </div>
+
                     <div class="request-place" v-if="order.createdByUser.seatNumber && order.createdByUser.seatNumber != 'null'">
                         <el-icon><school /></el-icon>
                         <p class="hall"> {{$t('common.seatNumber')}}: {{order.createdByUser.seatNumber}}  </p>
