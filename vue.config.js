@@ -1,6 +1,6 @@
 // const path = require('path');
 module.exports = {
-  publicPath:'/catering/',
+  publicPath:'/catering/stc/',
   outputDir: 'dist',
   pluginOptions: {
     i18n: {

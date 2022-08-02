@@ -7,6 +7,7 @@ const state = {
     isAuthenticated:false,
     homeLink:"",
     themeConfig:{},
+    theOrder:[]
 };
 
 const getters = {
@@ -36,6 +37,12 @@ const mutations = {
     },
     setThemeConfig(state, payload){
         state.themeConfig = payload;
+    },
+    setOrder(state, payload){
+        state.theOrder.push( payload );
+    },
+    deleteOrder(state, payload){
+        state.theOrder.splice( payload, 1 );
     },
     logout(state) {
         state.loggedUser = null

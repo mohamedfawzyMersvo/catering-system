@@ -9,10 +9,28 @@
             <p> {{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}} </p>
         </template>
         <div class="order-list-num" :style="{ boxShadow: `var(--el-box-shadow-base)` }">
-            <div class="num-item"  v-for="(drink, index) in drinks" :key="index">
-                <el-input-number v-model.number="drink.sugarSpoon" :min=0 @change="handleChange" />
+            <div class="num-item" >
+                <el-input-number v-model.number="theDrink.sugarSpoon" :min=0 @change="handleChange" />
                 <span class="title">{{$t("common.sugar")}}</span>
             </div>
+            <el-form-item class="tags-wrapper">
+                <el-select
+                    v-model="theDrink.tag"
+                    class="select-tags"
+                    multiple
+                    filterable
+                    default-first-option
+                    :reserve-keyword="false"
+                    :placeholder="$t('common.tagsPlaceHolder')"
+                >
+                    <el-option
+                    v-for="item in tagsOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                    />
+                </el-select>
+            </el-form-item>
             <!-- <div class="num-item">
                 <el-input-number v-model="num" :min="1" @change="handleChange" />
                 <span class="title">light sugar</span>
@@ -31,26 +49,31 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    // import axios from 'axios'
     import { ElMessage } from 'element-plus'
 
 export default {
     props:[
-        "modelVisible", "drink"
+        "modelVisible", "drink", "tagsOptions"
     ],
     data() {
         return {
             dialogVisible: false,
             drinks:[],
+            theDrink:{}
         }
     },
     updated() {
         if(this.modelVisible) {
-            for (let i=1; i <= this.drink.num; i++) {
-                this.drinks.push({sugarSpoon:1})
-            }
+            // for (let i=1; i <= this.drink.quantity; i++) {
+            //     console.log('i', i)
+            //     if (this.drink) {
+            //         this.drinks.push({...this.drink});
+            //         // this.drinks[i].sugarSpoon = 1
+            //     }
+            // }
             // this.drinks = Array(this.drink.num).fill({sugarSpoon:1})
-
+            this.theDrink = {...this.drink}
         }
     },
     methods: {
@@ -68,17 +91,23 @@ export default {
             Object.assign(this.$data, this.$options.data.apply(this))
         },
         handleSubmit(){
-            let order = {
-                menuItemId: this.drink.id,
-                quantity: this.drink.num,
-                sugarSpoon: this.drinks.map(drink => drink.sugarSpoon)
-            }
-            axios
-            .post('Order/CreateOrder', order)
-            .then(() => {
-                this.successMessage();
-                this.handleClose();
-            })
+            // let order = {
+                // menuItemId: this.drink.id,
+                // quantity: this.drink.num,
+                // sugarSpoon: this.drinks.map(drink => drink.sugarSpoon),
+                //  ...this.drink
+            // }
+            // this.drinks.map(order => {
+            //     this.$store.commit('main/setOrder',order);
+            // })
+            this.$store.commit('main/setOrder',  this.theDrink);
+           
+            this.handleClose();
+            // axios
+            // .post('Order/CreateOrder', order)
+            // .then(() => {
+                // this.successMessage();
+            // })
         }
     },
     watch: { 
@@ -128,6 +157,24 @@ export default {
                     margin-left: 10px;
                     color: #2d2d2d;
                 }
+            }
+        }
+        .select-tags{
+             width: 80%;
+            .el-tag:nth-child(1){
+                background-color: #d2d6dd !important;
+            }
+            .el-tag:nth-child(2){
+                background-color: #b4dfe5 !important;
+            }
+            .el-tag:nth-child(3){
+                background-color: #dce4f8 !important;
+            }
+            .el-tag:nth-child(4){
+                background-color: #d3d6fb !important;
+            }
+            .el-tag:nth-child(5){
+                background-color: #fadee0 !important;
             }
         }
         .dialog-footer{

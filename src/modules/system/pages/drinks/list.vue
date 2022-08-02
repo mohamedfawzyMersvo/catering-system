@@ -90,7 +90,7 @@
                 pagingModel:{},
                 drinkModel: false,
                 drinkList:[],
-                pageSize:10,
+                pageSize:15,
                 pageNumber:1,
                 editItemId:"",
                 src:"https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
@@ -101,7 +101,7 @@
         },
         methods: {
             loadData(){
-                axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/ListAllMenuItems`).then(res => {
+                axios.get(`MenuItem/ListAllMenuItems`).then(res => {
                     this.drinkList = res.menuItemResponseList;
                     this.pagingModel = res.pagingModel;
                     this.currentPage =res.pagingModel.currentPage;

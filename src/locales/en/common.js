@@ -83,7 +83,11 @@ export default {
     loadMore: "Load More",
     myOrders: "My Orders",
     cancel: "Cancel",
-    orderNow: "Order now"
+    orderNow: "Order now",
+    tags: "Tags",
+    tagsPlaceHolder: "Add tags",
+    Quantity: "Quantity",
+    floor: "Floor",
 
 
 

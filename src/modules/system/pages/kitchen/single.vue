@@ -53,6 +53,27 @@
                                 <el-table-column prop="name" label="Name" width="180" />
                                 <el-table-column prop="address" label="Address" />
                             </el-table> -->
+
+                            <div class="all-drinks loaded-drinks mt-2">
+                            <el-row :gutter="20">
+                                 <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" v-for="drink in loadedDrink" :key="drink.id">
+                                    <div class="all-drinks-item" style="{ boxShadow: `var(--el-box-shadow-base)` }">
+                                        <el-button type="text" class="x-btn" @click="removeDrink(drink)"> X</el-button>
+                                        <div  class="block">
+                                            <el-image
+                                                :src='drink.itemImageBytes'
+                                                fit="cover"
+                                            ></el-image>
+                                        </div>
+                                        <div>
+                                            <p class="title">{{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}}</p>
+                                            <p class="item-data">{{$t('common.addedd')}}: {{drink.creationDate}}</p>
+                                            <!-- <el-button type="primary" class="edit-btn" @click="editDrink(drink)">{{$t('common.edit')}} </el-button> -->
+                                        </div>
+                                    </div>
+                                 </el-col>
+                            </el-row>
+                            </div>
                         </el-main>
                     </el-container>
                     <el-aside>
@@ -110,6 +131,7 @@
                                     <el-button type="primary" class="edit-btn" @click="editDrink(drink)">{{$t('common.edit')}} </el-button>
                                 </div>
                             </div>
+                            <el-button type="primary" class="add-btn" v-if="selectedDrink.length" @click="addDrinkToKitchen">{{$t('common.add')}} </el-button>
                         </div>
                     </el-aside>
                 </el-container>
@@ -125,6 +147,7 @@
 <script>
 // import {MoreFilled, Edit, Delete, CirclePlus, Search} from '@element-plus/icons';
     import axios from 'axios'
+    import { ElMessage } from 'element-plus'
 
 import AddKitchen from './components/addKitchen.vue';
 import EditDrink from '../drinks/components/addDrink'
@@ -180,12 +203,14 @@ export default {
             selectedDrink:[],
             drinkSelected:{},
             pageSize:10,
-            pageNumber:1
+            pageNumber:1,
+            loadedDrink:[]
         }
     },
     created() {
         this.loadItem();
-        this.loadDrinks();
+        this.loadSelectedDrinks();
+
     },
     methods: {
         loadItem(){
@@ -193,13 +218,43 @@ export default {
                 this.kitchenData = res.user;
             })
         },
+        loadSelectedDrinks(){
+            axios.get(`MenuItem/${this.id}/ListAllKitchenMenuItems`).then(res => {
+                this.loadedDrink = res;
+                this.loadDrinks();
+            })
+        },
         loadDrinks(){
             axios.get(`MenuItem/ListAllMenuItemsWithoutPagination`).then(res => {
-                this.drinkList = res;
+                let loadedIds = this.loadedDrink.map((item) => item.id)
+                this.drinkList = res.filter(drink => !loadedIds.includes(drink.id));
             })
         },
         addToSelectedDrink(){
             this.selectedDrink.push(this.drinkSelected);
+        },
+        addDrinkToKitchen(){
+            axios.post(`MenuItem/AddMenueItemToKitchen`,
+               {
+                    "kitchenId": Number(this.$route.params.id),
+                    "menuItemIds": this.selectedDrink.map(item => item.id)
+                }
+            ).then(() => {
+                this.loadSelectedDrinks();
+                this.selectedDrink = [];
+            })
+        },
+        removeDrink({id}){
+            axios.delete(`MenuItem/DeleteMenuItem/${id}`).then(() => {
+                this.deleteMessage();
+                this.loadSelectedDrinks();
+            })
+        },
+        deleteMessage() {
+            ElMessage({
+                message: "Deleted",
+                type: "warning",
+            });
         },
         openKitchenModel(){
            this.kitchenModel = true;
@@ -372,6 +427,9 @@ export default {
          }
 
     }
+    .loaded-drinks{
+        margin-top: 20px;
+    }
     .add-in-single{
         display: flex;
         align-items: center;
@@ -404,7 +462,8 @@ export default {
             img{
                 min-height: 100%;
                 padding: 5px;
-                height: 134px;
+                height: 90px;
+                width: 134px;
                 border-radius: 9px;
             }
         }

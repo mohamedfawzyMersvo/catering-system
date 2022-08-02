@@ -76,6 +76,38 @@
         <el-button class="btn--burble reload-btn" @click="loadMore" v-if="showLoadMore">
             {{ $t('common.loadMore') }} <el-icon><RefreshRight /></el-icon>
         </el-button>
+
+        <div class="all-orders">
+             <el-row :gutter="12">
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" v-for="order in orders" :key="order.id">
+                    <div class="order">
+                        <div class="order-title">
+                            <p><span class="time">{{order.creationDate}} </span> <span class="id">{{order.id}}</span>  </p>
+                        </div>
+                        <div class="order-list">
+                            {{$store.state.main.currentLocale == "en" ? order.menuItem.name : order.menuItem.name_Ar}}  <span class="num">{{order.quantity}}</span>
+                        </div>
+                        <p v-if="order.tag">{{$t('common.tags')}}: {{order.tag}} </p>
+                        <p v-if="order.sugarSpoon">{{$t('common.sugar')}}: {{order.sugarSpoon}} </p>
+
+                        <div class="order-place">
+                            <div>
+                                <p>{{$t('common.floor')}}</p>
+                                <p>{{order.createdByUser.floor}}</p>
+                            </div>
+                            <div>
+                                <p>{{$t('common.room')}}</p>
+                                <p>7</p>
+                            </div>
+                            <div>
+                                <p>{{$t('common.seatNumber')}}</p>
+                                <p> {{order.createdByUser.seatNumber}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
         <OrderDetails :modelVisible="openModel" :selectdItem="selectdItem" @modelClose="openModel = false"/>
      </el-main>
 </div>
@@ -250,6 +282,60 @@ export default {
             font-size: 15px;
         }
     }
+
+    
+    // new design
+    .all-orders{
+        .order{
+            padding:20px 10px;
+            background-color: #fff;
+            border-radius: 7px;
+            p {
+                margin:0;
+            }
+            .time{
+                font-size: 24px;
+                font-weight: bold;
+                margin-right: 20px;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
+            .id{
+
+            }
+
+            .order-list{
+                background-color: #f6f6f6;
+                height: 45px;
+                display: flex;
+                align-items: center;
+                padding: 0 10px;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                .num{
+                    display: inline-block;
+                    background: #fff;
+                    border-radius: 5px;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    margin: 0 15px;
+                }
+            }
+        }
+        .order-place{
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 20px;
+            div:nth-child(2){
+                border-right: 3px solid #f6f6f6;
+                border-left: 3px solid #f6f6f6;
+                padding: 0 43px;
+            }
+        }
+    }
+
 
     @include rtl() {
          .reload-btn{

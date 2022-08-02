@@ -36,6 +36,25 @@
             <div> 
                 <el-checkbox v-model="drinkData.sugarDisabled" :label="$t('common.noSugar')" size="large" />
             </div>
+            <el-form-item :label="$t('common.tags')" class="tags-wrapper">
+                <el-select
+                    v-model="drinkData.tag"
+                    class="select-tags"
+                    multiple
+                    filterable
+                    allow-create
+                    default-first-option
+                    :reserve-keyword="false"
+                    :placeholder="$t('common.tagsPlaceHolder')"
+                >
+                    <el-option
+                    v-for="item in tagsOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    />
+                </el-select>
+            </el-form-item>
             <div>
                 <el-upload
                     ref="upload"
@@ -91,10 +110,12 @@ export default {
                 name: "",
                 name_Ar:"",
                 categoryStatusId: 0,
-                itemImageType: "",
+                // itemImageType: "",
                 itemImageBytes: "",
-                sugarDisabled:false
+                sugarDisabled:false,
+                tag:[]
             },
+            tagsOptions: [],
             imgByte:"",
             fileList:[]
             // file:{}
@@ -102,6 +123,9 @@ export default {
     },
     methods: {
         handleSubmit(){
+            // if (Array.isArray(this.drinkData.tag)) {
+            //     this.drinkData.tag = this.drinkData.tag.join(); // convert array to string
+            // }
             if (!this.editItemId) {
                 axios
                     .post('MenuItem/CreateMenuItem', this.drinkData)
@@ -130,6 +154,7 @@ export default {
         loadItem(){
             axios.get(`MenuItem/${this.editItemId}/GetMenuItemById`).then(res => {
                 this.drinkData = res.menuItem;
+                this.drinkData.tag = this.drinkData.tag ?  res.menuItem.tag.split(",") : [];
                 // this.file.url = this.drinkData.itemImageBytes;
             })
         },
@@ -335,6 +360,12 @@ export default {
                 border: 0;
                 padding-left: 0;
             }
+        }
+        .select-tags{
+            width: 80%;
+        }
+        .tags-wrapper{
+            margin-top: 10px;
         }
     }
     @include rtl() {

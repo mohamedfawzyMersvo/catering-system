@@ -83,8 +83,11 @@ export default {
     loadMore: "تحميل المزيد",
     myOrders: "طلباتى",
     cancel: "إلفاء",
-    orderNow: "اطلب الان"
-
+    orderNow: "اطلب الان",
+    tags: "إضافات",
+    tagsPlaceHolder: "أضف الإضافات",
+    Quantity: "الكمية",
+    floor: "الطابق",
 
 
 
