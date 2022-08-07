@@ -73,6 +73,19 @@
                                     </div>
                                  </el-col>
                             </el-row>
+                             <div class="pagination-block">
+                                <el-pagination
+                                    :currentPage="currentPage"
+                                    :page-size="pagingModel.pageSize"
+                                    :total="pagingModel.totalCount"
+                                    :small="small"
+                                    :disabled="disabled"
+                                    :background="true"
+                                    layout=" prev, pager, next"
+                                    @current-change="handleCurrentChange"
+                                    >
+                                </el-pagination>
+                            </div>
                             </div>
                         </el-main>
                     </el-container>
@@ -82,7 +95,7 @@
                         <div class="sidebar-head">
                         <el-select :placeholder="$t('common.select')" v-model="drinkSelected" @change="addToSelectedDrink">
                             <el-option
-                               v-for="drink in drinkList.filter(item => item.id != 1009)" 
+                               v-for="drink in drinkList.filter(item => item.id != 1027)" 
                                 :key="drink.id" 
                                 :label="$store.state.main.currentLocale == 'en' ? drink.name : drink.name_Ar"
                                 :value="drink"
@@ -203,8 +216,9 @@ export default {
             selectedDrink:[],
             drinkSelected:{},
             pageSize:10,
-            pageNumber:1,
-            loadedDrink:[]
+            loadedDrink:[],
+            pagingModel:{},
+            currentPage:1,
         }
     },
     created() {
@@ -219,9 +233,14 @@ export default {
             })
         },
         loadSelectedDrinks(){
-            axios.get(`MenuItem/${this.id}/ListAllKitchenMenuItems`).then(res => {
-                this.loadedDrink = res;
+            axios.get(`MenuItem/${this.currentPage}/${this.pageSize}/${this.id}/ListAllKitchenMenuItems`).then(res => {
+                this.loadedDrink = res.menuItemResponseList;
+                this.pagingModel = res.pagingModel;
+                // this.currentPage = res.pagingModel.currentPage;
                 this.loadDrinks();
+            }).catch(() => {
+                this.loadDrinks();
+                    
             })
         },
         loadDrinks(){
@@ -244,8 +263,19 @@ export default {
                 this.selectedDrink = [];
             })
         },
+        handleCurrentChange (newPage){
+            console.log('newPage', newPage);
+            this.currentPage = newPage;
+            this.loadSelectedDrinks()
+        },
         removeDrink({id}){
-            axios.delete(`MenuItem/DeleteMenuItem/${id}`).then(() => {
+            let deleteDrink = {
+                "kitchenId": this.$route.params.id,
+                "menuItemIds": [
+                    id
+                ]
+            }
+            axios.post(`MenuItem/RemoveMenueItemFromKitchen`, deleteDrink).then(() => {
                 this.deleteMessage();
                 this.loadSelectedDrinks();
             })

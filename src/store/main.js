@@ -44,6 +44,9 @@ const mutations = {
     deleteOrder(state, payload){
         state.theOrder.splice( payload, 1 );
     },
+    deleteAllOrder(state){
+        state.theOrder = [];
+    },
     logout(state) {
         state.loggedUser = null
         state.isAuthenticated = false

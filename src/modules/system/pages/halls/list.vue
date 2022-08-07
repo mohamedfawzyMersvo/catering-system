@@ -103,7 +103,7 @@
                 axios.get(`UserManagement/${this.itemsPerPage}/${this.currentPage}/ListAllRooms`).then(res => {
                     this.hallsList = res.kitchensResponseList;
                     this.pagingModel = res.pagingModel;
-                    this.currentPage =res.pagingModel.currentPage;
+                    // this.currentPage =res.pagingModel.currentPage;
                 })
             },
            openHallModel(){

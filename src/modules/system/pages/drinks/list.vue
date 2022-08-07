@@ -19,7 +19,7 @@
         </el-row>
         <el-main>
             <el-row :gutter="12" class="list-row">
-                <el-col :xs="16" :sm="12" :md="6" :lg="6" :xl="6" v-for="drink in drinkList.filter(item => item.id != 1009)" :key="drink.id">
+                <el-col :xs="16" :sm="12" :md="6" :lg="6" :xl="6" v-for="drink in drinkList.filter(item => item.id != 1027)" :key="drink.id">
                    <div class="list-item" style="{ boxShadow: `var(--el-box-shadow-base)` }"> 
                       
                         <el-icon><edit-pen /></el-icon>
@@ -90,7 +90,7 @@
                 pagingModel:{},
                 drinkModel: false,
                 drinkList:[],
-                pageSize:15,
+                pageSize:10,
                 pageNumber:1,
                 editItemId:"",
                 src:"https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
@@ -101,10 +101,10 @@
         },
         methods: {
             loadData(){
-                axios.get(`MenuItem/ListAllMenuItems`).then(res => {
+                axios.get(`MenuItem/${this.itemsPerPage}/${this.pageNumber}/ListAllMenuItems`).then(res => {
                     this.drinkList = res.menuItemResponseList;
                     this.pagingModel = res.pagingModel;
-                    this.currentPage =res.pagingModel.currentPage;
+                    // this.currentPage =res.pagingModel.currentPage;
                 })
             },
             openDrinkModel(){

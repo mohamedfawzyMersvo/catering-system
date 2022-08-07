@@ -101,7 +101,7 @@
                 axios.get(`UserManagement/${this.itemsPerPage}/${this.currentPage}/ListAllkitchens`).then(res => {
                     this.kitchenList = res.kitchensResponseList;
                     this.pagingModel = res.pagingModel;
-                    this.currentPage =res.pagingModel.currentPage;
+                    // this.currentPage =res.pagingModel.currentPage;
                 })
             },
             openDetailsModel(){

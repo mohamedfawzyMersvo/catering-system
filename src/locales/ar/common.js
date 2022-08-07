@@ -50,7 +50,7 @@ export default {
     customerRequests:"طلبات العميل",
     attendanceRequests: "طلبات الحضور",
     requestToAttend:"انت مطلوب للحضور حالا",
-    serve:"مطلوب",
+    serve:" تأكيد",
     served:"تم التقديم",
     requestAttend:"طلب حضور",
     attendsuccess:"تم الطلب",

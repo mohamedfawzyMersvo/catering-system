@@ -110,6 +110,7 @@
                                     <!-- <p>Sugarless<span>5</span></p> -->
                                 </div>
                                 <div v-if="item.tag?.length"><p>{{$t('common.tags')}}:</p> {{item.tag.join()}}</div>
+                                <div v-if="item?.sugarSpoon"> <p>{{$t('common.sugar')}}: </p>{{item.sugarSpoon}} </div>
                             </div>
                         </div>
 
@@ -117,7 +118,7 @@
                 </div>
             </el-scrollbar>
             <div class="btn-wrappers">
-                <el-button type="text" class="">{{$t('common.cancel')}} </el-button>
+                <el-button type="text" class="" @click="deleteAllOrders">{{$t('common.cancel')}} </el-button>
                 <el-button type="text" class="btn--burble" @click="order">{{$t('common.request')}}</el-button>
             </div>
         </div>
@@ -150,38 +151,50 @@ export default {
         }
     },
     mounted() {
-        this.loadColdDrinks();
-        this.loadHotDrinks();
+        // this.loadColdDrinks();
+        // this.loadHotDrinks();
+        this.loadSelectedDrink();
     },
     methods: {
+        loadSelectedDrink(){
+            axios.get(`MenuItem/${this.pageNumber}/${this.pageSize}/${this.loggedUser.kitchen}/ListAllKitchenMenuItems`).then((res) => {
+                this.coldDrinkList = res.menuItemResponseList.filter(item => item.categoryStatusId == 2);
+                this.hotDrinkList = res.menuItemResponseList.filter(item => item.categoryStatusId == 1);
+                if (this.coldDrinkList.length == 0 && this.hotDrinkList.length == 0) {
+                    this.loadColdDrinks();
+                    this.loadHotDrinks();
+                }
+            })
+        },
         loadColdDrinks(){
             axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/2/ListAllMenuItemsByCategory`).then(res => {
                 this.coldDrinkList = res.menuItemResponseList;
-                this.coldDrinkList.filter(drink => drink.quantity = 1);
+                // this.coldDrinkList.filter(drink => drink.quantity = 1);
             })
         },
         loadHotDrinks(){
             axios.get(`MenuItem/${this.pageSize}/${this.pageNumber}/1/ListAllMenuItemsByCategory`).then(res => {
                 this.hotDrinkList = res.menuItemResponseList;
-                this.hotDrinkList.filter(drink => drink.quantity = 1);
+                // this.hotDrinkList.filter(drink => drink.quantity = 1);
             })
         },
         handleRequestAttend(){
-            let order = {
-                "menuItemId": 1009,
+            let order = [{
+                "menuItemId": 1027,
                 "quantity": 0,
-                "sugarSpoon": [
-                    ""
-                ],
-            }
+                "sugarSpoon": [],
+                tag:[]
+            }];
             axios
-            .post('Order/CreateOrder', order)
+            .post('Order/CreateOrderList', order)
             .then(() => {
                 this.successMessage();
+                
             })
         },
         requesWithoutSugar(order){
-             this.$store.commit('main/setOrder', order);
+            order.quantity = 1
+            this.$store.commit('main/setOrder', order);
         },
         order(){
             let order = this.theOrder.map(item => { return {
@@ -194,18 +207,23 @@ export default {
             .post('Order/CreateOrderList', order)
             .then(() => {
                 this.successfullyOrdered();
+                this.deleteAllOrders();
             })
         },
         deleteOrder(index){
-            this.$store.commit('main/deleteOrder',index);
+            this.$store.commit('main/deleteOrder', index);
+        },
+        deleteAllOrders(){
+            this.$store.commit('main/deleteAllOrder');
         },
         openDetailsModel({...drink}){
-            this.drink.sugarSpoon = 1
             if (drink.tag?.length) {
-               this.tagsOptions = drink.tag.split(',')
+                this.tagsOptions = drink.tag.split(',')
                drink.tag = []
             }
             this.drink = drink;
+            this.drink.sugarSpoon = 1;
+            this.drink.quantity = 1;
             this.openModel = true;
         },
         successfullyOrdered(){
@@ -224,7 +242,10 @@ export default {
     computed: {
         theOrder() {
             return this.$store.state.main.theOrder;
-        }
+        },
+        loggedUser(){
+            return this.$store.state.main.loggedUser;
+        },
     }
 }
 </script>

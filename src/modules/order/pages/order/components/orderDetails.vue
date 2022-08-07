@@ -63,19 +63,21 @@ export default {
             theDrink:{}
         }
     },
-    updated() {
-        if(this.modelVisible) {
-            // for (let i=1; i <= this.drink.quantity; i++) {
-            //     console.log('i', i)
-            //     if (this.drink) {
-            //         this.drinks.push({...this.drink});
-            //         // this.drinks[i].sugarSpoon = 1
-            //     }
-            // }
-            // this.drinks = Array(this.drink.num).fill({sugarSpoon:1})
-            this.theDrink = {...this.drink}
-        }
-    },
+    // mounted() {
+        
+    
+    //     if(this.modelVisible) {
+    //         // for (let i=1; i <= this.drink.quantity; i++) {
+    //         //     console.log('i', i)
+    //         //     if (this.drink) {
+    //         //         this.drinks.push({...this.drink});
+    //         //         // this.drinks[i].sugarSpoon = 1
+    //         //     }
+    //         // }
+    //         // this.drinks = Array(this.drink.num).fill({sugarSpoon:1})
+    //         this.theDrink = this.drink
+    //     }
+    // },
     methods: {
         handleClose(){
             this.resetData();
@@ -113,6 +115,7 @@ export default {
     watch: { 
         modelVisible() {
             this.dialogVisible = this.modelVisible;
+            this.theDrink = this.drink
         }
     }
 }

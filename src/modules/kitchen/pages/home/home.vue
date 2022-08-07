@@ -7,38 +7,40 @@
         </el-button> -->
      <el-row :gutter="12" v-if="isRequestAttend">
         <h3 class="gray-title">{{$t('common.attendanceRequests')}}</h3>
-            <el-col :xs="24" v-for="request in allRequstAttend" :key="request.id">
-                <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" v-if="userData">
-                    <el-icon class="phone-icon"><phone /></el-icon>
-                    <div class="title-time-wrapper">
-                        <p class="title"> {{$t('common.requestToAttend')}} </p>
-                        <p class="time"> {{request.creationDate}} </p>
-                    </div>
+            <el-col :xs="24" v-for="requestAttend in allRequstAttend" :key="requestAttend.orderNumber">
+                <div v-for="request in requestAttend.items" :key="request.id">
+                    <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card">
+                        <el-icon class="phone-icon"><phone /></el-icon>
+                        <div class="title-time-wrapper">
+                            <p class="title"> {{$t('common.requestToAttend')}} </p>
+                            <p class="time"> {{request.creationDate}} </p>
+                        </div>
 
-                    <div class="requester-name">
-                        <el-icon><avatar /></el-icon>
-                        <p class="name"> {{request.createdByUser.name}} </p>
-                    </div>
+                        <div class="requester-name">
+                            <el-icon><avatar /></el-icon>
+                            <p class="name"> {{$store.state.main.currentLocale == "en" ? request.menuItemName : request.menuItemNameAr}} </p>
+                        </div>
 
-                    <div class="request-place" v-if="request.createdByUser.floor && request.createdByUser.floor != 'null' ">
-                        <el-icon><school /></el-icon>
-                        <p class="hall">{{request.createdByUser.floor}}</p>
-                    </div>
+                        <div class="request-place" v-if="request.floor && request.floor != 'null' ">
+                            <el-icon><school /></el-icon>
+                            <p class="hall">{{request.floor}}</p>
+                        </div>
 
-                    <div class="request-place" v-if='request.createdByUser.seatNumber && request.createdByUser.seatNumber != "null" '>
-                        <el-icon><school /></el-icon>
-                        <p class="hall"> {{$t('common.seatNumber')}}: {{request.createdByUser?.seatNumber}}  </p>
-                    </div>
-                
-                    <el-button class="confirmed-btn" @click="onConfirmed(request.id)">
-                        <span>{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
-                        <!-- <span v-else>{{ $t('common.confirmed') }} <el-icon><circle-check-filled /></el-icon> </span> -->
-                    </el-button>
-                </el-card>
+                        <div class="request-place" v-if='request.seatNumber && request.seatNumber != "null" '>
+                            <el-icon><school /></el-icon>
+                            <p class="hall"> {{$t('common.seatNumber')}}: {{request?.seatNumber}}  </p>
+                        </div>
+                    
+                        <el-button class="confirmed-btn" @click="onConfirmed(requestAttend.orderNumber)">
+                            <span>{{ $t('common.confirm') }} <el-icon><circle-check-filled /></el-icon> </span>
+                            <!-- <span v-else>{{ $t('common.confirmed') }} <el-icon><circle-check-filled /></el-icon> </span> -->
+                        </el-button>
+                    </el-card>
+                </div>
             </el-col>
         </el-row>
 
-        <el-row :gutter="12" class="list-all-order">
+        <!-- <el-row :gutter="12" class="list-all-order">
             <h3 class="gray-title">{{$t('common.customerRequests')}} </h3>
             <el-col :xs="24" v-for="order in orders" :key="order.id">
                 <el-card shadow="never" :style="{ boxShadow: `var(--el-box-shadow-base)` }" class="request-card" v-if="userData" @click="openDetailsModel(order)">
@@ -66,8 +68,9 @@
                     <input type="checkbox" v-model="order.status" class="switch" @click.stop @change="onConfirmed(order.id)" :data-checked="$t('common.serve')" :data-before="$t('common.served')">
                 </el-card>
             </el-col>
-            <h4 class="no-request gray-title" v-if="!orders.length"> {{$t('common.noRequest')}} </h4>
-        </el-row>
+            <h4 class="no-request gray-title" v-if="!orders.length"> {{$t('common.noRequest')}} </h4> -->
+
+        <!-- </el-row> -->
         <!-- <audio controls loop ref="player" id="player" class="audio-wrapper">
             <source src="@/assets/alert-bells-echo.wav" type="audio/wav">
             <source src="@/assets/alert-bells-echo.wav" type="audio/wav">
@@ -79,31 +82,37 @@
 
         <div class="all-orders">
              <el-row :gutter="12">
-                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" v-for="order in orders" :key="order.id">
+                <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" v-for="order in orders" :key="order.orderNumber">
                     <div class="order">
                         <div class="order-title">
-                            <p><span class="time">{{order.creationDate}} </span> <span class="id">{{order.id}}</span>  </p>
+                            <p><span class="time" :class="{ 'is-late': nowTimeisBigger(order.items[0].creationDate) }">{{order.items[0].creationDate}} </span> <span class="id">#{{order.orderNumber}}</span>  </p>
                         </div>
-                        <div class="order-list">
-                            {{$store.state.main.currentLocale == "en" ? order.menuItem.name : order.menuItem.name_Ar}}  <span class="num">{{order.quantity}}</span>
-                        </div>
-                        <p v-if="order.tag">{{$t('common.tags')}}: {{order.tag}} </p>
-                        <p v-if="order.sugarSpoon">{{$t('common.sugar')}}: {{order.sugarSpoon}} </p>
+                        <div v-for="(item, index) in order.items" :key="item.id">
+                            <div class="order-list">
+                                {{$store.state.main.currentLocale == "en" ? item.menuItemName : item.menuItemNameAr}}  <span class="num">{{item.quantity}}</span>
+                            </div>
+                            <p v-if="item.tag">{{$t('common.tags')}}: {{item.tag}} </p>
+                            <p v-if="item.sugarSpoon">{{$t('common.sugar')}}: {{item.sugarSpoon}} </p>
 
-                        <div class="order-place">
-                            <div>
-                                <p>{{$t('common.floor')}}</p>
-                                <p>{{order.createdByUser.floor}}</p>
+                            <div class="order-place" v-if="index == order.items.length -1">
+                                <div>
+                                    <p>{{$t('common.floor')}}</p>
+                                    <p>{{item?.floor}}</p>
+                                </div>
+                                <div>
+                                    <p>{{$t('common.room')}}</p>
+                                    <p>{{item.createdByName}}</p>
+                                </div>
+                                <div v-if="item.seatNumber && item.seatNumber != 'null' ">
+                                    <p>{{$t('common.seatNumber')}}</p>
+                                    <p> {{item?.seatNumber}}</p>
+                                </div>
                             </div>
-                            <div>
-                                <p>{{$t('common.room')}}</p>
-                                <p>7</p>
-                            </div>
-                            <div>
-                                <p>{{$t('common.seatNumber')}}</p>
-                                <p> {{order.createdByUser.seatNumber}}</p>
+                            <div class="order-submit" v-if="index == order.items.length -1">
+                                <input type="checkbox" v-model="order.status" class="switch" @click.stop @change="onConfirmed(order.orderNumber)" :data-checked="$t('common.serve')" :data-before="$t('common.served')">
                             </div>
                         </div>
+
                     </div>
                 </el-col>
             </el-row>
@@ -128,7 +137,6 @@ export default {
            openModel:false,
            orders:[],
            selectdItem:{},
-           userData:{},
            allRequstAttend:{},
            isRequestAttend:false,
            audio: "",
@@ -149,20 +157,23 @@ export default {
    },
    methods: {
         loadData(){
-            axios.get(`Order/${this.id}/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
-                    console.log('load 1', res);
+            axios.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
                 this.pagingModel = res.pagingModel;
-                this.orders =  res.orders.filter(order => order.statusId == 1) ;
-                this.userData = res.userData
-                this.orders.filter(order =>  order.status = true); // add status in every order
-                if(this.orders.length > 0){
-                    this.startAudio();
-                }
-                this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
-                this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
-                this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend
-                //this.isRequestAttend && this.startAudio();
-                // this.startAudio()
+                this.orders = res.orders
+                this.orders.forEach(element => {
+                    element.items.filter(order => order.statusId == 1) ; // the unserved only
+                    element.status = true; // add status in every order
+                    if(element.items.length > 0){
+                        this.startAudio();
+                    }
+
+                });
+                
+
+                this.allRequstAttend = this.orders.filter(order => order.items[0].categoryStatusId == 3); // get the request attend
+                this.isRequestAttend = this.orders.filter(order => order.items[0].categoryStatusId == 3).length ? true : false;
+                this.orders = this.orders.filter(order => order.items.some(drink => drink.categoryStatusId != 3)); // remove request attend
+                
 
                 this.getDataintervaL = setInterval( () => {this.loadDataWitoutLoading(); },20000);
 
@@ -179,22 +190,22 @@ export default {
                     'Content-Type': 'application/json',
                 },
             });
-                instance.get(`Order/${this.id}/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
-                    console.log('load 2', res);
+                instance.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
                     this.pagingModel = res.data.pagingModel;
-                    this.orders = res.data.orders.filter(order => order.statusId == 1)
-                    this.userData = res.data.userData
-                    this.orders.filter(order =>  order.status = true); // add status in every order
-                    this.allRequstAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3); // get the request attend
-                    this.isRequestAttend = this.orders.filter(order => order.menuItem.categoryStatusId == 3).length ? true : false;
-                    console.log('this.orders.length', this.orders.length)
-                    console.log('res.data.orders.length', res.data.orders.length)
-                    console.log(' this.allRequstAttend', this.allRequstAttend.length)
-                    console.log('orderNum', orderNum)
-                    if(this.orders.length > 0 && res.data.orders.length > orderNum ){
-                        this.startAudio();
-                    }
-                    this.orders = this.orders.filter(order => order.menuItem.categoryStatusId != 3); // remove request attend                    
+                    this.orders = res.data.orders
+                    this.orders.forEach(element => {
+                    element.items.filter(order => order.statusId == 1) ; // the unserved only
+                    element.status = true; // add status in every order
+                });
+                
+                this.allRequstAttend = this.orders.filter(order => order.items[0].categoryStatusId == 3); // get the request attend
+                this.isRequestAttend = this.orders.filter(order => order.items[0].categoryStatusId == 3).length ? true : false;
+                this.orders = this.orders.filter(order => order.items.some(drink => drink.categoryStatusId != 3)); // remove request attend
+
+                if(this.orders.length > 0 && res.data.orders.length > orderNum ){
+                    console.log("audio");
+                    this.startAudio();
+                }
             })
         },
         loadMore(){
@@ -226,15 +237,28 @@ export default {
             this.audio.currentTime = 0;
             this.audio.src = "";
         },
+        nowTimeisBigger(time){
+            const now = new Date();
+            let  current = now.getHours() + ':' + now.getMinutes();
+            console.log(current); // 👉️ 13:27
+            current = current.split(':');   
+          time = time.split(':');
+          if (time[0] == current[0] && time[1] > current[1]) {
+            
+            return time[1] - current[1] >= 10;
+
+          }
+        },
+
        openDetailsModel(selectdItem){
            this.selectdItem = selectdItem;
            this.openModel = true;
        }
    },
    computed: {
-       showLoadMore(){
-           return (this.orders.length + this.allRequstAttend.length) < this.pagingModel.totalCount
-       },
+    //    showLoadMore(){
+    //        return (this.orders.length + this.allRequstAttend.length) < this.pagingModel.totalCount
+    //    },
    },
    unmounted() {
     this.stopAudio();
@@ -297,6 +321,7 @@ export default {
                 font-size: 24px;
                 font-weight: bold;
                 margin-right: 20px;
+                margin-left: 20px;
                 margin-bottom: 15px;
                 display: inline-block;
             }
@@ -328,11 +353,18 @@ export default {
             justify-content: space-around;
             text-align: center;
             margin-top: 20px;
-            div:nth-child(2){
-                border-right: 3px solid #f6f6f6;
-                border-left: 3px solid #f6f6f6;
-                padding: 0 43px;
-            }
+            // div:nth-child(2){
+            //     border-right: 3px solid #f6f6f6;
+            //     padding: 0 43px;
+            // }
+            // div:last-child{
+            //     border-left: 3px solid #f6f6f6;
+            // }
+        }
+        .order-submit{
+            margin-top: 20px;
+            display:flex;
+            justify-content: center;
         }
     }
 
