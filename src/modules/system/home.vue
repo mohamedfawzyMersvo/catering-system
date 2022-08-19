@@ -2,7 +2,7 @@
     <div class="kitchen-home">
         <div class="head">
             <img src="@/assets/headCofee.jpeg" alt="">
-             <p  @click.stop="openModel = true" class="edit-theme">{{$t('common.editTheme')}} </p>
+             <p  @click.stop="openModel = true" class="edit-theme">{{$t('common.editSetting')}} </p>
         </div>
         <div class="kitchen-items">
              <el-main>

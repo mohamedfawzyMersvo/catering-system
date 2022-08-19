@@ -88,7 +88,21 @@ export default {
     tagsPlaceHolder: "Add tags",
     Quantity: "Quantity",
     floor: "Floor",
-
+    break: "Break",
+    backup: "backup",
+    reports: "Reports",
+    lists: "Lists",
+    all:"All",
+    unServed:"Unserved",
+    status:"Status",
+    editSetting: "Edit setting",
+    changeSystemsetting: "Change system setting",
+    breakTime: "Break time",
+    servededDate: "Serveded date",
+    creationDate: "Creation date",
+    orderNum:"Order number",
+    search: "Search",
+    inMinutes: "in minutes"
 
 
 

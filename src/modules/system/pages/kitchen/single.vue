@@ -130,8 +130,8 @@
                         </el-input> -->
                         </div>
                         <div class="all-drinks">
-                            <div class="all-drinks-item" style="{ boxShadow: `var(--el-box-shadow-base)` }" v-for="drink in selectedDrink" :key="drink.id">
-                                <!-- <el-button type="text" class="x-btn"> X</el-button> -->
+                            <div class="all-drinks-item" style="{ boxShadow: `var(--el-box-shadow-base)` }" v-for="(drink, index) in selectedDrink" :key="drink.id">
+                                <el-button type="text" class="x-btn" @click="deleteDrink(index)"> X</el-button>
                                 <div  class="block">
                                     <el-image
                                         :src='drink.itemImageBytes'
@@ -279,6 +279,9 @@ export default {
                 this.deleteMessage();
                 this.loadSelectedDrinks();
             })
+        },
+        deleteDrink(index){
+            this.selectedDrink.splice( index, 1 )
         },
         deleteMessage() {
             ElMessage({

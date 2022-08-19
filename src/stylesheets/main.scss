@@ -180,6 +180,12 @@ body, button, input {
         color: var(--default-primary-color);
     }
   }
+  .el-tabs__item.is-active{
+    color: var(--default-primary-color);
+  }
+  .el-tabs__active-bar{
+    background-color:  var(--default-primary-color) ;
+  }
 
   .order-tabs{
     .el-tabs__item{
@@ -235,6 +241,14 @@ body, button, input {
         background-color: var(--default-primary-color);
     }
   }
+  .search-btn{
+    background-color: var(--default-primary-color);
+    color:#fff;
+  }
+  .filter-btn{
+    background-color: var(--default-primary-color);        
+    color:#fff;
+}
 // switch
 
 input.switch {
@@ -299,4 +313,19 @@ input.switch:checked::before {
 
 .el-pagination.is-background .el-pager li:not(.disabled).active {
     background-color: var(--default-second-color);;
+}
+
+
+.slide-fade-enter-active {
+	transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+	transition: all 0.3s ease-out;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+	transform: translateX(20px);
+	opacity: 0;
 }

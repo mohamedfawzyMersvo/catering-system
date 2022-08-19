@@ -6,7 +6,7 @@
             :before-close="handleClose"
         >
         <template #title>
-            <p class="theme-title"> {{$t('common.changeSystemTheme')}} </p>
+            <p class="theme-title"> {{$t('common.changeSystemsetting')}} </p>
         </template>
             <div>
                 <el-upload
@@ -49,6 +49,9 @@
                 <span class="demonstration">{{$t('common.thirdColor')}}</span>
                 <el-color-picker v-model="formObj.optionalColor" />
             </div> -->
+            <el-form-item :label="$t('common.breakTime')" class="break-time">
+                <el-input-number v-model="formObj.breakTime" :min="1" /> &nbsp; {{$t('common.inMinutes')}}
+            </el-form-item>
         </div>
         
         <template #footer>
@@ -77,7 +80,8 @@ export default {
                 PrimaryColor :"",
                 secondaryColor :"",
                 optionalColor:"",
-                thumbnial:""
+                thumbnial:"",
+                breakTime:0
             },
             fileList:[],
         }
@@ -188,7 +192,7 @@ export default {
             }
             .demo-color-block .demonstration {
                 min-width: 105px;
-                margin-right: 16px;
+                margin-right: 10px;
             }
         }
     .upload-logo {
@@ -222,10 +226,24 @@ export default {
     .theme-title{
         margin-bottom: 30px;
     }
+    .break-time{
+        .el-form-item__label{
+            margin-right:39px;
+        }
+        .el-input-number{
+            width: 110px;
+        }
+    }
 }
  @include rtl() {
     .colors-wrapper{
         text-align: right
+    }
+    .break-time{
+        .el-form-item__label{
+            margin-left: 19px;
+            margin-right: 0;
+        }
     }
  }
 </style>

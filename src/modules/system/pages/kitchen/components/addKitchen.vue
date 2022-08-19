@@ -172,7 +172,6 @@ export default {
         },
         editKitchen(){
             this.kitchenData.roles = [8];
-            this.kitchenData.alternativeKitchenId = 0;
             var formdata = new FormData();
             Object.entries(this.kitchenData).forEach(([key, value]) => {
                 formdata.append(key, value);

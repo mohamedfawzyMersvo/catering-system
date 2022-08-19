@@ -88,9 +88,21 @@ export default {
     tagsPlaceHolder: "أضف الإضافات",
     Quantity: "الكمية",
     floor: "الطابق",
-
-
-
+    break: "استراحة",
+    backup: "الاحتياطى",
+    reports: "التقارير",
+    lists: "القائمة",
+    all:"الكل",
+    unServed:"الغير مقدمة",
+    status:"الحالة",
+    editSetting: "الاعدادت",
+    changeSystemsetting: "تغير اعدادات النظام",
+    breakTime: "وقت الاستراحة",
+    servededDate: "وقت التقديم",
+    creationDate: "وقت الإنشاء",
+    orderNum:"رقم الطلب",
+    search: "بحث",
+    "inMinutes": "بالدقيقة"
 
 
 }

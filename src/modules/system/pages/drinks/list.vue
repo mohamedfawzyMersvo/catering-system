@@ -61,7 +61,7 @@
             <div class="pagination-block">
                 <el-pagination
                     :currentPage="currentPage"
-                    :page-size="pagingModel.pageSize"
+                    :page-size="itemsPerPage"
                     :total="pagingModel.totalCount"
                     :small="small"
                     :disabled="disabled"
@@ -86,12 +86,10 @@
         data() {
             return {
                 currentPage:1,
-                itemsPerPage:10,
+                itemsPerPage:12,
                 pagingModel:{},
                 drinkModel: false,
                 drinkList:[],
-                pageSize:10,
-                pageNumber:1,
                 editItemId:"",
                 src:"https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
             }
@@ -101,7 +99,7 @@
         },
         methods: {
             loadData(){
-                axios.get(`MenuItem/${this.itemsPerPage}/${this.pageNumber}/ListAllMenuItems`).then(res => {
+                axios.get(`MenuItem/${this.itemsPerPage}/${this.currentPage}/ListAllMenuItems`).then(res => {
                     this.drinkList = res.menuItemResponseList;
                     this.pagingModel = res.pagingModel;
                     // this.currentPage =res.pagingModel.currentPage;

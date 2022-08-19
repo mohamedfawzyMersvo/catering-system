@@ -2,9 +2,9 @@
 <div class="main-bg">
     <el-main>
 
-        <!-- <el-button class="btn--burble reload-btn" @click="this.loadData">
-            {{ $t('common.reload') }} <el-icon><RefreshRight /></el-icon>
-        </el-button> -->
+        <el-button v-if="showBreakBtn" class="break-btn" :style="{ boxShadow: `var(--el-box-shadow-base)` }" @click="breakTime">
+            {{ $t('common.break') }} <el-icon><AlarmClock /></el-icon> 
+        </el-button>
      <el-row :gutter="12" v-if="isRequestAttend">
         <h3 class="gray-title">{{$t('common.attendanceRequests')}}</h3>
             <el-col :xs="24" v-for="requestAttend in allRequstAttend" :key="requestAttend.orderNumber">
@@ -123,13 +123,13 @@
 </template>
 
 <script>
-import { Phone, Avatar, School, CircleCheckFilled, RefreshRight} from '@element-plus/icons';
+import { Phone, Avatar, School, CircleCheckFilled, AlarmClock} from '@element-plus/icons';
 import OrderDetails from './components/orderDetails.vue';
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 export default {
-   components:{Phone, Avatar, School, CircleCheckFilled, RefreshRight, OrderDetails },
+   components:{Phone, Avatar, School, CircleCheckFilled, AlarmClock, OrderDetails },
    data() {
        return {
            id: this.$store.state.main.loggedUser.id || 0,
@@ -141,7 +141,7 @@ export default {
            isRequestAttend:false,
            audio: "",
            getDataintervaL: "",
-           pagingModel:{
+           paginationModel:{
             totalCount:0
            },
            pageSize: 10,
@@ -158,7 +158,7 @@ export default {
    methods: {
         loadData(){
             axios.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
-                this.pagingModel = res.pagingModel;
+                this.paginationModel = res.paginationModel;
                 this.orders = res.orders
                 this.orders.forEach(element => {
                     element.items.filter(order => order.statusId == 1) ; // the unserved only
@@ -191,7 +191,7 @@ export default {
                 },
             });
                 instance.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
-                    this.pagingModel = res.data.pagingModel;
+                    this.paginationModel = res.data.paginationModel;
                     this.orders = res.data.orders
                     this.orders.forEach(element => {
                     element.items.filter(order => order.statusId == 1) ; // the unserved only
@@ -208,9 +208,23 @@ export default {
                 }
             })
         },
+        removeDuplicatesAndChangeQuantity (){
+            this.orders = this.orders.reduce((acc, e) => {
+                const found = acc.find(x => e.menuItemId === x.menuItemId)
+                found ? found.quantity += e.quantity : acc.push(e)
+                return acc
+            }, [])
+        },
         loadMore(){
             this.pageSize += 10;
             this.loadData();
+        },
+        breakTime(){
+            axios
+            .put(`UserManagement/SetKitchenInBreak`)
+            .then(() => {
+              
+            })
         },
         onConfirmed(id){
             axios
@@ -220,6 +234,23 @@ export default {
                 // this.stopAudio();
                 this.loadDataWitoutLoading();
             })
+        },
+        notifyIfOrderDelyed(){
+            var time2 = "19:46";
+
+            var date = new Date();
+
+
+
+            let arrTime2 = time2.split(':');
+
+            // arrTime1[0] >= arrTime2[0] && arrTime1[1] >= arrTime2[1] && arrTime1[1] - arrTime2[1] >= 10
+
+            // if the Hour bigger
+            date.getHours() > arrTime2[0]
+
+            // if else the hour equal and the minuts bigger
+            date.getHours() == arrTime2[0] && date.getMinutes() >= arrTime2[1] && date.getMinutes() - arrTime2[1] >= 10
         },
         successMessage(){
             ElMessage({
@@ -259,6 +290,12 @@ export default {
     //    showLoadMore(){
     //        return (this.orders.length + this.allRequstAttend.length) < this.pagingModel.totalCount
     //    },
+
+    showBreakBtn(){
+      return this.$store.state.main.loggedUser.alertnativeKitchenId ? true : false;
+
+        
+    }
    },
    unmounted() {
     this.stopAudio();
@@ -307,9 +344,16 @@ export default {
         }
     }
 
-    
+    .break-btn{
+        display: block !important;
+        margin-left: auto !important;
+        i{
+            margin: 0 10px;
+        }
+    }
     // new design
     .all-orders{
+        margin-top: 20px;
         .order{
             padding:20px 10px;
             background-color: #fff;
@@ -374,6 +418,11 @@ export default {
              i{
                 margin-right:10px;
              }
+         }
+         .break-btn{
+            display: block !important;
+            margin-right: auto;
+            margin-left: 0 !important;
          }
     }
 </style>

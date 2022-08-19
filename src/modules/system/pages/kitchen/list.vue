@@ -86,7 +86,7 @@
         data() {
             return {
                 currentPage:1,
-                itemsPerPage:12,
+                itemsPerPage:10,
                 pagingModel:{},
                 openModel: false,
                 kitchenList:[],

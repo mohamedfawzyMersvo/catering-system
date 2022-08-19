@@ -9,6 +9,8 @@ import Single from './pages/kitchen/single'
 import DrinksList from './pages/drinks/list'
 import HallsList from './pages/halls/list'
 import TabletList from './pages/tablet/list'
+import Reports from './pages/reports/reports'
+
 
 export default [
     {
@@ -45,6 +47,11 @@ export default [
         path: 'tablet-list',
         name: 'tablet-list',
         component: TabletList
+    },
+    {
+        path: 'reports',
+        name: 'reports',
+        component: Reports
     },
     
 ]

@@ -51,15 +51,26 @@
                 </el-tag> -->
             <!-- </div> -->
             <el-form-item :label="$t('common.kitchen')" class="select-kitchen">
-            <el-select v-model="hallData.kitchenId" :placeholder="$t('common.select')" size="large">
-                <el-option
-                    v-for="item in kitchenList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                >
-                </el-option>
-            </el-select>
+                <el-select v-model="hallData.kitchenId" :placeholder="$t('common.select')" size="large">
+                    <el-option
+                        v-for="item in kitchenList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    >
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item :label="$t('common.backup')" class="select-kitchen" v-if="this.editItemId">
+                <el-select v-model="hallData.alternativeKitchenId" :placeholder="$t('common.select')" size="large">
+                    <el-option
+                        v-for="item in kitchenList.filter((kitchen) => kitchen.id != hallData.kitchenId)"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    >
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item :label="$t('common.password')">
                 <el-input
@@ -124,6 +135,7 @@ export default {
                 name:"",
                 emailAddress:"",
                 kitchenId:"",
+                alternativeKitchenId:"",
                 floor: "",
                 password:"",
                 picture:"",

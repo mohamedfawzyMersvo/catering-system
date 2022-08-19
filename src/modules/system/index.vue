@@ -6,7 +6,7 @@
          </el-menu-item> -->
 
 
-         <!-- <el-menu-item index="3" :route="{name:'single'}"> <List class="icon" /></el-menu-item> -->
+         <el-menu-item index="3" :route="{name:'reports'}"> {{$t('common.reports')}}</el-menu-item> 
             <!-- <Theme :modelVisible="openModel" @modelClose="openModel = false"/> -->
       </Header>
       <router-view />
