@@ -102,7 +102,9 @@ export default {
     creationDate: "وقت الإنشاء",
     orderNum:"رقم الطلب",
     search: "بحث",
-    "inMinutes": "بالدقيقة"
+    "inMinutes": "بالدقيقة",
+    successfullyBreak:"تم أخذ الاستراحة"
+
 
 
 }

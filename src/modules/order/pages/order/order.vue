@@ -183,7 +183,8 @@ export default {
                 "menuItemId": 1027,
                 "quantity": 0,
                 "sugarSpoon": [],
-                tag:[]
+                tag:[],
+                requestedToKitchenId:this.loggedUser.kitchen
             }];
             axios
             .post('Order/CreateOrderList', order)
@@ -197,11 +198,14 @@ export default {
             this.$store.commit('main/setOrder', order);
         },
         order(){
-            let order = this.theOrder.map(item => { return {
+            let uniqOrder = this.removeDuplicatesAndChangeQuantity();
+            console.log('uniqOrder', uniqOrder)
+            let order = uniqOrder.map(item => { return {
                 "menuItemId": item.id,
                 quantity: item.quantity,
                 sugarSpoon: [`${item.sugarSpoon? item.sugarSpoon: ''}`],
-                tag: item.tag ? item.tag : []
+                tag: item.tag ? item.tag : [],
+                requestedToKitchenId: this.loggedUser.kitchen
             }})
             axios
             .post('Order/CreateOrderList', order)
@@ -209,6 +213,17 @@ export default {
                 this.successfullyOrdered();
                 this.deleteAllOrders();
             })
+        },
+        removeDuplicatesAndChangeQuantity (){
+           return this.theOrder.reduce((acc, currentVal, index, self) => {  //check if both arrays are the same
+            let firstFoundIndex = self.findIndex((e)=> e.id === currentVal.id && e.sugarSpoon === currentVal.sugarSpoon && JSON.stringify(e.tag) === JSON.stringify(currentVal.tag))
+            if(index === firstFoundIndex){
+                acc.push(currentVal)
+            } else {
+                self[firstFoundIndex].quantity += currentVal.quantity
+            }
+            return acc
+            },[])
         },
         deleteOrder(index){
             this.$store.commit('main/deleteOrder', index);

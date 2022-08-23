@@ -1,5 +1,5 @@
 <template v-cloak>
-    <div class="main-bg"  v-if="ifNotLogged">
+    <div class="main-bg" v-if="ifNotLogged">
         <el-row class="row-bg" justify="center" align="middle">
         <div class="form-wrapper" style="{ boxShadow: `var(--el-box-shadow-base)` }">
             <h3>{{$t('common.signIn')}}</h3>
@@ -22,7 +22,7 @@
                 />
                 </el-form-item>
                 <div>
-                    <!-- <el-checkbox v-model="keepSignedIn" class="keep-signed" :label="$t('common.keepSignedIN')" size="large"></el-checkbox> -->
+                    <el-checkbox v-model="keepSignedIn" class="keep-signed" :label="$t('common.keepSignedIN')" size="large"></el-checkbox>
                 </div>
                 <el-button type="primary" @click="onSubmit" class="submit" style="{ boxShadow: `var(--el-box-shadow-base)` }">{{$t('common.signIn')}}</el-button>
 
@@ -58,7 +58,9 @@
 
     const { cookies } = useCookies();
     onMounted(() => {
-        if (cookies.get("token")) {
+        console.log('isAuthenticated', store.state.main.isAuthenticated)
+        console.log('cookies.get("token")', cookies.get("token"))
+        if (cookies.get("token") && store.state.main.isAuthenticated) {
             router.push({
                 name: store.state.main.homeLink
             });
@@ -79,7 +81,7 @@
             .then(res => {
                 store.commit('main/setToken', res);
                 if (keepSignedIn.value) {
-                    // cookies.set("token", `bearer ${res}`)
+                    cookies.set("token", `bearer ${res}`)
                 }
             }).then(() => {
                 axios.get('Account/Profile')

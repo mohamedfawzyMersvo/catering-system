@@ -79,7 +79,11 @@ export default {
    },
    methods: {
         loadData(){
-            axios.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
+            axios.post(`Order/GetOrdersListByCreatedUserId`,{
+                    "pageSize": this.pageSize,
+                    "pageNumber": this.pageNumber,
+                    "statusId":2
+                }).then(res => {
                 this.paginationModel = res.paginationModel;
                 this.orders = res.orders
                 this.orders.forEach(element => {
@@ -94,7 +98,7 @@ export default {
                 this.orders = this.orders.filter(order => order.items.some(drink => drink.categoryStatusId != 3)); // remove request attend
                 
 
-                this.getDataintervaL = setInterval( () => {this.loadDataWitoutLoading(); },20000);
+                // this.getDataintervaL = setInterval( () => {this.loadDataWitoutLoading(); },20000);
 
             })
         },

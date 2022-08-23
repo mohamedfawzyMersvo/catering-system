@@ -35,7 +35,7 @@
       <template #title>{{$t('common.profile')}}</template>
       <el-menu-item>{{ loggedUser?.email }}</el-menu-item>
       <el-menu-item class="logout-item" :route="{path:'/'}">
-        <span @click="logOut">{{$t('common.logout')}}</span>
+        <span @click="logOut()">{{$t('common.logout')}}</span>
               <img scr="@/assets/logout.png" />
         </el-menu-item>
     </el-sub-menu>
@@ -48,6 +48,8 @@
 <el-icon><medal /></el-icon>
   // import { HomeFilled, List, Bell, Medal } from '@element-plus/icons'
 import i18n from '../i18n.js';
+// import { useCookies } from "vue3-cookies";
+
 // import router from './../router.js';
 export default {
   name: 'Header',
@@ -62,15 +64,19 @@ export default {
     this.addRtlClass();
     console.log('i18n.global.locale.value', i18n.global.locale.value)
   },
+  mounted(){
+    },
   methods: {
     changeLang(lang){
-      this.$store.commit('main/setCurrentLocale',lang);
+      this.$store.commit('main/setCurrentLocale', lang);
       i18n.global.locale.value = lang
       this.addRtlClass()
     },
     logOut() {
+      // const { cookies } = useCookies();
       this.$store.commit("main/logout");
-      // this.$router.push({ path: '/' });
+      this.$cookies.remove('token');
+      this.$router.push({ path: '/' });
     },
     addRtlClass(){
       let rootEl = document.querySelector('html');

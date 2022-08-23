@@ -2,7 +2,7 @@
 <div class="main-bg">
     <el-main>
 
-        <el-button v-if="showBreakBtn" class="break-btn" :style="{ boxShadow: `var(--el-box-shadow-base)` }" @click="breakTime">
+        <el-button :disabled="!showBreakBtn" class="break-btn" :style="{ boxShadow: `var(--el-box-shadow-base)` }" @click="breakTime">
             {{ $t('common.break') }} <el-icon><AlarmClock /></el-icon> 
         </el-button>
      <el-row :gutter="12" v-if="isRequestAttend">
@@ -85,7 +85,7 @@
                 <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" v-for="order in orders" :key="order.orderNumber">
                     <div class="order">
                         <div class="order-title">
-                            <p><span class="time" :class="{ 'is-late': nowTimeisBigger(order.items[0].creationDate) }">{{order.items[0].creationDate}} </span> <span class="id">#{{order.orderNumber}}</span>  </p>
+                            <p><span class="time" :class="{ 'is-late': notifyIfOrderDelyed(order.items[0].creationDate) }">{{order.items[0].creationDate}} </span> <span class="id">#{{order.orderNumber}}</span>  </p>
                         </div>
                         <div v-for="(item, index) in order.items" :key="item.id">
                             <div class="order-list">
@@ -157,7 +157,11 @@ export default {
    },
    methods: {
         loadData(){
-            axios.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
+            axios.post(`Order/GetOrdersListByCreatedUserId`,{
+                "pageSize": this.pageSize,
+                "pageNumber": this.pageNumber,
+                "statusId":1
+            }).then(res => {
                 this.paginationModel = res.paginationModel;
                 this.orders = res.orders
                 this.orders.forEach(element => {
@@ -190,7 +194,11 @@ export default {
                     'Content-Type': 'application/json',
                 },
             });
-                instance.get(`Order/${this.pageSize}/${this.pageNumber}/GetOrdersListByCreatedUserId`).then(res => {
+                instance.post(`Order/GetOrdersListByCreatedUserId`, {
+                    "pageSize": this.pageSize,
+                    "pageNumber": this.pageNumber,
+                    "statusId":1
+                }).then(res => {
                     this.paginationModel = res.data.paginationModel;
                     this.orders = res.data.orders
                     this.orders.forEach(element => {
@@ -208,13 +216,6 @@ export default {
                 }
             })
         },
-        removeDuplicatesAndChangeQuantity (){
-            this.orders = this.orders.reduce((acc, e) => {
-                const found = acc.find(x => e.menuItemId === x.menuItemId)
-                found ? found.quantity += e.quantity : acc.push(e)
-                return acc
-            }, [])
-        },
         loadMore(){
             this.pageSize += 10;
             this.loadData();
@@ -223,7 +224,7 @@ export default {
             axios
             .put(`UserManagement/SetKitchenInBreak`)
             .then(() => {
-              
+              this.breakSuccessMessage();
             })
         },
         onConfirmed(id){
@@ -232,25 +233,30 @@ export default {
             .then(() => {
                 // this.successMessage();
                 // this.stopAudio();
-                this.loadDataWitoutLoading();
+                // this.loadDataWitoutLoading();
             })
         },
-        notifyIfOrderDelyed(){
-            var time2 = "19:46";
-
+        notifyIfOrderDelyed(orderCreationDate){
+          
             var date = new Date();
+            let delayTime = 10;
 
 
+            orderCreationDate = orderCreationDate.split(':');
 
-            let arrTime2 = time2.split(':');
-
-            // arrTime1[0] >= arrTime2[0] && arrTime1[1] >= arrTime2[1] && arrTime1[1] - arrTime2[1] >= 10
 
             // if the Hour bigger
-            date.getHours() > arrTime2[0]
+            if ((date.getHours() - 1) > orderCreationDate[0]) return true // getHours -1 for ksa time
 
             // if else the hour equal and the minuts bigger
-            date.getHours() == arrTime2[0] && date.getMinutes() >= arrTime2[1] && date.getMinutes() - arrTime2[1] >= 10
+            if ((date.getHours() - 1) == orderCreationDate[0] && date.getMinutes() >= orderCreationDate[1] && date.getMinutes() - orderCreationDate[1] >= delayTime) return true
+            return false
+        },
+        breakSuccessMessage(){
+            ElMessage({
+                message: this.$t('common.successfullyBreak'),
+                type: 'success',
+            })
         },
         successMessage(){
             ElMessage({
@@ -267,18 +273,6 @@ export default {
             console.log('dest')
             this.audio.currentTime = 0;
             this.audio.src = "";
-        },
-        nowTimeisBigger(time){
-            const now = new Date();
-            let  current = now.getHours() + ':' + now.getMinutes();
-            console.log(current); // 👉️ 13:27
-            current = current.split(':');   
-          time = time.split(':');
-          if (time[0] == current[0] && time[1] > current[1]) {
-            
-            return time[1] - current[1] >= 10;
-
-          }
         },
 
        openDetailsModel(selectdItem){
@@ -368,6 +362,12 @@ export default {
                 margin-left: 20px;
                 margin-bottom: 15px;
                 display: inline-block;
+                &.is-late{
+                    // color:red;
+                    // box-shadow: 0 0 1px 1px red;
+                    padding: 0 10px;
+                    animation: color-change 1s infinite;
+                }
             }
             .id{
 
@@ -411,7 +411,11 @@ export default {
             justify-content: center;
         }
     }
-
+    @keyframes color-change {
+        0% { color: red;box-shadow: 0 0 1px 1px red; }
+        50% { color: #000; box-shadow: 0 0 1px 1px transparent}
+        100% { color: red; box-shadow: 0 0 1px 1px red}
+    }
 
     @include rtl() {
          .reload-btn{

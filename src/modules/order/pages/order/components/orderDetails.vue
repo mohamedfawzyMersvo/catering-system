@@ -13,7 +13,7 @@
                 <el-input-number v-model.number="theDrink.sugarSpoon" :min=0 @change="handleChange" />
                 <span class="title">{{$t("common.sugar")}}</span>
             </div>
-            <el-form-item class="tags-wrapper">
+            <el-form-item class="tags-wrapper" v-if="tagsOptions.length">
                 <el-select
                     v-model="theDrink.tag"
                     class="select-tags"

@@ -23,6 +23,8 @@ const actions = {
 const mutations = {
 
     setCurrentLocale(state, payload) {
+        console.log('change lang');
+
         state.currentLocale = payload;
     },
     setToken(state, payload){

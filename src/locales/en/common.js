@@ -102,7 +102,8 @@ export default {
     creationDate: "Creation date",
     orderNum:"Order number",
     search: "Search",
-    inMinutes: "in minutes"
+    inMinutes: "in minutes",
+    successfullyBreak:"Break Taken"
 
 
 
