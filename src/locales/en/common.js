@@ -103,7 +103,16 @@ export default {
     orderNum:"Order number",
     search: "Search",
     inMinutes: "in minutes",
-    successfullyBreak:"Break Taken"
+    successfullyBreak:"Break Taken",
+    filter: "Filter",
+    searchName:"Search name",
+    to: "To",
+    from: "From",
+   count:"Order Count",
+   number: "Number",
+   dateTime:"Date/Time"
+
+
 
 
 

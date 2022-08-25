@@ -103,7 +103,19 @@ export default {
     orderNum:"رقم الطلب",
     search: "بحث",
     "inMinutes": "بالدقيقة",
-    successfullyBreak:"تم أخذ الاستراحة"
+    successfullyBreak:"تم أخذ الاستراحة",
+    filter: "بحث",
+    searchName:"بحث بالاسم",
+    to: "إلى",
+    from:"من",
+   count:"عدد الطلبات",
+   number: "الرقم",
+   dateTime:"التاريخ/الوقت"
+
+
+    
+
+
 
 
 

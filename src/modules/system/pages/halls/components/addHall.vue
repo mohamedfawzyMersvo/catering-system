@@ -62,7 +62,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item :label="$t('common.backup')" class="select-kitchen" v-if="this.editItemId">
-                <el-select v-model="hallData.alternativeKitchenId" :placeholder="$t('common.select')" size="large">
+                <el-select v-model="hallData.alertnativeKitchenId" :placeholder="$t('common.select')" size="large">
                     <el-option
                         v-for="item in kitchenList.filter((kitchen) => kitchen.id != hallData.kitchenId)"
                         :key="item.id"
@@ -135,7 +135,7 @@ export default {
                 name:"",
                 emailAddress:"",
                 kitchenId:"",
-                alternativeKitchenId:"",
+                alertnativeKitchenId:"",
                 floor: "",
                 password:"",
                 picture:"",

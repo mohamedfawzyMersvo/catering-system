@@ -10,7 +10,8 @@ import DrinksList from './pages/drinks/list'
 import HallsList from './pages/halls/list'
 import TabletList from './pages/tablet/list'
 import Reports from './pages/reports/reports'
-
+import RoomDetails from './pages/reports/roomDetails'
+import RoomSingle from './pages/reports/roomSingle'
 
 export default [
     {
@@ -52,6 +53,18 @@ export default [
         path: 'reports',
         name: 'reports',
         component: Reports
+    },
+    {
+        path: '/roomDetails/:type?/:id?/:from?/:to?',
+        name: 'room-details',
+        component: RoomDetails,
+        props: true
+    },
+    {
+        path: '/roomSingle/:number?',
+        name: 'room-single',
+        component: RoomSingle,
+        props: true
     },
     
 ]

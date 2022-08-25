@@ -3,10 +3,10 @@
     <el-col :span="18">
         <div class="reports">
             <div class="reports-head">
-                <h2>Reports</h2>
+                <h2>{{$t('common.filter')}}</h2>
                     <el-input
-                    v-model="input3"
-                    placeholder="Search name"
+                    v-model="searchValue"
+                    :placeholder="$t('common.searchName')"
                     class="input-with-select"
                     >
                         <template #append>
@@ -14,47 +14,47 @@
                         </template>
                     </el-input>
             </div> <!-- end head -->
-            <p>Room one</p>
+            <p>{{$t('common.all')}}</p>
 
             <div class="all-filter-items">
                 <el-row :gutter="12">
-                    <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="i in 3" :key="i">
-                        <div class="filter-item">
-                            <p class="title">Kitchen one</p>
+                    <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="item in filteredList" :key="item">
+                        <div class="filter-item" @click="goToSingle(item)">
+                            <p class="title" v-if="filterType == 1 || filterType == 2">{{filterType == 1 ? item.kitchenName : filterType == 2  ? item.createdByName : ""}}</p>
+                            <p v-else>{{$store.state.main.currentLocale == "en" ? item.menuItemName : item.menuItemNameAr}}</p>
+                            <p class="count">{{$t('common.count')}}</p>
+                            <span class="count-num">{{item.orderCount}}</span>
 
-                            <p class="count">Count</p>
-                            <span class="count-num">120</span>
-
-                            <p class="range-date">7 August ------- to 12 August</p>
+                            <p class="range-date"> <span v-if="item.dateFrom">{{$t('common.from')}} {{item.dateFrom}}</span> <span v-if="item.dateFrom && item.dateTo">------- </span> <span v-if="item.dateTo">{{$t('common.to')}} {{item.dateTo}}</span></p>
                         </div>
                     </el-col>
                 </el-row>
+
+                <div class="pagination-block">
+                    <el-pagination
+                        :currentPage="currentPage"
+                        :page-size="pagingModel.pageSize"
+                        :total="pagingModel.totalCount"
+                        :small="small"
+                        :disabled="disabled"
+                        :background="true"
+                        layout=" prev, pager, next"
+                        @current-change="handleCurrentChange"
+                        >
+                    </el-pagination>
+                </div>
             </div>
         </div>
     </el-col>
     <el-col :span="6">
         <el-aside class="filter-wrapper">
-           <h2>Filter</h2>
-           <el-collapse accordion>
-            <el-collapse-item title="Kitchen" name="1">
-                <div>
-                Consistent with real life: in line with the process and logic of real
-                life, and comply with languages and habits that the users are used to;
-                </div>
-                <div>
-                Consistent within interface: all elements should be consistent, such
-                as: design style, icons and texts, position of elements, etc.
-                </div>
+           <h2>{{$t('common.filter')}}</h2>
+           <!-- <el-collapse accordion>
+            <el-collapse-item :title="$t('common.kitchen')" name="1">
+                <p v-for="kitchen in kitchenList" :key="kitchen.id">{{kitchen.name}}</p>
             </el-collapse-item>
-            <el-collapse-item title="Room" name="2">
-                <div>
-                Operation feedback: enable the users to clearly perceive their
-                operations by style updates and interactive effects;
-                </div>
-                <div>
-                Visual feedback: reflect current state by updating or rearranging
-                elements of the page.
-                </div>
+            <el-collapse-item :title="$t('common.room')" name="2">
+                <p v-for="room in roomsList" :key="room.id">{{room.name}}</p>
             </el-collapse-item>
             <el-collapse-item title="Indicator" name="3">
                 <div>
@@ -69,43 +69,134 @@
                 the users to identify and frees them from memorizing and recalling.
                 </div>
             </el-collapse-item>
-            </el-collapse>
-
+            </el-collapse> -->
+            <el-radio-group v-model="filterType" class="ml-4" @change="changeFilterType">
+                <el-radio :label="1" size="large">{{$t('common.kitchen')}}</el-radio>
+                <el-radio :label="2" size="large">{{$t('common.room')}}</el-radio>
+                <el-radio :label="3" size="large">{{$t('common.drinks')}}</el-radio>
+            </el-radio-group>
+            <!-- <p>{{$t('common.kitchen')}}</p>
+            <p>{{$t('common.room')}}</p>
+            <p>{{$t('common.drinks')}}</p> -->
             <div class="filter-date-picker">
                 <div class="block">
                     <!-- <span class="demonstration">Creation date</span> -->
                     <el-date-picker
-                        v-model="value1"
+                        v-model="creationDateFrom"
                         type="date"
-                        placeholder="Creation date"
+                        placeholder="from"
                         size="large"
+                        format="YYYY/MM/DD"
+                        value-format="YYYY-MM-DD"
                     />
                     <el-date-picker
-                        v-model="value1"
+                        v-model="creationDateTo"
                         type="date"
-                        placeholder="Serveded date"
+                        placeholder="To"
                         size="large"
+                        format="YYYY/MM/DD"
+                        value-format="YYYY-MM-DD"
                     />
                 </div>
             </div>
 
-            <el-button type="text" class="filter-btn">Filter</el-button>
+            <el-button type="text" class="filter-btn" @click="filter()">{{$t('common.filter')}}</el-button>
         </el-aside>
     </el-col>
 </el-row>
 </template>
 <script>
 import { Search } from '@element-plus/icons-vue'
+import axios from 'axios'
 export default {
     components:{
         Search
     },
+    data() {
+        return {
+            result:[],
+            searchValue:"",
+            pagingModel:{},
+            filterType:"",
+            creationDateFrom: "",
+            creationDateTo: "",
+            pageSize: 10,
+            pageNumber: 1,
+        }
+    },
+    mounted(){
+        
+    },
+    methods:{
+        filter(){
+            axios.post(`Order/GetOrdersListForReport`,{
+                "pageSize": this.pageSize,
+                "pageNumber": this.pageNumber,
+                "filterType": this.filterType,
+                "creationDateFrom": this.creationDateFrom,
+                "creationDateTo": this.creationDateTo
+            }).then((res) => {
+                this.pagingModel = res.result.paginationModel;
+                this.result = res.result.orders
+            })
+        },
+        goToSingle(item){
+            if (this.filterType == 1) {
+                this.$router.push({
+                    name: 'room-details'
+                    , params: {id: item.kitchenId, type: "kitchen", from:this.creationDateFrom , to:this.creationDateTo}
+                })
+            }
+            else if(this.filterType == 2) {
+                this.$router.push({
+                    name: 'room-details'
+                    , params: {id: item.roomId, type: "room", from:this.creationDateFrom , to:this.creationDateTo}
+                })
+            }
+            else{
+                this.$router.push({
+                    name: 'room-details'
+                    , params: {id: item.menuItemId, type: "drink", from:this.creationDateFrom , to:this.creationDateTo}
+                })
+            }
+        },
+        changeFilterType(){
+            this.resetFilter();
+        },
+        handleCurrentChange (newPage){
+            this.pageNumber = newPage;
+            this.filter()
+        },
+        resetFilter(){
+            this.result = [];
+            this.searchValue = ""
+        }
+    },
+    computed: {
+        filteredList: function filteredList() {
+            let search = this.searchValue;
+            let name = ""
+            if (this.filterType == 1 || this.filterType == 2){
+               name = this.filterType == 1 ? 'kitchenName' : this.filterType == 2 ? "createdByName" : ""
+            }
+            else{
+               name = this.$store.state.main.currentLocale == "en" ? "menuItemName" : "menuItemNameAr"
+            }
+            console.log('name', name);
+            let content = this.result.filter(function (item) {
+                return item[name].toLowerCase().includes(search.toLowerCase());
+            });
+
+            return content;
+        }
+    }
 }
 </script>
 <style lang="scss">
     .reports{
         padding: 20px;
         background-color: #f6f6f6;
+        min-height: 500px;
         .reports-head{
             display: flex;
             align-items: center;
@@ -165,6 +256,7 @@ export default {
                     background-color: gray;
                     line-height: 0;
                     margin-bottom: 20px;
+                    padding: 0 10px;
                 }
                 .range-date{
                     margin-top: 20px;
@@ -212,16 +304,28 @@ export default {
 
     @include rtl() {
         .filter-wrapper{
-            .el-collapse-item__arrow{
-                margin: 0 auto 0 0;
-                transform: rotate(180deg);
-                &.is-active{
-                    transform: rotate(90deg);
-                }
-            }
+            // .el-collapse-item__arrow{
+            //     margin: 0 auto 0 0;
+            //     transform: rotate(180deg);
+            //     &.is-active{
+            //         transform: rotate(90deg);
+            //     }
+            // }
              .el-input__prefix{
                 right:auto;
                 left:0;
+             }
+             .el-input--large .el-input__suffix {
+                right: 88%;
+            }
+
+             .el-radio-group{
+                .el-radio{
+                    margin-right: 0;
+                }
+                .el-radio__label {
+                    padding-right: 8px;
+                }
              }
         }
     }

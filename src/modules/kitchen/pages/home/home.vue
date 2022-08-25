@@ -183,7 +183,7 @@ export default {
 
             })
         },
-        loadDataWitoutLoading(){
+        loadDataWitoutLoading(){ // load in the background without loader
            let orderNum = this.orders.length + this.allRequstAttend.length;
             const token = this.$store.state.main.token
             var instance = axios.create({
@@ -225,6 +225,14 @@ export default {
             .put(`UserManagement/SetKitchenInBreak`)
             .then(() => {
               this.breakSuccessMessage();
+              setTimeout(this.stopTheBreak(), 5000);
+            })
+        },
+        stopTheBreak(){
+            axios
+            .post(`UserManagement/SetKitchenAvailable`)
+            .then(() => {
+                
             })
         },
         onConfirmed(id){
