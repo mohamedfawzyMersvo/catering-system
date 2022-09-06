@@ -59,6 +59,17 @@
                     :prefix-icon="Lock"
                 />
             </el-form-item>
+            <el-form-item :label="$t('common.backup')" class="select-kitchen" v-if="this.editItemId">
+                <el-select v-model="kitchenData.alertnativeKitchenId" :placeholder="$t('common.select')" size="large">
+                    <el-option
+                        v-for="item in kitchenList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    >
+                    </el-option>
+                </el-select>
+            </el-form-item>
             <div>
                 <el-upload
                     ref="upload"
@@ -118,10 +129,12 @@ export default {
                 floor: "",
                 password:"",
                 picture:"",
+                alertnativeKitchenId:"",
                 roles:[
                     8
                 ]
             },
+            kitchenList:[],
             file:{},
             fileList:[]
 
@@ -129,6 +142,7 @@ export default {
         }
     },
     mounted() {
+        this.loadKitchens();
     },
     methods: {
         handleSubmit(){
@@ -168,6 +182,11 @@ export default {
                 // this.file.url = res.picture.filePath;
                 this.kitchenData.picture = res.user.filePath
 
+            })
+        },
+        loadKitchens(){
+            axios.get('UserManagement/ListAllkitchensWithoutPagination').then(res => {
+                this.kitchenList = res;
             })
         },
         editKitchen(){
@@ -249,6 +268,7 @@ export default {
             this.dialogVisible = this.modelVisible;
             if (this.modelVisible && this.editItemId){
                 this.loadItem()
+                this.loadKitchens();
             }
         }
     }

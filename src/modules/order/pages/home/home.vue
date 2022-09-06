@@ -108,6 +108,7 @@ export default {
             line-height: 1;
             color: #868686;
             display: block;
+            margin-bottom: 5px;
         }
         .date-wrapper{
             padding-left: 10px;

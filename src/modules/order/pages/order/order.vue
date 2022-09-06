@@ -33,8 +33,8 @@
                                                     <el-tag class="ml-2" type="info">Tag 4</el-tag>
                                                     <el-tag class="ml-2" type="info">Tag 5</el-tag> -->
                                                 </div>
-                                                <el-button type="text" v-if="!drink.sugarDisabled || drink.tag" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t("common.request")}} <el-icon><caret-right /></el-icon></el-button>
-                                                <el-button type="text" v-else class="request-btn btn--burble" @click="requesWithoutSugar(drink)">{{$t("common.request")}} <el-icon><caret-right /></el-icon></el-button>
+                                                <el-button type="text" v-if="!drink.sugarDisabled || drink.tag" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t("common.add")}} <el-icon><caret-right /></el-icon></el-button>
+                                                <el-button type="text" v-else class="request-btn btn--burble" @click="requesWithoutSugar(drink)">{{$t("common.add")}} <el-icon><caret-right /></el-icon></el-button>
                                                 <!-- <span v-else> {{$t("common.noSugar")}} </span> -->
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                             <div class="order-data"> 
                                                 <div class="title-rate">
                                                     <!-- <el-rate v-model="rate" text-color="#ff9900"></el-rate> -->
-                                                    {{drink.name}}
+                                                    {{$store.state.main.currentLocale == "en" ?drink.name : drink.name_Ar}}
                                                 </div>
                                                 
                                                 <!-- <el-input-number class="input-number" v-model.number="drink.num" :min="1" @change="handleChange" /> -->
@@ -72,8 +72,8 @@
                                                     <el-tag class="ml-2" type="info">Tag 4</el-tag>
                                                     <el-tag class="ml-2" type="info">Tag 5</el-tag> -->
                                                 </div>
-                                                <el-button type="text" v-if="!drink.sugarDisabled || drink.tag" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t('common.request')}} <el-icon><caret-right /></el-icon></el-button>
-                                                <el-button type="text" v-else class="request-btn btn--burble" @click="requesWithoutSugar(drink)">{{$t("common.request")}} <el-icon><caret-right /></el-icon></el-button>
+                                                <el-button type="text" v-if="!drink.sugarDisabled || drink.tag" class="request-btn btn--burble" @click="openDetailsModel(drink)">{{$t('common.add')}} <el-icon><caret-right /></el-icon></el-button>
+                                                <el-button type="text" v-else class="request-btn btn--burble" @click="requesWithoutSugar(drink)">{{$t("common.add")}} <el-icon><caret-right /></el-icon></el-button>
 
                                             </div>
                                         </div>
@@ -119,7 +119,12 @@
             </el-scrollbar>
             <div class="btn-wrappers">
                 <el-button type="text" class="" @click="deleteAllOrders">{{$t('common.cancel')}} </el-button>
-                <el-button type="text" class="btn--burble" @click="order">{{$t('common.request')}}</el-button>
+                <el-button type="text" class="btn--burble"  v-if="!countIsRuning" @click="startCount('start')">
+                    {{$t('common.request')}} 
+                </el-button>
+                <el-button type="text" class="btn--burble" v-if="countIsRuning" @click="startCount('stop')">
+                    {{ $t('common.cancelOrder') }} <span>&nbsp;&nbsp; {{secondsCounter}}</span>
+                </el-button>
             </div>
         </div>
         </el-aside>
@@ -147,7 +152,10 @@ export default {
             openModel:false,
             drink:{},
             tagsOptions:[],
-            drinkKey:0
+            drinkKey:0,
+            countIsRuning:false,
+            secondsCounter:15,
+            interval:''
         }
     },
     mounted() {
@@ -196,6 +204,39 @@ export default {
         requesWithoutSugar(order){
             order.quantity = 1
             this.$store.commit('main/setOrder', order);
+        },
+        startCount(counterOnOrOff){
+            this.countIsRuning = true;
+            let openSeconds = 1
+            
+           var timeOut = setTimeout(() => {
+                console.log('start')
+                
+                this.interval = setInterval(() => {
+                    // console.log(secondsCounter);
+                    
+                    this.secondsCounter--;
+                    
+                    if(this.secondsCounter < 0){
+                        console.log('finish')
+                        this. order();
+                        this.secondsCounter = 15;
+                        clearInterval(this.interval);
+                        this.countIsRuning = false;
+                    }
+                    
+                    }, 1000)
+                    
+                    
+                }, openSeconds * 1000);
+                if (counterOnOrOff == 'stop') {
+                console.log('this.interval', )
+                console.log('timeOut', timeOut)
+                clearInterval(this.interval); 
+                clearTimeout(timeOut); 
+                this.countIsRuning = false;
+                this.secondsCounter = 15;
+            }
         },
         order(){
             let uniqOrder = this.removeDuplicatesAndChangeQuantity();
@@ -454,7 +495,7 @@ export default {
             .delete-order{
                 position: absolute;
                 right: 8px;
-                top: -4px;
+                top: 0px;
                 cursor: pointer;
             }
         }

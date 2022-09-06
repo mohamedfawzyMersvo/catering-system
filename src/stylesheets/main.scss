@@ -5,7 +5,7 @@
 }
 
 body, button, input {
-    font-family: 'Cairo', sans-serif;
+    font-family: 'STC Forward', Arial, Helvetica, sans-serif;
 }
 
 .main-bg {
@@ -15,6 +15,9 @@ body, button, input {
     background:#f6f6f6;
 }
 
+.mt-4{
+    margin-top: 20px;
+}
 
 .gray-title{
     color:#bab3c0;
@@ -328,4 +331,38 @@ input.switch:checked::before {
 .slide-fade-leave-to {
 	transform: translateX(20px);
 	opacity: 0;
+}
+
+.on-open-pdf{
+    p{
+        font-family: 'STC Forward', Arial, Helvetica, sans-serif;
+    }
+    .export-pdf{
+        display: none !important;
+    }
+    .filter-item{
+        margin-top: 30px;
+        padding-left: 50px;
+        P{
+            margin: 0;
+            // margin-bottom: 5px;
+            &:first-child{
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .count{
+        font-size: 12px;
+    }
+}
+
+@include rtl() {
+    .on-open-pdf{
+        text-align: right;
+        direction: rtl;
+        .filter-item{
+            text-align: right;
+            direction: rtl;
+        }
+    }
 }

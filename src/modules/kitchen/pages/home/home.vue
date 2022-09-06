@@ -223,14 +223,14 @@ export default {
         breakTime(){
             axios
             .put(`UserManagement/SetKitchenInBreak`)
-            .then(() => {
+            .then((res) => {
               this.breakSuccessMessage();
-              setTimeout(this.stopTheBreak(), 5000);
+              setTimeout(() => { this.stopTheBreak() }, res.breakTime * 60 * 1000);
             })
         },
         stopTheBreak(){
             axios
-            .post(`UserManagement/SetKitchenAvailable`)
+            .put(`UserManagement/SetKitchenAvailable`)
             .then(() => {
                 
             })

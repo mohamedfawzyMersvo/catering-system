@@ -81,7 +81,7 @@ export default {
     'tabletNum':"رقم التابلت",
     'profile': "الملف الشخصى",
     loadMore: "تحميل المزيد",
-    myOrders: "طلباتى",
+    myOrders: "الطلبات",
     cancel: "إلفاء",
     orderNow: "اطلب الان",
     tags: "إضافات",
@@ -89,7 +89,7 @@ export default {
     Quantity: "الكمية",
     floor: "الطابق",
     break: "استراحة",
-    backup: "الاحتياطى",
+    backup: "المطبخ الإحتياطى",
     reports: "التقارير",
     lists: "القائمة",
     all:"الكل",
@@ -109,9 +109,12 @@ export default {
     to: "إلى",
     from:"من",
    count:"عدد الطلبات",
-   number: "الرقم",
-   dateTime:"التاريخ/الوقت"
-
+   number: "رقم الطلب",
+   dateTime:"التاريخ/الوقت",
+   "requestItemNum": "عدد طلبات الحضور",
+   "exportPdf": "تنزيل PDF",
+    "serveTime": "زمن التقديم",
+    cancelOrder: "إلغاء الطلب"
 
     
 

@@ -105,6 +105,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0;
+    direction: ltr;
 
     .header-icon{  
       display: flex;

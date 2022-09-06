@@ -4,6 +4,8 @@
         <div class="reports">
             <div class="reports-head">
                 <h2>{{$t('common.filter')}}</h2>
+                <div>
+                    <el-button v-if="filteredList.length" class="export-pdf" @click="print()">{{$t('common.exportPdf')}}</el-button>
                     <el-input
                     v-model="searchValue"
                     :placeholder="$t('common.searchName')"
@@ -13,22 +15,35 @@
                             <el-button><el-icon><Search /></el-icon> </el-button>
                         </template>
                     </el-input>
+                </div>
             </div> <!-- end head -->
             <p>{{$t('common.all')}}</p>
-
+            <el-main>
             <div class="all-filter-items">
-                <el-row :gutter="12">
-                    <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="item in filteredList" :key="item">
-                        <div class="filter-item" @click="goToSingle(item)">
-                            <p class="title" v-if="filterType == 1 || filterType == 2">{{filterType == 1 ? item.kitchenName : filterType == 2  ? item.createdByName : ""}}</p>
-                            <p v-else>{{$store.state.main.currentLocale == "en" ? item.menuItemName : item.menuItemNameAr}}</p>
-                            <p class="count">{{$t('common.count')}}</p>
-                            <span class="count-num">{{item.orderCount}}</span>
+                <div  id="divToPrint">
+                    <el-row :gutter="12">
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" v-for="item in filteredList.filter((item) => item.menuItemId != 1027)" :key="item">
+                                    <div class="filter-item" @click="goToSingle(item)">
+                                        <p class="title" v-if="filterType == 1 || filterType == 2">{{filterType == 1 ? item.kitchenName : filterType == 2  ? item.createdByName : ""}}</p>
+                                        <p v-else>{{$store.state.main.currentLocale == "en" ? item.menuItemName : item.menuItemNameAr}}</p>
+                                        <p class="count">{{item.menuItemId == 1027 ? $t('common.requestItemNum') : $t('common.count')}}</p>
+                                        <span class="count-num">{{item.orderCount}}</span>
 
-                            <p class="range-date"> <span v-if="item.dateFrom">{{$t('common.from')}} {{item.dateFrom}}</span> <span v-if="item.dateFrom && item.dateTo">------- </span> <span v-if="item.dateTo">{{$t('common.to')}} {{item.dateTo}}</span></p>
-                        </div>
-                    </el-col>
-                </el-row>
+                                        <p class="range-date"> <span v-if="item.dateFrom">{{$t('common.from')}} {{item.dateFrom}}</span> <span v-if="item.dateFrom && item.dateTo">------- </span> <span v-if="item.dateTo">{{$t('common.to')}} {{item.dateTo}}</span></p>
+                                    </div>
+                            </el-col>
+                            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" :offset="6" class="mt-4" v-for="item in filteredList.filter((item) => item.menuItemId == 1027)" :key="item">
+                                    <div class="filter-item" @click="goToSingle(item)">
+                                        <p class="title" v-if="filterType == 1 || filterType == 2">{{filterType == 1 ? item.kitchenName : filterType == 2  ? item.createdByName : ""}}</p>
+                                        <p v-else>{{$store.state.main.currentLocale == "en" ? item.menuItemName : item.menuItemNameAr}}</p>
+                                        <p class="count">{{item.menuItemId == 1027 ? $t('common.requestItemNum') : $t('common.count')}}</p>
+                                        <span class="count-num">{{item.orderCount}}</span>
+
+                                        <p class="range-date"> <span v-if="item.dateFrom">{{$t('common.from')}} {{item.dateFrom}}</span> <span v-if="item.dateFrom && item.dateTo">------- </span> <span v-if="item.dateTo">{{$t('common.to')}} {{item.dateTo}}</span></p>
+                                    </div>
+                            </el-col>
+                    </el-row>
+                </div>
 
                 <div class="pagination-block">
                     <el-pagination
@@ -44,6 +59,7 @@
                     </el-pagination>
                 </div>
             </div>
+            </el-main>
         </div>
     </el-col>
     <el-col :span="6">
@@ -84,7 +100,7 @@
                     <el-date-picker
                         v-model="creationDateFrom"
                         type="date"
-                        placeholder="from"
+                        :placeholder="$t('common.from')"
                         size="large"
                         format="YYYY/MM/DD"
                         value-format="YYYY-MM-DD"
@@ -92,7 +108,7 @@
                     <el-date-picker
                         v-model="creationDateTo"
                         type="date"
-                        placeholder="To"
+                        :placeholder="$t('common.to')"
                         size="large"
                         format="YYYY/MM/DD"
                         value-format="YYYY-MM-DD"
@@ -106,6 +122,8 @@
 </el-row>
 </template>
 <script>
+
+import html2pdf from "html2pdf.js";
 import { Search } from '@element-plus/icons-vue'
 import axios from 'axios'
 export default {
@@ -167,6 +185,27 @@ export default {
             this.pageNumber = newPage;
             this.filter()
         },
+        print() {
+        const element = document.getElementById('divToPrint');
+        document.getElementById('divToPrint').classList.add("on-open-pdf");
+        var opt = {
+            margin: 0,
+            filename: "report.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, width: '1077' },
+            jsPDF: { unit: "in", format: "tabloid", orientation: "portrait" },
+        };
+
+            html2pdf()
+            .set(opt)
+            .from(element)
+            .toPdf()
+            .get("pdf")
+            .then(function () {
+                document.getElementById('divToPrint').classList.remove("on-open-pdf");
+            })
+            .save();
+        },
         resetFilter(){
             this.result = [];
             this.searchValue = ""
@@ -201,6 +240,9 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            > div{
+                display: flex;
+            }
             h2{
                 background-color: #111;
                 padding: 2px 5px;
@@ -230,6 +272,9 @@ export default {
             .el-button{
                 background-color: #111 !important;
                 color: #fff !important;
+            }
+            .export-pdf{
+                margin: 0 10px;
             }
         }
 
@@ -270,6 +315,11 @@ export default {
         background-color: #fff;
         border-radius: 4px;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,.12);
+        .el-radio-group{
+            .el-radio{
+                margin-right: 19px;
+            }
+        }
         .filter-date-picker{
             .el-input__inner{
                 border: 0;

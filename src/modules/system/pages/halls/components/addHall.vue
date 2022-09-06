@@ -61,17 +61,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item :label="$t('common.backup')" class="select-kitchen" v-if="this.editItemId">
-                <el-select v-model="hallData.alertnativeKitchenId" :placeholder="$t('common.select')" size="large">
-                    <el-option
-                        v-for="item in kitchenList.filter((kitchen) => kitchen.id != hallData.kitchenId)"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id"
-                    >
-                    </el-option>
-                </el-select>
-            </el-form-item>
+
             <el-form-item :label="$t('common.password')">
                 <el-input
                     size="large"
@@ -135,7 +125,6 @@ export default {
                 name:"",
                 emailAddress:"",
                 kitchenId:"",
-                alertnativeKitchenId:"",
                 floor: "",
                 password:"",
                 picture:"",

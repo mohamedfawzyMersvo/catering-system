@@ -14,11 +14,12 @@
             </el-col>
         </el-row>
         <el-main>
-            <div class="all-orders">
-                     <el-row :gutter="12">
+            <el-button class="export-pdf" @click="print()">{{$t('common.exportPdf')}}</el-button>
+            <div class="all-orders" id="divToPrint">
+            <el-row :gutter="12">
                 <el-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6">
-                <div class="order"  v-for="(item) in orderDetails" :key="item.id">
-                    <div class="order-title">
+                <div class="order"  v-for="(item, index) in orderDetails" :key="item.id">
+                    <div class="order-title" v-if="index == 0">
                         <p><span class="time">{{item.creationDate}} </span> <span class="id">#{{$route.params.number}}</span>  </p>
                     </div>
                     <div>
@@ -28,7 +29,7 @@
                         <p v-if="item.tag">{{$t('common.tags')}}: {{item.tag}} </p>
                         <p v-if="item.sugarSpoon">{{$t('common.sugar')}}: {{item.sugarSpoon}} </p>
 
-                        <div class="order-place">
+                        <div class="order-place" v-if="index == orderDetails.length -1">
                             <div>
                                 <p>{{$t('common.floor')}}</p>
                                 <p>{{item?.floor}}</p>
@@ -52,7 +53,12 @@
 </template>
 
 <script>
-    import axios from 'axios'
+// import pdfMake from 'pdfmake';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
+// import htmlToPdfmake from 'html-to-pdfmake';
+import html2pdf from "html2pdf.js";
+
+import axios from 'axios'
 
 export default {
     data() {
@@ -72,27 +78,40 @@ export default {
                 this.orderDetails = res.result.items;
             })
         },
+        print() {
+        const element = document.getElementById('divToPrint');
+        document.getElementById('divToPrint').classList.add("on-open-pdf");
+        var opt = {
+            margin: 0,
+            filename: "report.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2, width: '1077' },
+            jsPDF: { unit: "in", format: "tabloid", orientation: "portrait" },
+        };
+
+            html2pdf()
+            .set(opt)
+            .from(element)
+            .toPdf()
+            .get("pdf")
+            .then(function () {
+                document.getElementById('divToPrint').classList.remove("on-open-pdf");
+            })
+            .save();
+        },
     },
 }
 </script>
 
 <style lang="scss">
-    .room-details-items{
-        display: flex;
-        .room-details-item{
-            display: flex;
-            justify-content: space-between;
-            background-color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            div{
-                display: flex;
-                flex-flow: column;
-                margin-right: 20%;
-                p{
-                    margin: 0;
-                }
-            } 
+    .export-pdf{
+        margin-left: auto !important;
+        display: block !important;
+    }
+    @include rtl() {
+        .export-pdf{
+            margin-right: auto !important;
+            margin-left: 0 !important;
         }
     }
 </style>
