@@ -7,26 +7,7 @@
         :ellipsis="false"
         router
     >
-      <el-menu-item index="1" :route="{name:homeLink}" class="logo-item">
-      <!-- <img src="@/assets/logo.png" class="logo-img" /> -->
-      <!-- <img src="@/assets/logo2.png" class="logo-img" /> -->
-      <img :src="$store.state.main.themeConfig.logo?.filePath || ''" class="logo-img"  />
-      <!-- {{$store.state.main.themeConfig.logo.filePath}} -->
-      </el-menu-item>
-    <el-menu-item-group class="header-icon">
-      <slot></slot>
-        <!-- <el-menu-item index="2" :route="{name:'home'}"> <HomeFilled class="icon" /></el-menu-item>
-        <el-menu-item index="3" :route="{name:'list'}"> <List class="icon" /></el-menu-item>
-        <el-menu-item index="4"> <Medal class="icon" /></el-menu-item>
-        <el-menu-item index="5" :route="{name:'requests'}" class="bell-notifi">
-          <el-badge is-dot class="item">
-              <Bell class="icon" />
-          </el-badge>
-        </el-menu-item> -->
-    </el-menu-item-group>
-    <div class="flex-grow" />
-              
-    <el-sub-menu index="6" class="lang-menu">
+     <el-sub-menu index="6" class="lang-menu">
       <template #title>{{currentLocale == "ar" ? "عربى":"English"}}</template>
       <li class="el-menu-item" @click="changeLang('en')">English</li>
       <li class="el-menu-item" @click="changeLang('ar')">عربى</li>
@@ -38,7 +19,29 @@
         <span @click="logOut()">{{$t('common.logout')}}</span>
               <img scr="@/assets/logout.png" />
         </el-menu-item>
-    </el-sub-menu>
+    </el-sub-menu>  
+  
+    <div class="flex-grow" />
+            
+     
+    
+      <el-menu-item-group class="header-icon">
+      <slot></slot>
+        <!-- <el-menu-item index="2" :route="{name:'home'}"> <HomeFilled class="icon" /></el-menu-item>
+        <el-menu-item index="3" :route="{name:'list'}"> <List class="icon" /></el-menu-item>
+        <el-menu-item index="4"> <Medal class="icon" /></el-menu-item>
+        <el-menu-item index="5" :route="{name:'requests'}" class="bell-notifi">
+          <el-badge is-dot class="item">
+              <Bell class="icon" />
+          </el-badge>
+        </el-menu-item> -->
+    </el-menu-item-group>
+    <el-menu-item index="1" :route="{name:homeLink}" class="logo-item">
+      <!-- <img src="@/assets/logo.png" class="logo-img" /> -->
+      <!-- <img src="@/assets/logo2.png" class="logo-img" /> -->
+      <img :src="$store.state.main.themeConfig.logo?.filePath || ''" class="logo-img"  />
+      <!-- {{$store.state.main.themeConfig.logo.filePath}} -->
+      </el-menu-item>
   </el-menu>
   <div class="h-6"></div>
   </div>

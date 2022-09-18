@@ -39,7 +39,8 @@
                                 </div>
                                 <div v-if="this.$route.params.type == 'kitchen'">
                                     <p>{{$t('common.serveTime')}}</p>
-                                    <p>{{item.serveTime}}</p>
+                                    <p v-if="item.serveTime > 0" style="direction:ltr">{{item.serveTime}} mins</p>
+                                    <p v-else >Not Served</p>         
                                 </div>
                                 <div v-if="this.$route.params.type == 'drink'">
                                     <p>{{$t('common.kitchen')}}</p>

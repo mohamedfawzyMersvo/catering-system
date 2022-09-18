@@ -50,7 +50,7 @@
                 <el-color-picker v-model="formObj.optionalColor" />
             </div> -->
             <el-form-item :label="$t('common.breakTime')" class="break-time">
-                <el-input-number v-model="formObj.breakTime" :min="1" /> &nbsp; {{$t('common.inMinutes')}}
+                <el-input-number v-model="formObj.breakTime" :min="formObj.breakTime" /> &nbsp; {{$t('common.inMinutes')}}
             </el-form-item>
         </div>
         
@@ -113,7 +113,8 @@ export default {
                 this.formObj.PrimaryColor = res.primaryColor;
                 this.formObj.secondaryColor = res.secondaryColor;
                 this.formObj.optionalColor = res.optionalColor;
-
+                this.formObj.breakTime=res.breakTime;
+                console.log(res);
                 this.$store.commit('main/setThemeConfig', res);
 
             })

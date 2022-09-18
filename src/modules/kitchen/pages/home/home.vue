@@ -284,8 +284,12 @@ export default {
         },
 
        openDetailsModel(selectdItem){
+           console.log(selectdItem); 
            this.selectdItem = selectdItem;
            this.openModel = true;
+       },
+       test(){
+        console.log(this.selectdItem); 
        }
    },
    computed: {

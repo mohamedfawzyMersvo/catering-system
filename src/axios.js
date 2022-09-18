@@ -29,7 +29,7 @@ export default function setupAxiosConfig() {
     // axios.defaults.baseURL = 'http://api.catering.hminvent.net/api/'
     // axios.defaults.baseURL = 'https://psuite.mersvo.com/catering/api/api/'
     // axios.defaults.baseURL = 'https://psuite.mersvo.com/cateringSTC/api/api/'
-    axios.defaults.baseURL = 'https://psuite.mersvo.com/catering/stcs/api/api/'
+    axios.defaults.baseURL = 'https://psuite.mersvo.com/catering/albilad/api/api/'      
     
 
     
