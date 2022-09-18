@@ -282,6 +282,7 @@ export default {
             else{
                 this.hasTags = false;
                 this.tagsOptions = [];
+                console.log('this.hasTags', this.hasTags)
             }
             
             this.drink = drink;

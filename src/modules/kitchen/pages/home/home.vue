@@ -247,7 +247,7 @@ export default {
         notifyIfOrderDelyed(orderCreationDate){
           
             var date = new Date();
-            let delayTime = 10;
+            let delayTime = 5;
 
 
             orderCreationDate = orderCreationDate.split(':');
