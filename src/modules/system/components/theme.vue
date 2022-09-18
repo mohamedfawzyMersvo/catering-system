@@ -50,7 +50,7 @@
                 <el-color-picker v-model="formObj.optionalColor" />
             </div> -->
             <el-form-item :label="$t('common.breakTime')" class="break-time">
-                <el-input-number v-model="formObj.breakTime" :min="formObj.breakTime" /> &nbsp; {{$t('common.inMinutes')}}
+                <el-input-number v-model="formObj.breakTime" :min="0" /> &nbsp; {{$t('common.inMinutes')}}
             </el-form-item>
         </div>
         

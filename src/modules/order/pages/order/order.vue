@@ -82,7 +82,7 @@
                         </el-main>
                     </div>
                 </el-tab-pane>
-            <OrderDetails :modelVisible="openModel" :key="drinkKey" @modelClose="openModel = false" :tagsOptions="tagsOptions" :drink="drink"/>
+            <OrderDetails :modelVisible="openModel" :key="drinkKey" @modelClose="handleClose" :hasTags="hasTags" :tagsOptions="tagsOptions" :drink="drink"/>
             </el-tabs>
         </div>
     </el-col>
@@ -155,7 +155,8 @@ export default {
             drinkKey:0,
             countIsRuning:false,
             secondsCounter:15,
-            interval:''
+            interval:'',
+            hasTags:false
         }
     },
     mounted() {
@@ -276,11 +277,20 @@ export default {
             if (drink.tag?.length) {
                 this.tagsOptions = drink.tag.split(',')
                drink.tag = []
+               this.hasTags = true;
             }
+            else{
+                this.hasTags = false;
+                this.tagsOptions = [];
+            }
+            
             this.drink = drink;
             this.drink.sugarSpoon = 1;
             this.drink.quantity = 1;
             this.openModel = true;
+        },
+        handleClose(){
+            this.openModel = false;
         },
         successfullyOrdered(){
             ElMessage({

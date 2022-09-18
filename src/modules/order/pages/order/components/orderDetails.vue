@@ -13,24 +13,26 @@
                 <el-input-number v-model.number="theDrink.sugarSpoon" :min=0 @change="handleChange" />
                 <span class="title">{{$t("common.sugar")}}</span>
             </div>
-            <el-form-item class="tags-wrapper" v-if="tagsOptions.length">
-                <el-select
-                    v-model="theDrink.tag"
-                    class="select-tags"
-                    multiple
-                    filterable
-                    default-first-option
-                    :reserve-keyword="false"
-                    :placeholder="$t('common.tagsPlaceHolder')"
-                >
-                    <el-option
-                    v-for="item in tagsOptions"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                    />
-                </el-select>
-            </el-form-item>
+            <div v-show="hasTags">
+                <el-form-item class="tags-wrapper">
+                    <el-select
+                        v-model="theDrink.tag"
+                        class="select-tags"
+                        multiple
+                        filterable
+                        default-first-option
+                        :reserve-keyword="false"
+                        :placeholder="$t('common.tagsPlaceHolder')"
+                    >
+                        <el-option
+                        v-for="item in tagsOptions"
+                        :key="item"
+                        :label="item"
+                        :value="item"
+                        />
+                    </el-select>
+                </el-form-item>
+            </div>
             <!-- <div class="num-item">
                 <el-input-number v-model="num" :min="1" @change="handleChange" />
                 <span class="title">light sugar</span>
@@ -54,13 +56,13 @@
 
 export default {
     props:[
-        "modelVisible", "drink", "tagsOptions"
+        "modelVisible", "drink", "tagsOptions", "hasTags"
     ],
     data() {
         return {
             dialogVisible: false,
             drinks:[],
-            theDrink:{}
+            theDrink:{},
         }
     },
     // mounted() {
